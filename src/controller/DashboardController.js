@@ -1,7 +1,7 @@
 import BaseController from "./BaseController.js";
 
 export class DashboardController extends BaseController {
-    constructor() {
-        super()
+    constructor(redirectManager, apiService) {
+        super(redirectManager, apiService)
     }
 }

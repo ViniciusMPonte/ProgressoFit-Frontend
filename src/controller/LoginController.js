@@ -2,8 +2,8 @@ import {LoginView} from "../view/LoginView.js";
 import BaseController from "./BaseController.js";
 
 export class LoginController extends BaseController {
-    constructor() {
-        super()
+    constructor(redirectManager, apiService) {
+        super(redirectManager, apiService)
         this.domManager = new DOMElementManager();
     }
 

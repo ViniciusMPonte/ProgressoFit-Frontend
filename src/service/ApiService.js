@@ -1,5 +1,8 @@
-export class ApiService {
+import {Routes} from "../router/Routes.js";
+
+export class ApiService extends Routes {
     constructor() {
+        super()
         this.baseURL = 'http://localhost:8090';
         this.headers = {
             'Content-Type': 'application/json',
@@ -13,11 +16,17 @@ export class ApiService {
     async request(endpoint, options = {}) {
         const url = `${this.baseURL}${endpoint}`;
 
+        const headers = { ...this.headers };
+
+        if (this.requiresAuthByPath(window.location.pathname)) {
+            const token = this.getToken();
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+        }
+
         const config = {
-            headers: {
-                ...this.headers,
-                // 'Authorization': `Bearer ${this.getToken()}`
-            },
+            headers,
             ...options
         };
 

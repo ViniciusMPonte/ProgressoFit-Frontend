@@ -1,4 +1,4 @@
-import {Router} from "./router/Router.js";
+import {LoaderPage} from "./LoaderPage.js";
 
-const router = new Router()
-router.loadPageByPathname(window.location.pathname, window.location.search)
+const loaderPage = new LoaderPage()
+loaderPage.loadPageByPathname(window.location.pathname, window.location.search)
