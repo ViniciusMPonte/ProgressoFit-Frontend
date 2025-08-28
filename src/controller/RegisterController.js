@@ -1,10 +1,11 @@
 import {RegisterView} from "../view/RegisterView.js";
+import {RegisterDTO} from "../model/dto/RegisterDTO.js";
 import BaseController from "./BaseController.js";
 
 export class RegisterController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
-        this.domManager = new DOMElementManager();
+        this.dom = new DOMElementManager();
     }
 
     loadPage() {
@@ -17,7 +18,7 @@ export class RegisterController extends BaseController {
     }
 
     setupEventListeners() {
-        const form = this.domManager.getForm();
+        const form = this.dom.getForm();
 
         if (form) {
             form.addEventListener('submit', async (event) => {
@@ -28,29 +29,22 @@ export class RegisterController extends BaseController {
     }
 
     handleCurrentYear(){
-        const yearTag = this.domManager.getYearTag();
+        const yearTag = this.dom.getYearTag();
         if (yearTag) {
             yearTag.innerHTML = RegisterView.renderCurrentYear();
         }
     }
 
     async handleRegister() {
-        const name = this.domManager.getNameInput()?.value;
-        const email = this.domManager.getEmailInput()?.value;
-        const password = this.domManager.getPasswordInput()?.value;
+        const name = this.dom.getNameInput()?.value;
+        const email = this.dom.getEmailInput()?.value;
+        const password = this.dom.getPasswordInput()?.value;
 
-        if (!name || !email || !password) {
-            this.showError('Por favor, preencha todos os campos.');
-            return;
-        }
+        const registerDto = new RegisterDTO(name, email, password);
+        const validation = registerDto.validate();
 
-        if (!this.validateEmail(email)) {
-            this.showError('Por favor, insira um e-mail válido.');
-            return;
-        }
-
-        if (!this.validatePassword(password)) {
-            this.showError('A senha deve ter pelo menos 6 caracteres.');
+        if (!validation.isValid) {
+            this.showError(validation.errors[0]);
             return;
         }
 
@@ -58,7 +52,7 @@ export class RegisterController extends BaseController {
         this.showError('');
 
         try {
-            const result = await this.apiService.register(name, email, password);
+            const result = await this.apiService.register(registerDto);
 
             if (result.success) {
 
@@ -79,17 +73,8 @@ export class RegisterController extends BaseController {
         }
     }
 
-    validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    validatePassword(password) {
-        return password && password.length >= 6;
-    }
-
     showError(message) {
-        const errorDiv = this.domManager.getErrorDiv();
+        const errorDiv = this.dom.getErrorDiv();
         if (errorDiv) {
             if (message) {
                 errorDiv.textContent = message;
@@ -101,8 +86,8 @@ export class RegisterController extends BaseController {
     }
 
     showLoading(show) {
-        const loadingDiv = this.domManager.getLoadingDiv();
-        const registerButton = this.domManager.getRegisterButton();
+        const loadingDiv = this.dom.getLoadingDiv();
+        const registerButton = this.dom.getRegisterButton();
 
         if (registerButton) {
             registerButton.disabled = show;

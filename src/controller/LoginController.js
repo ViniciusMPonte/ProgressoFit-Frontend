@@ -1,10 +1,11 @@
 import {LoginView} from "../view/LoginView.js";
+import {LoginDTO} from "../model/dto/LoginDTO.js";
 import BaseController from "./BaseController.js";
 
 export class LoginController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
-        this.domManager = new DOMElementManager();
+        this.dom = new DOMElementManager();
     }
 
     loadPage() {
@@ -17,7 +18,7 @@ export class LoginController extends BaseController {
     }
 
     setupEventListeners() {
-        const form = this.domManager.getForm();
+        const form = this.dom.getForm();
 
         if (form) {
             form.addEventListener('submit', async (event) => {
@@ -28,18 +29,21 @@ export class LoginController extends BaseController {
     }
 
     handleCurrentYear(){
-        const yearTag = this.domManager.getYearTag();
+        const yearTag = this.dom.getYearTag();
         if (yearTag) {
             yearTag.innerHTML = LoginView.renderCurrentYear();
         }
     }
 
     async handleLogin() {
-        const email = this.domManager.getEmailInput()?.value;
-        const password = this.domManager.getPasswordInput()?.value;
+        const email = this.dom.getEmailInput()?.value;
+        const password = this.dom.getPasswordInput()?.value;
 
-        if (!email || !password) {
-            this.showError('Por favor, preencha todos os campos.');
+        const loginDto = new LoginDTO(email, password);
+        const validation = loginDto.validate();
+
+        if (!validation.isValid) {
+            this.showError(validation.errors[0]);
             return;
         }
 
@@ -47,7 +51,7 @@ export class LoginController extends BaseController {
         this.showError('');
 
         try {
-            const result = await this.apiService.login(email, password);
+            const result = await this.apiService.login(loginDto);
 
             if (result.success) {
 
@@ -69,7 +73,7 @@ export class LoginController extends BaseController {
     }
 
     showError(message) {
-        const errorDiv = this.domManager.getErrorDiv();
+        const errorDiv = this.dom.getErrorDiv();
         if (errorDiv) {
             if (message) {
                 errorDiv.textContent = message;
@@ -81,8 +85,8 @@ export class LoginController extends BaseController {
     }
 
     showLoading(show) {
-        const loadingDiv = this.domManager.getLoadingDiv();
-        const loginButton = this.domManager.getLoginButton();
+        const loadingDiv = this.dom.getLoadingDiv();
+        const loginButton = this.dom.getLoginButton();
 
         if (loginButton) {
             loginButton.disabled = show;

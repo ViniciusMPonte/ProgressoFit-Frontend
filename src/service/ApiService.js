@@ -46,17 +46,17 @@ export class ApiService extends Routes {
         }
     }
 
-    async login(email, password) {
+    async login(loginDto) {
         return await this.request('/auth/login', {
             method: 'POST',
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify(loginDto.toJSON())
         });
     }
 
-    async register(name, email, password) {
+    async register(registerDto) {
         return await this.request('/auth/register', {
             method: 'POST',
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify(registerDto.toJSON())
         });
     }
 
