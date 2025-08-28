@@ -1,6 +1,8 @@
+import {CopyrightComponent} from "../component/CopyrightComponent.js";
+
 export class RegisterView {
- 
-    static renderCurrentYear (){
-        return new Date().getFullYear();
+
+    static renderFooter (){
+        return CopyrightComponent.get();
     }
 }

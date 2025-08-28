@@ -14,7 +14,7 @@ export class RegisterController extends BaseController {
     }
 
     setupDynamicContent(){
-        this.handleCurrentYear()
+        this.handleFooter()
     }
 
     setupEventListeners() {
@@ -28,10 +28,10 @@ export class RegisterController extends BaseController {
         }
     }
 
-    handleCurrentYear(){
-        const yearTag = this.dom.getYearTag();
-        if (yearTag) {
-            yearTag.innerHTML = RegisterView.renderCurrentYear();
+    handleFooter(){
+        const footerTag = this.dom.getFooterTag();
+        if (footerTag) {
+            footerTag.innerHTML = RegisterView.renderFooter();
         }
     }
 
@@ -109,11 +109,11 @@ class DOMElementManager {
         this.elements = {};
     }
 
-    getYearTag() {
-        if (!this.elements.yearTag) {
-            this.elements.yearTag = document.querySelector('#year-tag');
+    getFooterTag() {
+        if (!this.elements.footerTag) {
+            this.elements.footerTag = document.querySelector('#footer');
         }
-        return this.elements.yearTag;
+        return this.elements.footerTag;
     }
 
     getForm() {

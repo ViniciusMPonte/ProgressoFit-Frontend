@@ -26,7 +26,7 @@ export class LoaderPage {
         }
     }
 
-    loadPageByPathname(pathname, params) {
+    loadPageByPathname(pathname) {
         pathname = this.normalizePathname(pathname)
         this.controllers[pathname].loadPage()
     }

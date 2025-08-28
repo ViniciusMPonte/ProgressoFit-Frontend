@@ -4,10 +4,6 @@ export default class BaseController {
         this.redirect = redirectManager;
     }
 
-    requiresAuthByPath(pathname) {
-        return this.redirect.requiresAuthByPath(pathname);
-    }
-
     loadPage() {
         console.warn('loadDefaultPage() não foi implementado');
     }

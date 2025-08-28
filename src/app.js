@@ -1,4 +1,4 @@
 import {LoaderPage} from "./LoaderPage.js";
 
 const loaderPage = new LoaderPage()
-loaderPage.loadPageByPathname(window.location.pathname, window.location.search)
+loaderPage.loadPageByPathname(window.location.pathname)
