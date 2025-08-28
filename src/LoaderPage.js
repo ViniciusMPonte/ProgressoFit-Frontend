@@ -27,22 +27,7 @@ export class LoaderPage {
     }
 
     loadPageByPathname(pathname) {
-        pathname = this.normalizePathname(pathname)
+        pathname = this.redirectManager.normalizePathname(pathname)
         this.controllers[pathname].loadPage()
-    }
-
-    normalizePathname(pathname) {
-
-        if (!pathname || typeof pathname !== 'string') {
-            return this.redirectManager.routes.home.url;
-        }
-
-        pathname = pathname.trim().toLowerCase()
-
-        if (pathname === '/index.html') {
-            return this.redirectManager.routes.home.url;
-        }
-
-        return pathname
     }
 }

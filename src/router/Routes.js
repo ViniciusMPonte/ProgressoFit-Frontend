@@ -2,29 +2,27 @@ export class Routes {
 
     routes = {
         home: {
-            url: '/',
+            url: '/index.html',
             requiresAuth: false
         },
         register: {
-            url: '/cadastro.html',
+            url: '/cadastro/index.html',
             requiresAuth: false
         },
         login: {
-            url: '/login.html',
+            url: '/login/index.html',
             requiresAuth: false
         },
         dashboard: {
-            url: '/dashboard.html',
+            url: '/dashboard/index.html',
             requiresAuth: true
         }
     }
 
     requiresAuthByPath(pathname) {
 
-        if (pathname === '/index.html') pathname = '/'
-
         const routeEntry = Object.entries(this.routes).find(([routeName, route]) => {
-            return route.url === pathname;
+            return route.url === this.normalizePathname(pathname);
         });
 
         if (routeEntry) {
@@ -33,5 +31,22 @@ export class Routes {
         }
 
         return true;
+    }
+
+    normalizePathname(pathname) {
+
+        if (!pathname || typeof pathname !== 'string') {
+            return this.routes.home.url;
+        }
+
+        pathname = pathname.trim().toLowerCase()
+
+        if (pathname.endsWith('/')) {
+            pathname += 'index.html';
+        } else if (!pathname.includes('.') && pathname !== '/') {
+            pathname += '/index.html';
+        }
+
+        return pathname
     }
 }

@@ -17,7 +17,7 @@ export class RedirectManager extends Routes {
             return;
         }
 
-        let finalUrl = route.url;
+        let finalUrl = route.url.replace(/index\.html$/, '');
 
         if (params) {
             const queryString = new URLSearchParams(params).toString();
