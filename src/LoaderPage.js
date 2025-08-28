@@ -26,7 +26,7 @@ export class LoaderPage {
         }
     }
 
-    loadPageByPathname(pathname) {
+    load(pathname = window.location.pathname) {
         pathname = this.redirectManager.normalizePathname(pathname)
         this.controllers[pathname].loadPage()
     }
