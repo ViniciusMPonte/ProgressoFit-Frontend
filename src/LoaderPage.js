@@ -11,11 +11,12 @@ export class LoaderPage {
         this.redirectManager = new RedirectManager()
         this.apiService = new ApiService()
 
+        let routes = this.redirectManager.routes
         this.controllers = {
-            "home": new HomeController(this.redirectManager, this.apiService),
-            "cadastro": new RegisterController(this.redirectManager, this.apiService),
-            "login": new LoginController(this.redirectManager, this.apiService),
-            "dashboard": new DashboardController(this.redirectManager, this.apiService),
+            [routes.home.url]: new HomeController(this.redirectManager, this.apiService),
+            [routes.register.url]: new RegisterController(this.redirectManager, this.apiService),
+            [routes.login.url]: new LoginController(this.redirectManager, this.apiService),
+            [routes.dashboard.url]: new DashboardController(this.redirectManager, this.apiService),
         };
 
         if (this.redirectManager.requiresAuthByPath(window.location.pathname)) {
@@ -26,21 +27,22 @@ export class LoaderPage {
     }
 
     loadPageByPathname(pathname, params) {
-        pathname = this.normalizeRoute(pathname)
+        pathname = this.normalizePathname(pathname)
         this.controllers[pathname].loadPage()
     }
 
-    normalizeRoute(pathname) {
+    normalizePathname(pathname) {
+
         if (!pathname || typeof pathname !== 'string') {
-            return '';
+            return this.redirectManager.routes.home.url;
         }
 
-        const normalizedPathname = pathname
-            .trim()
-            .replace(/^\/+/, '')
-            .replace(/\.html?$/i, '')
-            .toLowerCase()
+        pathname = pathname.trim().toLowerCase()
 
-        return normalizedPathname === '' || normalizedPathname === 'index' ? 'home' : normalizedPathname
+        if (pathname === '/index.html') {
+            return this.redirectManager.routes.home.url;
+        }
+
+        return pathname
     }
 }
