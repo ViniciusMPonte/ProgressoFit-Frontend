@@ -53,10 +53,10 @@ export class ApiService extends Routes {
         });
     }
 
-    async register(userData) {
+    async register(name, email, password) {
         return await this.request('/auth/register', {
             method: 'POST',
-            body: JSON.stringify(userData)
+            body: JSON.stringify({ name, email, password })
         });
     }
 

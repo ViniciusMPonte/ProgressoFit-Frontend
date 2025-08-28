@@ -13,14 +13,14 @@ export class LoaderPage {
 
         this.controllers = {
             "home": new HomeController(this.redirectManager, this.apiService),
-            "register": new RegisterController(this.redirectManager, this.apiService),
+            "cadastro": new RegisterController(this.redirectManager, this.apiService),
             "login": new LoginController(this.redirectManager, this.apiService),
             "dashboard": new DashboardController(this.redirectManager, this.apiService),
         };
 
         if (this.redirectManager.requiresAuthByPath(window.location.pathname)) {
-            this.controllers.login.apiService.checkAuth().then((result) => {
-                if (!result.success) this.controllers.login.redirect.to('login')
+            this.apiService.checkAuth().then((result) => {
+                if (!result.success) this.redirectManager.to('login')
             })
         }
     }

@@ -5,6 +5,10 @@ export class Routes {
             url: '/',
             requiresAuth: false
         },
+        register: {
+            url: '/cadastro.html',
+            requiresAuth: false
+        },
         login: {
             url: '/login.html',
             requiresAuth: false

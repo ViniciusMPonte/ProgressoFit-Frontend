@@ -50,7 +50,6 @@ export class LoginController extends BaseController {
             const result = await this.apiService.login(email, password);
 
             if (result.success) {
-                console.log('Login realizado com sucesso:', result.data);
 
                 if (result.data.token) {
                     localStorage.setItem('authToken', result.data.token);
