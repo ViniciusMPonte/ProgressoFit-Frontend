@@ -62,7 +62,7 @@ git --version
 
 ### 1. Clone o repositório
 ```bash
-gh repo clone ViniciusMPonte/ProcessoFit-Frontend
+gh repo clone ViniciusMPonte/ProgressoFit-Frontend
 cd ProgressoFit-Frontend
 ```
 
