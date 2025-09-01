@@ -5,6 +5,8 @@ _**Projeto acadêmico em desenvolvimento*_
 
 Este é o frontend da aplicação ProgressoFit, uma plataforma web desenvolvida para oferecer ferramentas simples e poderosas para monitoramento de treinos. A interface permite que os usuários visualizem seu progresso através de gráficos e relatórios, sejam insentivadas com a gameficação de conquistas, e recebam frases motivacionais personalizadas baseadas em inteligência artificial.
 
+**Desenvolvedores**
+- Vinícius Menezes Pontes
 ---
 
 ## 🏗️ Arquitetura
