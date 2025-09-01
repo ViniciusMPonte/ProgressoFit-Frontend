@@ -8,6 +8,7 @@ Este é o frontend da aplicação ProgressoFit, uma plataforma web desenvolvida 
 **Desenvolvedores**
 - Vinícius Menezes Pontes
 - Matheus Aquino de Andrade
+- Juan Pablo Lima Rassi
 ---
 
 ## 🏗️ Arquitetura
