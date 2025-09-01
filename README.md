@@ -10,6 +10,7 @@ Este é o frontend da aplicação ProgressoFit, uma plataforma web desenvolvida 
 - Matheus Aquino de Andrade
 - Juan Pablo Lima Rassi
 - Isabela Saores dos Santos
+- William Santos de Santana
 ---
 
 ## 🏗️ Arquitetura
