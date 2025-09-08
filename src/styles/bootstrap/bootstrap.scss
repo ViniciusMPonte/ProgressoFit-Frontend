@@ -1,3 +1,96 @@
-$primary: #67C090;
+// FONTES PRINCIPAIS //
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+$font-family-sans-serif: "Fredoka", sans-serif;
+
+// CORES PRINCIPAIS //
+$primary-gradient: linear-gradient(45deg, #80eb5f, #56cf31);
+$primary-shadow: #36c209;
+
+$secondary-gradient: linear-gradient(45deg, #6C757D, #a3a3a3);
+$secondary-shadow: #50575e;
+
+$success-gradient: linear-gradient(45deg, #10bb6b, #198754);
+$success-shadow: #126840;
+
+$danger-gradient: linear-gradient(45deg, #eb5f5f, #b12929);
+$danger-shadow: #8f0707;
+
+$warning-gradient: linear-gradient(45deg, #f4b41b, #f4951a);
+$warning-shadow: #b87114;
+
+$info-gradient: linear-gradient(45deg, #58bee0, #5877e0);
+$info-shadow: #445dad;
+
+
+// ESTILOS //
+@mixin button-style($gradient: $primary-gradient, $shadow: $primary-shadow) {
+    font-weight: 500 !important;
+    background: $gradient;
+    border-color: $shadow !important;
+    box-shadow: 0px 3px $shadow;
+}
+
+.form-control, .form-select {
+    border-radius: 100px !important;
+}
+
+.input-group-text {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+// PRIMARY //
+.btn-primary {
+    @include button-style;
+}
+
+.bg-primary {
+    background: $primary-gradient !important;
+}
+
+// SECONDARY //
+.btn-secondary {
+    @include button-style($secondary-gradient, $secondary-shadow);
+}
+
+.bg-secondary {
+    background: $secondary-gradient !important;
+}
+
+// SUCCESS //
+.btn-success {
+    @include button-style($success-gradient, $success-shadow);
+}
+
+.bg-success {
+    background: $success-gradient !important;
+}
+
+// DANGER //
+.btn-danger {
+    @include button-style($danger-gradient, $danger-shadow);
+}
+
+.bg-danger {
+    background: $danger-gradient !important;
+}
+
+// WARNING //
+.btn-warning {
+    @include button-style($warning-gradient, $warning-shadow);
+}
+
+.bg-warning {
+    background: $warning-gradient !important;
+}
+
+// INFO //
+.btn-info {
+    @include button-style($info-gradient, $info-shadow);
+}
+
+.bg-info {
+    background: $info-gradient !important;
+}
 
 @import "node_modules/bootstrap/scss/bootstrap";
