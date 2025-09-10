@@ -21,11 +21,7 @@ export class DashboardController extends BaseController {
             const request = await this.apiService.get('/api/statistics/weekly/last-months/2');
             const tag = this.dom.getTrainingPerWeeklyChartTag();
 
-            console.log(request);
-
-
             DashboardView.renderTrainingPerWeeklyChart(tag, request.data);
-
 
         } catch (error) {
             console.error('Erro ao carregar dados semanais:', error);

@@ -5,26 +5,16 @@ export default class ChartService {
         this.defaultOptions = {
             responsive: true,
             maintainAspectRatio: false,
-            layout: {
-                padding: {left: 5, right: 5, bottom: 5, top: 5}
-            },
             plugins: {
                 legend: {
-                    display: true,
-                    position: 'top'
-                },
-                title: {
-                    display: false,
-                    font: {size: 16}
+                    display: false
                 }
             },
             ...defaultOptions
         };
     }
 
-    // -- Método principal para criar qualquer tipo de gráfico -- //
     create(labels, datasets, type = 'line', customOptions = {}) {
-        // Validação simples
         if (!Array.isArray(labels) || !Array.isArray(datasets)) {
             throw new Error("Labels e datasets devem ser arrays.");
         }
@@ -38,7 +28,6 @@ export default class ChartService {
             options: this.mergeOptions(this.defaultOptions, customOptions)
         };
 
-        // Destruir gráfico anterior se existir
         if (this.chart) {
             this.chart.destroy();
         }
@@ -47,74 +36,6 @@ export default class ChartService {
         return this.chart;
     }
 
-    // -- Método específico para gráfico de linha -- //
-    createLine(labels, data, options = {}) {
-        const dataset = this.normalizeDataset(data, {
-            backgroundColor: ["rgba(92, 250, 30, 0.4)"],
-            fill: true,
-            borderColor: "rgba(97, 243, 57, 1)",
-            tension: 0.4
-        });
-
-        const lineDefaults = {
-            scales: {
-                x: {grid: {display: true}},
-                y: {grid: {display: true}, beginAtZero: true}
-            }
-        };
-
-        return this.create(labels, [dataset], 'line', this.mergeOptions(lineDefaults, options));
-    }
-
-    // -- Método específico para gráfico de barras -- //
-    createBar(labels, data, options = {}) {
-        const dataset = this.normalizeDataset(data, {
-            backgroundColor: "rgba(75, 192, 192, 0.8)",
-            borderColor: "rgba(75, 192, 192, 1)",
-            borderWidth: 1
-        });
-
-        const barDefaults = {
-            scales: {
-                x: {grid: {display: false}},
-                y: {grid: {display: true}, beginAtZero: true}
-            }
-        };
-
-        return this.create(labels, [dataset], 'bar', this.mergeOptions(barDefaults, options));
-    }
-
-    // -- Método específico para gráfico de pizza -- //
-    createPie(labels, data, options = {}) {
-        const colors = [
-            'rgba(255, 99, 132, 0.8)',
-            'rgba(54, 162, 235, 0.8)',
-            'rgba(255, 205, 86, 0.8)',
-            'rgba(75, 192, 192, 0.8)',
-            'rgba(153, 102, 255, 0.8)',
-            'rgba(255, 159, 64, 0.8)'
-        ];
-
-        const dataset = this.normalizeDataset(data, {
-            backgroundColor: colors.slice(0, labels.length),
-            borderWidth: 2
-        });
-
-        const pieDefaults = {
-            plugins: {
-                legend: {position: 'right'}
-            }
-        };
-
-        return this.create(labels, [dataset], 'pie', this.mergeOptions(pieDefaults, options));
-    }
-
-    // -- Método específico para gráfico de rosca -- //
-    createDoughnut(labels, data, options = {}) {
-        return this.createPie(labels, data, {...options, type: 'doughnut'});
-    }
-
-    // -- Método para múltiplos datasets -- //
     createMultiDataset(labels, datasets, type = 'line', options = {}) {
         const normalizedDatasets = datasets.map((dataset, index) =>
             this.normalizeDataset(dataset, this.getDefaultColors(index))
@@ -123,7 +44,6 @@ export default class ChartService {
         return this.create(labels, normalizedDatasets, type, options);
     }
 
-    // -- Atualizar dados do gráfico existente -- //
     updateData(labels, data) {
         if (!this.chart) {
             throw new Error("Nenhum gráfico foi criado ainda.");
@@ -132,28 +52,16 @@ export default class ChartService {
         this.chart.data.labels = labels;
 
         if (Array.isArray(data[0])) {
-            // Múltiplos datasets
             this.chart.data.datasets = data.map((dataset, index) =>
                 this.normalizeDataset(dataset, this.getDefaultColors(index))
             );
         } else {
-            // Dataset único
             this.chart.data.datasets[0].data = data;
         }
 
         this.chart.update();
     }
 
-    // -- Gerar dados mock para desenvolvimento -- //
-    static generateMockData(labelCount = 6, labelPrefix = "Item", min = 0, max = 100) {
-        const labels = Array.from({length: labelCount}, (_, i) => `${labelPrefix} ${i + 1}`);
-        const data = Array.from({length: labelCount}, () =>
-            Math.floor(Math.random() * (max - min + 1)) + min
-        );
-        return {labels, data};
-    }
-
-    // -- Método para destruir o gráfico -- //
     destroy() {
         if (this.chart) {
             this.chart.destroy();
@@ -161,7 +69,6 @@ export default class ChartService {
         }
     }
 
-    // -- Métodos auxiliares -- //
     normalizeDataset(data, defaults = {}) {
         if (typeof data === 'object' && data.data) {
             // Já é um dataset completo

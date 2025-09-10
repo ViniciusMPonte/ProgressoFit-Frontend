@@ -1,8 +1,10 @@
 import ChartService from "../../service/ChartService.js";
+import BaseChartComponent from "./BaseChartComponent.js";
 
-export class TrainingPerWeeklyChartComponent {
+export class TrainingPerWeeklyChartComponent extends BaseChartComponent {
 
     constructor(ctx, trainingData) {
+        super();
         this.chartService = new ChartService(ctx);
         this.setTrainingData(trainingData)
     }
@@ -16,32 +18,20 @@ export class TrainingPerWeeklyChartComponent {
             throw new Error("Os dados devem ser um array não vazio.");
         }
 
-        const labels = trainingData.map(item => {
-            const startDate = new Date(item.weekStartDate);
-            const endDate = new Date(item.weekEndDate);
+        const labels = this.extractLabelsFromPeriods(trainingData);
+        const data = this.extractData(trainingData, 'totalTrainings');
 
-            const startFormatted = startDate.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit'
-            });
-            const endFormatted = endDate.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit'
-            });
-
-            return `${startFormatted} - ${endFormatted}`;
-        });
-
-        const data = trainingData.map(item => item.totalTrainings);
-
-        return {labels, data};
+        return { labels, data };
     }
 
     autoRender() {
-        this.chartService.createLine(this.trainingData.labels, this.trainingData.data, {
-            plugins: {
-                legend: {display: false}
-            }
-        })
+        this.chartService.create(this.trainingData.labels, [{
+                data: this.trainingData.data,
+                backgroundColor: ["rgba(92, 250, 30, 0.4)"],
+                fill: true,
+                borderColor: "rgba(97, 243, 57, 1)",
+                tension: 0.4
+            }]
+        )
     }
 }
