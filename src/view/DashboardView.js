@@ -8,7 +8,7 @@ export class DashboardView {
         this.toggleState = false;
     }
 
-    getToggleState(){
+    getToggleState() {
         return this.toggleState
     }
 
@@ -21,11 +21,13 @@ export class DashboardView {
                 this.toggleState = !this.toggleState;
 
                 if (this.toggleState) {
-                    toggleButton.classList.add('active');
-                    toggleLabel.textContent = '✅';
+                    toggleButton.classList.remove('btn-danger');
+                    toggleButton.classList.add('btn-primary');
+                    toggleLabel.textContent = '☑ Sim';
                 } else {
-                    toggleButton.classList.remove('active');
-                    toggleLabel.textContent = '';
+                    toggleButton.classList.remove('btn-primary');
+                    toggleButton.classList.add('btn-danger');
+                    toggleLabel.textContent = '☐ Não';
                 }
             });
         }
@@ -42,10 +44,12 @@ export class DashboardView {
 
         this.toggleState = false;
         if (toggleButton) {
-            toggleButton.classList.remove('active');
+            toggleButton.classList.remove('btn-primary');
+            toggleButton.classList.add('btn-danger');
         }
+
         if (toggleLabel) {
-            toggleLabel.textContent = '';
+            toggleLabel.textContent = '☐ Não';
         }
     }
 
@@ -67,14 +71,24 @@ export class DashboardView {
         }
     }
 
-    showLoading(show) {
-        const submitButton = this.dom.getSubmitButton();
+showLoading(show) {
+    const submitButton = this.dom.getSubmitButton();
 
-        if (submitButton) {
-            submitButton.disabled = show;
-            submitButton.textContent = show ? 'Enviando...' : 'Enviar Dados';
+    if (submitButton) {
+        submitButton.disabled = show;
+        
+        if (show) {
+            submitButton.classList.add('disabled');
+            submitButton.innerHTML = `
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Enviando...
+            `;
+        } else {
+            submitButton.classList.remove('disabled');
+            submitButton.innerHTML = 'Salvar';
         }
     }
+}
 
     renderTrainingPerWeeklyChart(ctx, data) {
         new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
