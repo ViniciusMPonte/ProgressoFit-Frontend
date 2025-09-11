@@ -1,11 +1,11 @@
 import BaseController from "./BaseController.js";
-import {DashboardView} from "../view/DashboardView.js";
+import { DashboardView } from "../view/DashboardView.js";
 
 export class DashboardController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
         this.dom = new DOMElementManager();
-        this.toggleState = false;
+        this.view = new DashboardView(this.dom)
     }
 
     loadPage() {
@@ -13,32 +13,13 @@ export class DashboardController extends BaseController {
         this.setupEventListeners();
     }
 
-    setupDynamicContent(){
+    setupDynamicContent() {
         this.handleWeeklyChart();
     }
 
     setupEventListeners() {
-        this.setupToggleListener();
+        this.view.setupToggleListener();
         this.setupFormListener();
-    }
-
-    setupToggleListener() {
-        const toggleButton = this.dom.getToggleButton();
-        const toggleLabel = this.dom.getToggleLabel();
-
-        if (toggleButton && toggleLabel) {
-            toggleButton.addEventListener('click', () => {
-                this.toggleState = !this.toggleState;
-
-                if (this.toggleState) {
-                    toggleButton.classList.add('active');
-                    toggleLabel.textContent = 'Ativado (1)';
-                } else {
-                    toggleButton.classList.remove('active');
-                    toggleLabel.textContent = 'Desativado (0)';
-                }
-            });
-        }
     }
 
     setupFormListener() {
@@ -47,36 +28,34 @@ export class DashboardController extends BaseController {
         if (form) {
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
-                await this.handleFormSubmit();
+                await this.handleTrainingCountFormSubmit();
             });
         }
     }
 
-    async handleWeeklyChart(){
+    async handleWeeklyChart() {
         try {
             const request = await this.apiService.get('/api/statistics/weekly/last-months/2');
             const tag = this.dom.getTrainingPerWeeklyChartTag();
 
-            DashboardView.renderTrainingPerWeeklyChart(tag, request.data);
+            this.view.renderTrainingPerWeeklyChart(tag, request.data);
 
         } catch (error) {
             console.error('Erro ao carregar dados semanais:', error);
         }
     }
 
-    async handleFormSubmit() {
-        const numero = this.toggleState ? 1 : 0;
+    async handleTrainingCountFormSubmit() {
+        const trainingCount = this.view.getToggleState() ? 1 : 0;
         const data = this.dom.getDataField()?.value;
         const endpoint = `/api/statistics/date/${data}`;
 
         const formData = {
-            count: numero
+            count: trainingCount
         };
 
-        console.log('Enviando dados:', formData);
-
-        this.showLoading(true);
-        this.showStatus('', '');
+        this.view.showLoading(true);
+        this.view.showStatus('', '');
 
         try {
             const result = await this.apiService.request(endpoint, {
@@ -85,64 +64,18 @@ export class DashboardController extends BaseController {
             });
 
             if (result.success) {
-                this.showStatus('Dados enviados com sucesso!', 'success');
-                this.resetForm();
-                console.log('Resposta da API:', result.data);
+                this.view.showStatus('Dados enviados com sucesso!', 'success');
+                this.view.resetForm();
             } else {
-                this.showStatus(`Erro no envio: ${result.error}`, 'error');
+                this.view.showStatus(`Erro no envio: ${result.error}`, 'error');
                 console.error('Erro da API:', result.error);
             }
 
         } catch (error) {
-            this.showStatus(`Erro de conexão: ${error.message}`, 'error');
+            this.view.showStatus(`Erro de conexão: ${error.message}`, 'error');
             console.error('Erro inesperado:', error);
         } finally {
-            this.showLoading(false);
-        }
-    }
-
-    resetForm() {
-        const dataField = this.dom.getDataField();
-        const toggleButton = this.dom.getToggleButton();
-        const toggleLabel = this.dom.getToggleLabel();
-
-        if (dataField) {
-            dataField.value = '';
-        }
-
-        this.toggleState = false;
-        if (toggleButton) {
-            toggleButton.classList.remove('active');
-        }
-        if (toggleLabel) {
-            toggleLabel.textContent = 'Desativado (0)';
-        }
-    }
-
-    showStatus(message, type) {
-        const statusDiv = this.dom.getStatusDiv();
-
-        if (statusDiv) {
-            if (message) {
-                statusDiv.textContent = message;
-                statusDiv.className = `status ${type}`;
-                statusDiv.style.display = 'block';
-
-                setTimeout(() => {
-                    statusDiv.style.display = 'none';
-                }, 5000);
-            } else {
-                statusDiv.style.display = 'none';
-            }
-        }
-    }
-
-    showLoading(show) {
-        const submitButton = this.dom.getSubmitButton();
-
-        if (submitButton) {
-            submitButton.disabled = show;
-            submitButton.textContent = show ? 'Enviando...' : 'Enviar Dados';
+            this.view.showLoading(false);
         }
     }
 }
