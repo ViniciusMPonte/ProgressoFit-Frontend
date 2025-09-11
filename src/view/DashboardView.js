@@ -64,6 +64,7 @@ export class DashboardView {
 
                 setTimeout(() => {
                     statusDiv.style.display = 'none';
+
                 }, 5000);
             } else {
                 statusDiv.style.display = 'none';

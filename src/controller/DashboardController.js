@@ -66,6 +66,7 @@ export class DashboardController extends BaseController {
             if (result.success) {
                 this.view.showStatus('Dados enviados com sucesso!', 'success');
                 this.view.resetForm();
+                this.redirect.reload()
             } else {
                 this.view.showStatus(`Erro no envio: ${result.error}`, 'error');
                 console.error('Erro da API:', result.error);
