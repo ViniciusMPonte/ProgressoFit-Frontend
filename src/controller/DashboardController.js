@@ -19,7 +19,6 @@ export class DashboardController extends BaseController {
     }
 
     setupEventListeners() {
-        this.view.setupToggleListener();
         this.setupDynamicButtonListener();
         this.setupFormListener();
         this.setupSubmitWithToggleButtonListener();
@@ -97,7 +96,7 @@ export class DashboardController extends BaseController {
     }
 
     async handleTrainingCountFormSubmit() {
-        const trainingCount = this.view.getToggleState() ? 1 : 0;
+        const trainingCount = this.view.getToggleState() ? 0 : 1;
         const data = this.dom.getDataField()?.value;
         const endpoint = `/api/statistics/date/${data}`;
 
@@ -126,6 +125,7 @@ export class DashboardController extends BaseController {
             this.view.showStatus(`Erro de conexão: ${error.message}`, 'error');
             console.error('Erro inesperado:', error);
         } finally {
+            this.view.toggleState = !this.view.toggleState;
             this.view.showLoading(false);
         }
     }
@@ -155,13 +155,6 @@ class DOMElementManager {
             this.elements.dataField = document.querySelector('#dataField');
         }
         return this.elements.dataField;
-    }
-
-    getSubmitButton() {
-        if (!this.elements.submitButton) {
-            this.elements.submitButton = document.querySelector('#dataForm button[type="submit"]');
-        }
-        return this.elements.submitButton;
     }
 
     getToggleButton() {

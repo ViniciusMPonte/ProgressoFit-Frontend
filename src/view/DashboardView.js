@@ -16,47 +16,18 @@ export class DashboardView {
         this.toggleState = boolean
     }
 
-    setupToggleListener() {
+    updateToogleButton() {
         const toggleButton = this.dom.getToggleButton();
         const toggleLabel = this.dom.getToggleLabel();
 
-        if (toggleButton && toggleLabel) {
-            toggleButton.addEventListener('click', () => {
-                this.toggleState = !this.toggleState;
-                this.updateToogleButton()
-            });
-        }
-    }
-
-    updateToogleButton() {
         if (this.toggleState) {
             toggleButton.classList.remove('btn-danger');
             toggleButton.classList.add('btn-primary');
-            toggleLabel.textContent = '☑ Sim';
+            toggleLabel.innerHTML = '☑ Sim';
         } else {
             toggleButton.classList.remove('btn-primary');
             toggleButton.classList.add('btn-danger');
-            toggleLabel.textContent = '☐ Não';
-        }
-    }
-
-    resetForm() {
-        const dataField = this.dom.getDataField();
-        const toggleButton = this.dom.getToggleButton();
-        const toggleLabel = this.dom.getToggleLabel();
-
-        if (dataField) {
-            dataField.value = '';
-        }
-
-        this.toggleState = false;
-        if (toggleButton) {
-            toggleButton.classList.remove('btn-primary');
-            toggleButton.classList.add('btn-danger');
-        }
-
-        if (toggleLabel) {
-            toggleLabel.textContent = '☐ Não';
+            toggleLabel.innerHTML = '☐ Não';
         }
     }
 
@@ -80,20 +51,21 @@ export class DashboardView {
     }
 
     showLoading(show) {
-        const submitButton = this.dom.getSubmitButton();
+        const toggleButton = this.dom.getToggleButton();
+        const toggleLabel = this.dom.getToggleLabel();
 
-        if (submitButton) {
-            submitButton.disabled = show;
+        if (toggleButton) {
+            toggleButton.disabled = show;
 
             if (show) {
-                submitButton.classList.add('disabled');
-                submitButton.innerHTML = `
+                toggleButton.classList.add('disabled');
+                toggleLabel.innerHTML = `
                 <span class="spinner-border spinner-border-sm me-2"></span>
                 Enviando...
             `;
             } else {
-                submitButton.classList.remove('disabled');
-                submitButton.innerHTML = 'Salvar';
+                toggleButton.classList.remove('disabled');
+                this.updateToogleButton()
             }
         }
     }
@@ -104,7 +76,7 @@ export class DashboardView {
         if (existingChart) {
             existingChart.destroy();
         }
-        
+
         new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
     }
 
