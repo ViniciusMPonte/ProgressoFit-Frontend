@@ -99,6 +99,12 @@ export class DashboardView {
     }
 
     renderTrainingPerWeeklyChart(ctx, data) {
+
+        const existingChart = Chart.getChart(ctx);
+        if (existingChart) {
+            existingChart.destroy();
+        }
+        
         new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
     }
 

@@ -70,6 +70,7 @@ export class DashboardController extends BaseController {
         try {
             const response = await this.apiService.get('/api/statistics/weekly/last-months/2');
             const tag = this.dom.getTrainingPerWeeklyChartTag();
+            if (!tag) return
 
             this.view.renderTrainingPerWeeklyChart(tag, response.data);
 
@@ -103,8 +104,7 @@ export class DashboardController extends BaseController {
 
             if (result.success) {
                 this.view.showStatus('Dados enviados com sucesso!', 'success');
-                this.view.resetForm();
-                this.redirect.reload()
+                await this.handleWeeklyChart();
             } else {
                 this.view.showStatus(`Erro no envio: ${result.error}`, 'error');
                 console.error('Erro da API:', result.error);
