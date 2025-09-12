@@ -22,6 +22,7 @@ export class DashboardController extends BaseController {
         this.view.setupToggleListener();
         this.setupDynamicButtonListener();
         this.setupFormListener();
+        this.setupSubmitWithToggleButtonListener();
     }
 
     setupFormListener() {
@@ -41,6 +42,17 @@ export class DashboardController extends BaseController {
         if (!dataField) return
 
         dataField.addEventListener('change', () => this.handleSetupDynamicButton());
+    }
+
+    setupSubmitWithToggleButtonListener() {
+        const toggleButton = this.dom.getToggleButton();
+        const toggleLabel = this.dom.getToggleLabel();
+
+        if (toggleButton && toggleLabel) {
+            toggleButton.addEventListener('click', async () => {
+                await this.handleTrainingCountFormSubmit();
+            });
+        }
     }
 
     async handleSetupDynamicButton() {
