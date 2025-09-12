@@ -21,6 +21,11 @@ $warning-shadow: #b87114;
 $info-gradient: linear-gradient(45deg, #58bee0, #5877e0);
 $info-shadow: #445dad;
 
+$light-gradient: linear-gradient(45deg, #f8f9fa, #e2e6ea);
+$light-shadow: #a3a3a3;
+
+$dark-gradient: linear-gradient(45deg, #343a40, #1d2124);
+$dark-shadow: #0b0c0d;
 
 // ESTILOS //
 @mixin button-style($gradient: $primary-gradient, $shadow: $primary-shadow) {
@@ -37,6 +42,10 @@ $info-shadow: #445dad;
 .input-group-text {
     background-color: transparent !important;
     border: none !important;
+}
+
+.card {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
 }
 
 // PRIMARY //
@@ -91,6 +100,30 @@ $info-shadow: #445dad;
 
 .bg-info {
     background: $info-gradient !important;
+}
+
+// LIGHT //
+
+.btn-light {
+    @include button-style($light-gradient, $light-shadow);
+    color: #50575e !important;
+}
+
+.bg-light {
+    background: $light-gradient !important;
+    color: #50575e !important;
+}
+
+// DARK //
+
+.btn-dark {
+    @include button-style($dark-gradient, $dark-shadow);
+    color: white !important;
+}
+
+.bg-dark {
+    background: $dark-gradient !important;
+    color: white !important;
 }
 
 @import "node_modules/bootstrap/scss/bootstrap";
