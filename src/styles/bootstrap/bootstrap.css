@@ -9,6 +9,10 @@
   border: none !important;
 }
 
+.card {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
 .btn-primary {
   font-weight: 500 !important;
   background: linear-gradient(45deg, #80eb5f, #56cf31);
@@ -73,6 +77,32 @@
 
 .bg-info {
   background: linear-gradient(45deg, #58bee0, #5877e0) !important;
+}
+
+.btn-light {
+  font-weight: 500 !important;
+  background: linear-gradient(45deg, #f8f9fa, #e2e6ea);
+  border-color: #a3a3a3 !important;
+  box-shadow: 0px 3px #a3a3a3;
+  color: #50575e !important;
+}
+
+.bg-light {
+  background: linear-gradient(45deg, #f8f9fa, #e2e6ea) !important;
+  color: #50575e !important;
+}
+
+.btn-dark {
+  font-weight: 500 !important;
+  background: linear-gradient(45deg, #343a40, #1d2124);
+  border-color: #0b0c0d !important;
+  box-shadow: 0px 3px #0b0c0d;
+  color: white !important;
+}
+
+.bg-dark {
+  background: linear-gradient(45deg, #343a40, #1d2124) !important;
+  color: white !important;
 }
 
 /*!
