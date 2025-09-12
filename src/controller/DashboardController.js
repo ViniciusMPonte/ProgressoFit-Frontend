@@ -15,10 +15,12 @@ export class DashboardController extends BaseController {
 
     setupDynamicContent() {
         this.handleWeeklyChart();
+        this.setDataFieldValueToday();
     }
 
     setupEventListeners() {
         this.view.setupToggleListener();
+        this.setupDynamicButtonListener();
         this.setupFormListener();
     }
 
@@ -33,16 +35,52 @@ export class DashboardController extends BaseController {
         }
     }
 
+    setupDynamicButtonListener() {
+
+        const dataField = this.dom.getDataField();
+        if (!dataField) return
+
+        dataField.addEventListener('change', () => this.handleSetupDynamicButton());
+    }
+
+    async handleSetupDynamicButton() {
+        const selectedDate = this.dom.getDataField()?.value;
+        if (!selectedDate) return
+
+        const trainingCount = await this.getDataTraining(selectedDate);
+        if (typeof trainingCount === 'number' && trainingCount > 0) {
+            this.view.setToggleState(true)
+        } else {
+            this.view.setToggleState(false)
+        }
+
+        this.view.updateToogleButton()
+    }
+
+    async getDataTraining(date) {
+        try {
+            const response = await this.apiService.get(`/api/statistics/date/${date}`);
+            return parseInt(response.data.count);
+        } catch (error) {
+            return 0
+        }
+    }
+
     async handleWeeklyChart() {
         try {
-            const request = await this.apiService.get('/api/statistics/weekly/last-months/2');
+            const response = await this.apiService.get('/api/statistics/weekly/last-months/2');
             const tag = this.dom.getTrainingPerWeeklyChartTag();
 
-            this.view.renderTrainingPerWeeklyChart(tag, request.data);
+            this.view.renderTrainingPerWeeklyChart(tag, response.data);
 
         } catch (error) {
             console.error('Erro ao carregar dados semanais:', error);
         }
+    }
+
+    async setDataFieldValueToday() {
+        this.dom.getDataField().value = new Date().toISOString().split('T')[0];
+        this.handleSetupDynamicButton()
     }
 
     async handleTrainingCountFormSubmit() {
