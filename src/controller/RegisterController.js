@@ -1,11 +1,12 @@
-import {RegisterView} from "../view/RegisterView.js";
-import {RegisterDTO} from "../model/dto/RegisterDTO.js";
+import { RegisterView } from "../view/RegisterView.js";
+import { RegisterDTO } from "../model/dto/RegisterDTO.js";
 import BaseController from "./BaseController.js";
 
 export class RegisterController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
         this.dom = new DOMElementManager();
+        this.view = new RegisterView();
     }
 
     loadPage() {
@@ -13,7 +14,7 @@ export class RegisterController extends BaseController {
         this.setupEventListeners();
     }
 
-    setupDynamicContent(){
+    setupDynamicContent() {
         this.handleFooter()
     }
 
@@ -28,7 +29,7 @@ export class RegisterController extends BaseController {
         }
     }
 
-    handleFooter(){
+    handleFooter() {
         const footerTag = this.dom.getFooterTag();
         if (footerTag) {
             footerTag.innerHTML = RegisterView.renderFooter();
@@ -44,12 +45,11 @@ export class RegisterController extends BaseController {
         const validation = registerDto.validate();
 
         if (!validation.isValid) {
-            this.showError(validation.errors[0]);
+            this.view.alert(validation.errors[0], 'warning');
             return;
         }
 
         this.showLoading(true);
-        this.showError('');
 
         try {
             const result = await this.apiService.register(registerDto);
@@ -63,25 +63,13 @@ export class RegisterController extends BaseController {
                 this.redirect.to('dashboard');
 
             } else {
-                this.showError(result.message || 'Erro ao criar conta. Tente novamente.');
+                this.view.alert(result.message || 'Erro ao criar conta. Tente novamente.', 'danger');
             }
         } catch (error) {
             console.error('Erro durante o cadastro:', error);
-            this.showError('Erro interno. Tente novamente mais tarde.');
+            this.view.alert('Erro interno. Tente novamente mais tarde.', 'danger');
         } finally {
             this.showLoading(false);
-        }
-    }
-
-    showError(message) {
-        const errorDiv = this.dom.getErrorDiv();
-        if (errorDiv) {
-            if (message) {
-                errorDiv.textContent = message;
-                errorDiv.classList.remove('d-none');
-            } else {
-                errorDiv.classList.add('d-none');
-            }
         }
     }
 
@@ -142,13 +130,6 @@ class DOMElementManager {
             this.elements.passwordInput = document.querySelector('#floatingPassword');
         }
         return this.elements.passwordInput;
-    }
-
-    getErrorDiv() {
-        if (!this.elements.errorDiv) {
-            this.elements.errorDiv = document.querySelector('#error-message');
-        }
-        return this.elements.errorDiv;
     }
 
     getLoadingDiv() {

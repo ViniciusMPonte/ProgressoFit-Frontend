@@ -105,7 +105,6 @@ export class DashboardController extends BaseController {
         };
 
         this.view.showLoading(true);
-        this.view.showStatus('', '');
 
         try {
             const result = await this.apiService.request(endpoint, {
@@ -114,15 +113,15 @@ export class DashboardController extends BaseController {
             });
 
             if (result.success) {
-                this.view.showStatus('Dados enviados com sucesso!', 'success');
+                this.view.alert('Dados enviados com sucesso!', 'success');
                 await this.handleWeeklyChart();
             } else {
-                this.view.showStatus(`Erro no envio: ${result.error}`, 'error');
+                this.view.alert(`Erro no envio: ${result.error}`, 'danger');
                 console.error('Erro da API:', result.error);
             }
 
         } catch (error) {
-            this.view.showStatus(`Erro de conexão: ${error.message}`, 'error');
+            this.view.alert(`Erro de conexão: ${error.message}`, 'danger');
             console.error('Erro inesperado:', error);
         } finally {
             this.view.toggleState = !this.view.toggleState;
@@ -169,13 +168,6 @@ class DOMElementManager {
             this.elements.toggleLabel = document.querySelector('#toggleLabel');
         }
         return this.elements.toggleLabel;
-    }
-
-    getStatusDiv() {
-        if (!this.elements.statusDiv) {
-            this.elements.statusDiv = document.querySelector('#status');
-        }
-        return this.elements.statusDiv;
     }
 
     destroy() {

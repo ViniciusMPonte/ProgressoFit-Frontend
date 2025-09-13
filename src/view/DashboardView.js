@@ -1,9 +1,11 @@
+import BaseView from "./BaseView.js";
 import { CopyrightComponent } from "./component/CopyrightComponent.js";
 import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyChartComponent.js";
 
-export class DashboardView {
+export class DashboardView extends BaseView {
 
     constructor(dom) {
+        super()
         this.dom = dom
         this.toggleState = false;
     }
@@ -28,25 +30,6 @@ export class DashboardView {
             toggleButton.classList.remove('btn-primary');
             toggleButton.classList.add('btn-danger');
             toggleLabel.innerHTML = '☐ Não';
-        }
-    }
-
-    showStatus(message, type) {
-        const statusDiv = this.dom.getStatusDiv();
-
-        if (statusDiv) {
-            if (message) {
-                statusDiv.textContent = message;
-                statusDiv.className = `status ${type}`;
-                statusDiv.style.display = 'block';
-
-                setTimeout(() => {
-                    statusDiv.style.display = 'none';
-
-                }, 5000);
-            } else {
-                statusDiv.style.display = 'none';
-            }
         }
     }
 

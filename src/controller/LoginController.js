@@ -6,6 +6,7 @@ export class LoginController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
         this.dom = new DOMElementManager();
+        this.view = new LoginView()
     }
 
     loadPage() {
@@ -43,12 +44,11 @@ export class LoginController extends BaseController {
         const validation = loginDto.validate();
 
         if (!validation.isValid) {
-            this.showError(validation.errors[0]);
+            this.view.alert(validation.errors[0], 'warning');
             return;
         }
 
         this.showLoading(true);
-        this.showError('');
 
         try {
             const result = await this.apiService.login(loginDto);
@@ -62,25 +62,13 @@ export class LoginController extends BaseController {
                 this.redirect.to('dashboard');
 
             } else {
-                this.showError('Credenciais inválidas. Tente novamente.');
+                this.view.alert('Credenciais inválidas. Tente novamente.', 'danger');
             }
         } catch (error) {
             console.error('Erro durante o login:', error);
-            this.showError('Erro interno. Tente novamente mais tarde.');
+            this.view.alert('Erro interno. Tente novamente mais tarde.', 'danger');
         } finally {
             this.showLoading(false);
-        }
-    }
-
-    showError(message) {
-        const errorDiv = this.dom.getErrorDiv();
-        if (errorDiv) {
-            if (message) {
-                errorDiv.textContent = message;
-                errorDiv.classList.remove('d-none');
-            } else {
-                errorDiv.classList.add('d-none');
-            }
         }
     }
 
@@ -134,13 +122,6 @@ class DOMElementManager {
             this.elements.passwordInput = document.querySelector('#floatingPassword');
         }
         return this.elements.passwordInput;
-    }
-
-    getErrorDiv() {
-        if (!this.elements.errorDiv) {
-            this.elements.errorDiv = document.querySelector('#error-message');
-        }
-        return this.elements.errorDiv;
     }
 
     getLoadingDiv() {
