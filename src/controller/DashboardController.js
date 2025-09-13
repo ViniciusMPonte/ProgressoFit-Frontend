@@ -79,7 +79,7 @@ export class DashboardController extends BaseController {
 
     async handleWeeklyChart() {
         try {
-            const response = await this.apiService.get('/api/statistics/weekly/last-months/2');
+            const response = await this.apiService.get('/api/statistics/weekly/last-months/1');
             const tag = this.dom.getTrainingPerWeeklyChartTag();
             if (!tag) return
 

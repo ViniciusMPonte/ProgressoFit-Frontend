@@ -25,13 +25,27 @@ export class TrainingPerWeeklyChartComponent extends BaseChartComponent {
     }
 
     autoRender() {
-        this.chartService.create(this.trainingData.labels, [{
+        this.chartService.create(
+            this.trainingData.labels,
+            [{
                 data: this.trainingData.data,
                 backgroundColor: ["rgba(92, 250, 30, 0.4)"],
                 fill: true,
                 borderColor: "rgba(97, 243, 57, 1)",
                 tension: 0.4
-            }]
+            }],
+            'line',
+            {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 7,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
         )
     }
 }
