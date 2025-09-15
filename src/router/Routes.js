@@ -5,7 +5,7 @@ export class Routes {
             url: '/index.html',
             requiresAuth: false
         },
-        register: {
+        cadastro: {
             url: '/cadastro/index.html',
             requiresAuth: false
         },
