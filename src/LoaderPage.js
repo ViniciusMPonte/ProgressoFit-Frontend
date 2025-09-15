@@ -14,7 +14,7 @@ export class LoaderPage {
         let routes = this.redirectManager.routes
         this.controllers = {
             [routes.home.url]: new HomeController(this.redirectManager, this.apiService),
-            [routes.register.url]: new RegisterController(this.redirectManager, this.apiService),
+            [routes.cadastro.url]: new RegisterController(this.redirectManager, this.apiService),
             [routes.login.url]: new LoginController(this.redirectManager, this.apiService),
             [routes.dashboard.url]: new DashboardController(this.redirectManager, this.apiService),
         };

@@ -1,6 +1,11 @@
+import BaseView from "./BaseView.js";
 import {CopyrightComponent} from "./component/CopyrightComponent.js";
 
-export class RegisterView {
+export class RegisterView extends BaseView {
+
+    constructor(){
+        super()
+    }
 
     static renderFooter (){
         return CopyrightComponent.get();

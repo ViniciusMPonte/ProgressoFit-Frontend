@@ -1,0 +1,58 @@
+/* NAVBAR */
+body.padding-navbar{
+    padding-top: 56px;
+}
+
+
+/* ANIMAÇÃO DO ALERT */
+.alert-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 350px;
+    max-width: calc(100vw - 40px);
+}
+
+.alert-fixed {
+    margin-bottom: 10px;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.alert-fixed.removing {
+    animation: slideOutRight 0.3s ease-in forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .alert-container {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-width: none;
+    }
+}
