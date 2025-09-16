@@ -16,6 +16,10 @@ export class Routes {
         dashboard: {
             url: '/dashboard/index.html',
             requiresAuth: true
+        },
+        logout: {
+            url: '/logout/index.html',
+            requiresAuth: true
         }
     }
 
