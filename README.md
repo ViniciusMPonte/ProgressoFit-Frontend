@@ -11,6 +11,7 @@ Este é o frontend da aplicação ProgressoFit, uma plataforma web desenvolvida 
 - Juan Pablo Lima Rassi
 - Isabela Saores dos Santos
 - William Santos de Santana
+- Arthur Moura Silva 
 ---
 
 ## 🏗️ Arquitetura
