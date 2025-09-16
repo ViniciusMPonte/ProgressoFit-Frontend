@@ -7,7 +7,7 @@ export class NavbarComponent {
         return `
             <nav class="navbar bg-primary fixed-top">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">${NavbarComponent.config.brand}</a>
+                    <a class="navbar-brand text-white" href="#">${NavbarComponent.config.brand}</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -46,7 +46,7 @@ export class NavbarComponent {
 
                 return `
                     <li class="nav-item">
-                        <a class="nav-link${activeClass}" href="${link.url}">${capitalizedName}</a>
+                        <a class="nav-link${activeClass}" href="${this.normalizedRoutePath(link.url)}">${capitalizedName}</a>
                     </li>
                 `;
             })

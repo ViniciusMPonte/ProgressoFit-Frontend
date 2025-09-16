@@ -6,28 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProgressoFit</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link href="../src/styles/bootstrap/bootstrap.css" rel="stylesheet">
     <link href="../src/styles/main.css" rel="stylesheet">
-    <link href="../src/styles/login/login.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
 </head>
 
 <body>
 <main class="text-center form-signin">
     <form id="loginForm">
-        <img class="mb-4" src="../src/assets/images/avatar.png" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 fw-normal">Login</h1>
+        <h1 class="h1 text-white mb-3 fw-normal">Bem vindo ao <b>ProgrssoFit!</b></h1>
+        <h2 class="h3 text-white mb-3 fw-normal">Login do Usuário</h2>
 
-        <div class="form-floating">
+        <div class="form-floating form-floating-with-icon email-icon">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@exemplo.com" required>
             <label for="floatingInput">E-mail</label>
         </div>
 
-        <div class="form-floating">
+        <div class="form-floating form-floating-with-icon password-icon">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Senha" required>
             <label for="floatingPassword">Senha</label>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit" id="loginButton">
+        <button class="btn btn-lg btn-primary" type="submit" id="loginButton">
             Entrar
         </button>
 
@@ -45,6 +47,7 @@
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
         crossorigin="anonymous"></script>
 <script src="../src/app.js" type="module"></script>
+
 </body>
 
 </html>
