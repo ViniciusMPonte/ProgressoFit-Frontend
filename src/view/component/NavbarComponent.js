@@ -46,7 +46,7 @@ export class NavbarComponent {
 
                 return `
                     <li class="nav-item">
-                        <a class="nav-link${activeClass}" href="${link.url}">${capitalizedName}</a>
+                        <a class="nav-link${activeClass}" href="${this.normalizedRoutePath(link.url)}">${capitalizedName}</a>
                     </li>
                 `;
             })
