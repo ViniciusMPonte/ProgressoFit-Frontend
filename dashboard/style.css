@@ -1,5 +1,11 @@
 main {
-    padding: 5%;
+    margin: 10vw;
+}
+
+.avatar-fixo {
+  position: absolute;
+  border-radius: 25px;
+  top: 150px;
 }
 
 
