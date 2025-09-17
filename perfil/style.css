@@ -1,0 +1,71 @@
+main {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-signin {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profileForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-floating {
+    width: 425px;
+    margin-top: 10px;
+}
+
+#editButton, #saveButton {
+    margin-top: 30px;
+    width: 200px;
+}
+
+#profileForm h1,
+#profileForm h2 {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    top: -70px;
+}
+
+.form-floating-with-icon {
+    position: relative;
+}
+
+.form-floating-with-icon::before {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 16px;
+    color: #6c757d;
+    opacity: 0.8;
+}
+
+.form-floating-with-icon.email-icon::before {
+    content: '\f007';
+}
+
+.form-floating-with-icon.password-icon::before {
+    content: '\f023';
+}
+
+.form-floating-with-icon .form-control {
+    padding-left: 45px !important;
+}
+
+.form-floating-with-icon label {
+    padding-left: 45px !important;
+}

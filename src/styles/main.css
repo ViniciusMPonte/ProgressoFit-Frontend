@@ -1,3 +1,12 @@
+/* CONFIGURAÇÃO GLOBAL */
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+}
+
 /* NAVBAR */
 body.padding-navbar{
     padding-top: 56px;
