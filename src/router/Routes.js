@@ -13,6 +13,10 @@ export class Routes {
             url: '/login/index.html',
             requiresAuth: false
         },
+        perfil: {
+            url: '/perfil/index.html',
+            requiresAuth: true
+        },
         dashboard: {
             url: '/dashboard/index.html',
             requiresAuth: true

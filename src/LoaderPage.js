@@ -1,4 +1,5 @@
 import {LoginController} from "./controller/LoginController.js";
+import {PerfilController} from "./controller/PerfilController.js";
 import {DashboardController} from "./controller/DashboardController.js";
 import {HomeController} from "./controller/HomeController.js";
 import {RegisterController} from "./controller/RegisterController.js";
@@ -16,6 +17,7 @@ export class LoaderPage {
             [routes.home.url]: new HomeController(this.redirectManager, this.apiService),
             [routes.cadastro.url]: new RegisterController(this.redirectManager, this.apiService),
             [routes.login.url]: new LoginController(this.redirectManager, this.apiService),
+            [routes.perfil.url]: new PerfilController(this.redirectManager, this.apiService),
             [routes.dashboard.url]: new DashboardController(this.redirectManager, this.apiService),
         };
 

@@ -1,0 +1,13 @@
+import BaseView from "./BaseView.js";
+import {CopyrightComponent} from "./component/CopyrightComponent.js";
+
+export class PerfilView extends BaseView {
+ 
+    constructor(){
+        super()
+    }
+
+    static renderFooter (){
+        return CopyrightComponent.get();
+    }
+}
