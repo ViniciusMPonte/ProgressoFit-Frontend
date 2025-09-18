@@ -13,6 +13,7 @@ export default class ChartService {
             ...defaultOptions
         };
     }
+    
 
     create(labels, datasets, type = 'line', customOptions = {}) {
         if (!Array.isArray(labels) || !Array.isArray(datasets)) {
@@ -71,10 +72,10 @@ export default class ChartService {
 
     normalizeDataset(data, defaults = {}) {
         if (typeof data === 'object' && data.data) {
-            // Já é um dataset completo
+            
             return {...defaults, ...data};
         }
-        // É apenas um array de dados
+        
         return {...defaults, data: data};
     }
 
