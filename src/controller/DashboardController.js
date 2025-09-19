@@ -15,6 +15,7 @@ export class DashboardController extends BaseController {
 
     setupDynamicContent() {
         this.handleWeeklyChart();
+        this.handleWeightDailyChart(); 
         this.setDataFieldValueToday();
     }
 
@@ -90,6 +91,20 @@ export class DashboardController extends BaseController {
         }
     }
 
+    async handleWeightDailyChart() {
+        try {
+            const response = await fetch('/weight-daily-mock.json');
+            const data = await response.json();
+            const tag = this.dom.getWeightDailyWeeklyChartTag();
+            if (!tag) return;
+
+            this.view.WeightDailyStatisticChart(tag, data);
+
+        } catch (error) {
+            console.error('Erro ao carregar dados de peso diário:', error);
+        }
+    }
+
     async setDataFieldValueToday() {
         this.dom.getDataField().value = new Date().toISOString().split('T')[0];
         this.handleSetupDynamicButton()
@@ -141,7 +156,14 @@ class DOMElementManager {
         }
         return this.elements.TrainingPerWeeklyChart;
     }
+     getWeightDailyWeeklyChartTag() {
+        if (!this.elements.WeightDailyWeeklyChartTag) {
+            this.elements.WeightDailyWeeklyChartTag = document.querySelector('#weight-daily-weekly-chart');
+        }
+        return this.elements.WeightDailyWeeklyChartTag;
+    }
 
+   
     getDataForm() {
         if (!this.elements.dataForm) {
             this.elements.dataForm = document.querySelector('#dataForm');
@@ -173,4 +195,6 @@ class DOMElementManager {
     destroy() {
         this.elements = {};
     }
+    
+    
 }
