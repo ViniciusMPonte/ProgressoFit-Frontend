@@ -16,10 +16,16 @@
 
 .card {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 15px !important;
+}
+
+.card .card-header {
+  background-color: transparent !important;
 }
 
 .custom-date {
   border: none !important;
+  background-color: transparent !important;
 }
 
 .btn-primary {
