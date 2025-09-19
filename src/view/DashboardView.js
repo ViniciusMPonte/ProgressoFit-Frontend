@@ -1,6 +1,7 @@
 import BaseView from "./BaseView.js";
 import { CopyrightComponent } from "./component/CopyrightComponent.js";
 import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyChartComponent.js";
+import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
 
 export class DashboardView extends BaseView {
 
@@ -61,6 +62,15 @@ export class DashboardView extends BaseView {
         }
 
         new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
+    }
+    WeightDailyStatisticChart(ctx, data) {
+
+        const existingChart = Chart.getChart(ctx);
+        if (existingChart) {
+            existingChart.destroy();
+        }
+
+        new WeightDailyStatisticChartComponent (ctx, data).autoRender()
     }
 
     renderFooter() {
