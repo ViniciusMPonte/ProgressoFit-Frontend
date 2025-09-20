@@ -1,5 +1,6 @@
 import BaseController from "./BaseController.js";
 import { PerfilView } from "../view/PerfilView.js";
+import { RegisterDTO } from "../model/dto/RegisterDTO.js";
 
 export class PerfilController extends BaseController {
     constructor(redirectManager, apiService) {
@@ -15,8 +16,18 @@ export class PerfilController extends BaseController {
     }
 
     setupEventListeners() {
+        this.setupSaveButtonListener();
         this.setupEditButtonListener();
         this.setupCancelButtonListener();
+    }
+
+    setupSaveButtonListener() {
+        const saveButton = this.dom.getSaveButton();
+        if (!saveButton) return;
+
+        saveButton.addEventListener('click', () => {
+            this.updateProfileData();
+        })
     }
 
     setupEditButtonListener() {
@@ -26,6 +37,7 @@ export class PerfilController extends BaseController {
         editButton.addEventListener('click', () => {
             this.view.enableEdit();
             this.storeOriginalData();
+            this.dom.getPasswordInput().value = ''
         })
     }
 
@@ -57,12 +69,39 @@ export class PerfilController extends BaseController {
         if (passwordInput) passwordInput.value = this.originalData.password;
     }
 
-    async getUserProfile(){
-        let teste = await this.apiService.get('/api/user');
-        this.dom.getNameInput().value = teste.data.name
-        this.dom.getEmailInput().value = teste.data.email
-        this.dom.getPasswordInput().value = 'xxxxxxxx'
-        return teste;
+
+    async updateProfileData() {
+        const name = this.dom.getNameInput()?.value;
+        const email = this.dom.getEmailInput()?.value;
+        const password = this.dom.getPasswordInput()?.value;
+
+        const registerDto = new RegisterDTO(name, email, password);
+        const validation = registerDto.validate();
+
+        if (!validation.isValid) {
+            this.view.alert(validation.errors[0], 'warning');
+            return;
+        }
+
+        try {
+            const result = await this.apiService.put('/api/user', registerDto);
+
+            if (result.success) {
+                this.redirect.to('perfil');
+            } else {
+                this.view.alert(result.message || 'Erro ao criar conta. Tente novamente.', 'danger');
+            }
+        } catch (error) {
+            console.error('Erro durante o atualização:', error);
+            this.view.alert('Erro interno. Tente novamente mais tarde.', 'danger');
+        }
+    }
+
+    async getUserProfile() {
+        let response = await this.apiService.get('/api/user');
+        this.dom.getNameInput().value = response.data.name
+        this.dom.getEmailInput().value = response.data.email
+        this.dom.getPasswordInput().value = '********'
     }
 }
 

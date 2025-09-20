@@ -1,4 +1,4 @@
-import {Routes} from "../router/Routes.js";
+import { Routes } from "../router/Routes.js";
 
 export class ApiService extends Routes {
     constructor() {
@@ -9,8 +9,8 @@ export class ApiService extends Routes {
         };
     }
 
-    getToken(){
-        return  localStorage.getItem('authToken') ? localStorage.getItem('authToken') : ''
+    getToken() {
+        return localStorage.getItem('authToken') ? localStorage.getItem('authToken') : ''
     }
 
     async request(endpoint, options = {}) {
@@ -71,6 +71,13 @@ export class ApiService extends Routes {
     async post(endpoint, data) {
         return await this.request(endpoint, {
             method: 'POST',
+            body: JSON.stringify(data)
+        });
+    }
+
+    async put(endpoint, data) {
+        return await this.request(endpoint, {
+            method: 'PUT',
             body: JSON.stringify(data)
         });
     }
