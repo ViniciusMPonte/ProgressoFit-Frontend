@@ -11,6 +11,7 @@ export class PerfilController extends BaseController {
 
     loadPage() {
         this.setupEventListeners();
+        this.getUserProfile()
     }
 
     setupEventListeners() {
@@ -54,6 +55,14 @@ export class PerfilController extends BaseController {
         if (nameInput) nameInput.value = this.originalData.name;
         if (emailInput) emailInput.value = this.originalData.email;
         if (passwordInput) passwordInput.value = this.originalData.password;
+    }
+
+    async getUserProfile(){
+        let teste = await this.apiService.get('/api/user');
+        this.dom.getNameInput().value = teste.data.name
+        this.dom.getEmailInput().value = teste.data.email
+        this.dom.getPasswordInput().value = 'xxxxxxxx'
+        return teste;
     }
 }
 
