@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Fitness</title>
@@ -8,81 +9,62 @@
     <link href="../src/styles/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="../src/styles/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-  </head>
+</head>
 
-  <body>
+<body>
     <header>
-      <div class="section-top bg-primary row g-0">
-        <div
-          class="col-2 d-flex align-items-end justify-content-center"
-          style="position: relative"
-        >
-          <div class="avatar-container">
-            <img
-              class="avatar-fixo"
-              src="../src/assets/images/avatar-vinicius.png"
-              alt="Avatar do Usuário"
-            />
-          </div>
+        <div class="section-top bg-primary row g-0">
+            <div class="col-2 d-flex align-items-end justify-content-center" style="position: relative">
+                <div class="avatar-container">
+                    <img class="avatar-fixo" src="../src/assets/images/avatar-vinicius.png" alt="Avatar do Usuário" />
+                </div>
+            </div>
+            <div class="col-10 d-flex align-items-end">
+                <h1 class="text-white">Seja bem-vindo, <b>Vinicius!</b></h1>
+                <!-- AJUSTAR NOME PARA VARIÁVEL DO NOME DE USUÁRIO -->
+            </div>
         </div>
-        <div class="col-10 d-flex align-items-end">
-          <h1 class="text-white">Seja bem-vindo, <b>Vinicius!</b></h1>
-          <!-- AJUSTAR NOME PARA VARIÁVEL DO NOME DE USUÁRIO -->
-        </div>
-      </div>
     </header>
     <main>
-      <div class="row">
-        <div class="col-lg-8">
-          <div class="card">
-            <div class="chart-container">
-              <h3 class="g-bold">Gráfico de Desempenho - Mensal</h3>
-              <canvas id="training-per-weekly-chart"></canvas>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="chart-container">
+                        <h3 class="g-bold">Gráfico de Desempenho - Mensal</h3>
+                        <canvas id="training-per-weekly-chart"></canvas>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <form id="dataForm">
+                        <div class="card-header">
+                            <label class="g-bold" for="dataField">Data</label><br />
+                            <input class="custom-date" type="date" id="dataField" name="data" required />
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                Você definiu uma meta para essa dia, você realizou seu treino?
+                            </p>
+                            <button type="button" class="btn btn-danger" id="toggleButton">
+                                <span id="toggleLabel">☐ Não</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <h3>Peso por Semana</h3>
+                    <canvas id="weight-daily-weekly-chart"></canvas>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-4">
-          <div class="card">
-            <form id="dataForm">
-              <div class="card-header">
-                <label class="g-bold" for="dataField">Data</label><br />
-                <input
-                  class="custom-date"
-                  type="date"
-                  id="dataField"
-                  name="data"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <p>
-                  Você definiu uma meta para essa dia, você realizou seu treino?
-                </p>
-                <button type="button" class="btn btn-danger" id="toggleButton">
-                  <span id="toggleLabel">☐ Não</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
     </main>
-  </body>
-        <div class="col-lg-8">
-            <div class="chart-container">
-                <h3>Peso por Semana</h3>
-                <canvas id="weight-daily-weekly-chart"></canvas>
-            </div>
-        </div>
-    </div>
-</main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <script src="../src/app.js" type="module"></script>
 </body>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-    crossorigin="anonymous"
-  ></script>
-  <script src="../src/app.js" type="module"></script>
 </html>
