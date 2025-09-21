@@ -14,8 +14,9 @@ export class DashboardController extends BaseController {
     }
 
     setupDynamicContent() {
+        this.setUserNameProfile();
         this.handleWeeklyChart();
-        this.handleWeightDailyChart(); 
+        this.handleWeightDailyChart();
         this.setDataFieldValueToday();
     }
 
@@ -53,6 +54,14 @@ export class DashboardController extends BaseController {
                 await this.handleTrainingCountFormSubmit();
             });
         }
+    }
+
+    async setUserNameProfile() {
+        let userNameTag = this.dom.getUserName();
+        if (!userNameTag) return;
+
+        let response = await this.apiService.get('/api/user');
+        userNameTag.innerHTML = this.view.renderHero(response.data);
     }
 
     async handleSetupDynamicButton() {
@@ -150,20 +159,27 @@ class DOMElementManager {
         this.elements = {};
     }
 
+    getUserName() {
+        if (!this.elements.userName) {
+            this.elements.userName = document.querySelector('#userName');
+        }
+        return this.elements.userName;
+    }
+
     getTrainingPerWeeklyChartTag() {
         if (!this.elements.TrainingPerWeeklyChart) {
             this.elements.TrainingPerWeeklyChart = document.querySelector('#training-per-weekly-chart');
         }
         return this.elements.TrainingPerWeeklyChart;
     }
-     getWeightDailyWeeklyChartTag() {
+    getWeightDailyWeeklyChartTag() {
         if (!this.elements.WeightDailyWeeklyChartTag) {
             this.elements.WeightDailyWeeklyChartTag = document.querySelector('#weight-daily-weekly-chart');
         }
         return this.elements.WeightDailyWeeklyChartTag;
     }
 
-   
+
     getDataForm() {
         if (!this.elements.dataForm) {
             this.elements.dataForm = document.querySelector('#dataForm');
@@ -195,6 +211,6 @@ class DOMElementManager {
     destroy() {
         this.elements = {};
     }
-    
-    
+
+
 }

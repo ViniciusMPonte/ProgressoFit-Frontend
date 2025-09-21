@@ -1,4 +1,5 @@
 import BaseView from "./BaseView.js";
+import { HeroComponent } from "./component/HeroComponent.js";
 import { CopyrightComponent } from "./component/CopyrightComponent.js";
 import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyChartComponent.js";
 import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
@@ -54,6 +55,10 @@ export class DashboardView extends BaseView {
         }
     }
 
+    renderHero(data){
+        return new HeroComponent(data).get()
+    }
+
     renderTrainingPerWeeklyChart(ctx, data) {
 
         const existingChart = Chart.getChart(ctx);
@@ -63,6 +68,7 @@ export class DashboardView extends BaseView {
 
         new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
     }
+
     WeightDailyStatisticChart(ctx, data) {
 
         const existingChart = Chart.getChart(ctx);
@@ -70,7 +76,7 @@ export class DashboardView extends BaseView {
             existingChart.destroy();
         }
 
-        new WeightDailyStatisticChartComponent (ctx, data).autoRender()
+        new WeightDailyStatisticChartComponent(ctx, data).autoRender()
     }
 
     renderFooter() {
