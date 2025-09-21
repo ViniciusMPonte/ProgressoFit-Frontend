@@ -13,12 +13,12 @@ export class ApiService extends Routes {
         return localStorage.getItem('authToken') ? localStorage.getItem('authToken') : ''
     }
 
-    async request(endpoint, options = {}) {
+    async request(endpoint, options = {}, needToken = false) {
         const url = `${this.baseURL}${endpoint}`;
 
         const headers = { ...this.headers };
 
-        if (this.requiresAuthByPath(window.location.pathname)) {
+        if (this.requiresAuthByPath(window.location.pathname) || needToken) {
             const token = this.getToken();
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`;
@@ -60,8 +60,8 @@ export class ApiService extends Routes {
         });
     }
 
-    async checkAuth() {
-        return await this.request('/auth/check', { method: 'GET' });
+    async checkAuth(needToken = false) {
+        return await this.request('/auth/check', { method: 'GET' }, needToken);
     }
 
     async get(endpoint) {

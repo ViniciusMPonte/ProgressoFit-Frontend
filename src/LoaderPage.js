@@ -1,10 +1,10 @@
-import {LoginController} from "./controller/LoginController.js";
-import {PerfilController} from "./controller/PerfilController.js";
-import {DashboardController} from "./controller/DashboardController.js";
-import {HomeController} from "./controller/HomeController.js";
-import {RegisterController} from "./controller/RegisterController.js";
-import {RedirectManager} from "./router/RedirectManager.js";
-import {ApiService} from "./service/ApiService.js";
+import { LoginController } from "./controller/LoginController.js";
+import { PerfilController } from "./controller/PerfilController.js";
+import { DashboardController } from "./controller/DashboardController.js";
+import { HomeController } from "./controller/HomeController.js";
+import { RegisterController } from "./controller/RegisterController.js";
+import { RedirectManager } from "./router/RedirectManager.js";
+import { ApiService } from "./service/ApiService.js";
 
 export class LoaderPage {
 
@@ -21,9 +21,14 @@ export class LoaderPage {
             [routes.dashboard.url]: new DashboardController(this.redirectManager, this.apiService),
         };
 
+        const needToken = true;
         if (this.redirectManager.requiresAuthByPath(window.location.pathname)) {
-            this.apiService.checkAuth().then((result) => {
+            this.apiService.checkAuth(needToken).then((result) => {
                 if (!result.success) this.redirectManager.to('login')
+            })
+        } else {
+            this.apiService.checkAuth(needToken).then((result) => {
+                if (result.success) this.redirectManager.to('dashboard')
             })
         }
     }
