@@ -65,6 +65,11 @@ $dark-shadow: #0b0c0d;
     background-color: transparent !important;
 }
 
+.navbar-toggler {
+    width: 50px !important;
+    height: 50px !important;
+}
+
 // PRIMARY //
 .btn-primary {
     @include button-style;

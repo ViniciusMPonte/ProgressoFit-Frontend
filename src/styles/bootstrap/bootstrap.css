@@ -28,6 +28,11 @@
   background-color: transparent !important;
 }
 
+.navbar-toggler {
+  width: 50px !important;
+  height: 50px !important;
+}
+
 .btn-primary {
   font-weight: 500 !important;
   background: linear-gradient(45deg, #80eb5f, #56cf31);
