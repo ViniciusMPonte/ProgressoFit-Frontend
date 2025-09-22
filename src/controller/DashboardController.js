@@ -57,11 +57,13 @@ export class DashboardController extends BaseController {
     }
 
     async setUserNameProfile() {
-        let userNameTag = this.dom.getUserName();
-        if (!userNameTag) return;
+        const userNameTag = this.dom.getUserName();
+        const avatarContainerTag = this.dom.getAvatarContainer();
+        if (!userNameTag || !avatarContainerTag) return;
 
         let response = await this.apiService.get('/api/user');
-        userNameTag.innerHTML = this.view.renderHero(response.data);
+        userNameTag.innerHTML = this.view.renderWelcomeText(response.data);
+        avatarContainerTag.innerHTML = this.view.renderAvatarImg(response.data);
     }
 
     async handleSetupDynamicButton() {
@@ -164,6 +166,13 @@ class DOMElementManager {
             this.elements.userName = document.querySelector('#userName');
         }
         return this.elements.userName;
+    }
+
+    getAvatarContainer() {
+        if (!this.elements.avatarContainer) {
+            this.elements.avatarContainer = document.querySelector('#avatar-container');
+        }
+        return this.elements.avatarContainer;
     }
 
     getTrainingPerWeeklyChartTag() {

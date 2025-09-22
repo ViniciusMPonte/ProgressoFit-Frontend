@@ -6,10 +6,15 @@ export class HeroComponent {
 
     setData(data) {
         this.name = data.name || ''
-        this.profileImg = data.profileImg || ''
+        this.profileImgName = data.profileImgName || 'avatar-1'
     }
 
-    get() {
+    getWelcomeText() {
         return `Seja bem-vindo, <b>${this.name}!</b>`;
     }
+
+    getAvatarImg(){
+        return `<img class="avatar-fixo" src="/src/assets/images/${this.profileImgName}.png" alt="Avatar do Usuário" />`
+    }
 }
+

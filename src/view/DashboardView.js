@@ -55,8 +55,12 @@ export class DashboardView extends BaseView {
         }
     }
 
-    renderHero(data){
-        return new HeroComponent(data).get()
+    renderWelcomeText(data){
+        return new HeroComponent(data).getWelcomeText()
+    }
+
+    renderAvatarImg(data) {
+        return new HeroComponent(data).getAvatarImg()
     }
 
     renderTrainingPerWeeklyChart(ctx, data) {
