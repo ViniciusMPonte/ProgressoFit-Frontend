@@ -35,9 +35,12 @@
             <div class="col-lg-4">
                 <div class="card">
                     <form id="dataForm">
-                        <div class="card-header">
-                            <label class="g-bold" for="dataField">Data</label><br />
-                            <input class="custom-date" type="date" id="dataField" name="data" required />
+                        <div class="card-header" style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-solid fa-calendar-week fa-2xl"></i>
+                            <div style="display: flex; flex-direction: column;">
+                                <label class="g-bold" for="dataField">Data</label>
+                                <input class="custom-date" type="date" id="dataField" name="data" required />
+                            </div>
                         </div>
                         <div class="form-group">
                             <p>
@@ -51,9 +54,11 @@
                 </div>
             </div>
             <div class="col-lg-8">
-                <div class="chart-container">
-                    <h3>Peso por Semana</h3>
+                <div class="card">
+                    <div class="chart-container">
+                        <h3 class="g-bold">Gráfico de peso - Mensal</h3>
                     <canvas id="weight-daily-weekly-chart"></canvas>
+                </div>
                 </div>
             </div>
         </div>
