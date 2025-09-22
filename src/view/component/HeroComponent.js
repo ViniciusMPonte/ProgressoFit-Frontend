@@ -5,7 +5,7 @@ export class HeroComponent {
     }
 
     setData(data) {
-        this.name = data.name || ''
+        this.name = data.name || 'Usuário'
         this.profileImgName = data.profileImgName || 'avatar-1'
     }
 
@@ -14,7 +14,7 @@ export class HeroComponent {
     }
 
     getAvatarImg(){
-        return `<img class="avatar-fixo" src="/src/assets/images/${this.profileImgName}.png" alt="Avatar do Usuário" />`
+        return `<img class="avatar-fixo" src="/src/assets/images/avatars/${this.profileImgName}.png" alt="Avatar do Usuário" />`
     }
 }
 
