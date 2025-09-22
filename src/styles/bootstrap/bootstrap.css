@@ -28,6 +28,14 @@
   background-color: transparent !important;
 }
 
+.custom-date::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.custom-date::moz-calendar-picker-indicator {
+  display: none;
+}
+
 .navbar-toggler {
   width: 50px !important;
   height: 50px !important;
