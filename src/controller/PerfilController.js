@@ -61,7 +61,8 @@ export class PerfilController extends BaseController {
         this.originalData = {
             name: this.dom.getNameInput()?.value || '',
             email: this.dom.getEmailInput()?.value || '',
-            password: this.dom.getPasswordInput()?.value || ''
+            password: this.dom.getPasswordInput()?.value || '',
+            profileImgName: this.dom.getProfileImgNameInput()?.value || '',
         };
     }
 
@@ -69,10 +70,13 @@ export class PerfilController extends BaseController {
         const nameInput = this.dom.getNameInput();
         const emailInput = this.dom.getEmailInput();
         const passwordInput = this.dom.getPasswordInput();
+        const profileImgNameInput = this.dom.getProfileImgNameInput()
 
         if (nameInput) nameInput.value = this.originalData.name;
         if (emailInput) emailInput.value = this.originalData.email;
         if (passwordInput) passwordInput.value = this.originalData.password;
+        if (profileImgNameInput) profileImgNameInput.value = this.originalData.profileImgName;
+        this.view.selectAvatarOptByImgName(this.originalData.profileImgName);
     }
 
     showAvatarImgOptions() {

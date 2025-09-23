@@ -20,6 +20,9 @@ export class PerfilView extends BaseView {
     }
 
     enableEditForm() {
+        const avatarOptContainer = this.dom.getAvatarOptions()
+        avatarOptContainer.classList.add('editing')
+
         const inputs = [
             this.dom.getNameInput(),
             this.dom.getEmailInput(),
@@ -37,6 +40,9 @@ export class PerfilView extends BaseView {
     }
 
     disableEditForm() {
+        const avatarOptContainer = this.dom.getAvatarOptions()
+        avatarOptContainer.classList.remove('editing')
+
         const inputs = [
             this.dom.getNameInput(),
             this.dom.getEmailInput(),
