@@ -78,6 +78,16 @@ export class PerfilView extends BaseView {
         selectedTag.classList.add('selected');
     }
 
+    selectAvatarOptByImgName(profileImgName) {
+        const selectedImg = document.querySelector(`.image-option[data-image="${profileImgName}"]`)
+        if (!selectedImg) return
+
+        const avatarOptionsContainer = this.dom.getAvatarOptions()
+        const imageOptions = [...avatarOptionsContainer.children]
+
+        this.swapSelected(imageOptions, selectedImg)
+    }
+
     renderAvartarImgOptions() {
         return new AvatarComponent().getAllAvatarImgOptions();
     }

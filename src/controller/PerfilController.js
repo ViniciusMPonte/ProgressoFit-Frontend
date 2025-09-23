@@ -23,7 +23,7 @@ export class PerfilController extends BaseController {
     }
 
     setupDynamicContent() {
-        this.getUserProfile()
+        this.getAndShowUserProfileInfo()
         this.showAvatarImgOptions()
     }
 
@@ -82,6 +82,19 @@ export class PerfilController extends BaseController {
         avatarOptions.innerHTML = this.view.renderAvartarImgOptions()
     }
 
+    setupOptAvatarImgsListener() {
+        const avatarOptionsContainer = this.dom.getAvatarOptions()
+        const imageOptions = [...avatarOptionsContainer.children];
+        const profileImgNameInput = this.dom.getProfileImgNameInput()
+
+        imageOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                this.view.swapSelected(imageOptions, option);
+                profileImgNameInput.value = option.getAttribute('data-image');
+            });
+        });
+    }
+
     async updateProfileData() {
         const name = this.dom.getNameInput()?.value;
         const email = this.dom.getEmailInput()?.value;
@@ -109,24 +122,13 @@ export class PerfilController extends BaseController {
         }
     }
 
-    async getUserProfile() {
+    async getAndShowUserProfileInfo() {
         let response = await this.apiService.get('/api/user');
         this.dom.getNameInput().value = response.data.name
         this.dom.getEmailInput().value = response.data.email
         this.dom.getPasswordInput().value = '********'
-    }
-
-    setupOptAvatarImgsListener() {
-        const avatarOptionsContainer = this.dom.getAvatarOptions()
-        const imageOptions = [...avatarOptionsContainer.children];
-        const profileImgNameInput = this.dom.getProfileImgNameInput()
-
-        imageOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                this.view.swapSelected(imageOptions, option);
-                profileImgNameInput.value = option.getAttribute('data-image');
-            });
-        });
+        this.dom.getProfileImgNameInput().value = response.data.profileImgName
+        this.view.selectAvatarOptByImgName(response.data.profileImgName)
     }
 }
 
