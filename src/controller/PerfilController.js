@@ -11,14 +11,20 @@ export class PerfilController extends BaseController {
     }
 
     loadPage() {
+        this.setupDynamicContent()
         this.setupEventListeners();
-        this.getUserProfile()
     }
 
     setupEventListeners() {
         this.setupSaveButtonListener();
         this.setupEditButtonListener();
         this.setupCancelButtonListener();
+        this.setupOptAvatarImgsListener()
+    }
+
+    setupDynamicContent() {
+        this.getUserProfile()
+        this.showAvatarImgOptions()
     }
 
     setupSaveButtonListener() {
@@ -69,6 +75,12 @@ export class PerfilController extends BaseController {
         if (passwordInput) passwordInput.value = this.originalData.password;
     }
 
+    showAvatarImgOptions() {
+        const avatarOptions = this.dom.getAvatarOptions();
+        if (!avatarOptions) return;
+
+        avatarOptions.innerHTML = this.view.renderAvartarImgOptions()
+    }
 
     async updateProfileData() {
         const name = this.dom.getNameInput()?.value;
@@ -103,6 +115,23 @@ export class PerfilController extends BaseController {
         this.dom.getEmailInput().value = response.data.email
         this.dom.getPasswordInput().value = '********'
     }
+
+    setupOptAvatarImgsListener() {
+        const avatarOptionsContainer = this.dom.getAvatarOptions()
+        const profileImgNameInput = this.dom.getProfileImgNameInput()
+
+        const imageOptions = [...avatarOptionsContainer.children];
+
+        imageOptions.forEach(option => {
+            option.addEventListener('click', function () {
+
+                imageOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                
+                profileImgNameInput.value = option.getAttribute('data-image');
+            });
+        });
+    }
 }
 
 class DOMElementManager {
@@ -122,6 +151,20 @@ class DOMElementManager {
             this.elements.form = document.querySelector('#profileForm');
         }
         return this.elements.form;
+    }
+
+    getAvatarOptions() {
+        if (!this.elements.avatarOptions) {
+            this.elements.avatarOptions = document.querySelector('#avatar-options');
+        }
+        return this.elements.avatarOptions;
+    }
+
+    getProfileImgNameInput() {
+        if (!this.elements.profileImgNameInput) {
+            this.elements.profileImgNameInput = document.querySelector('#profileImgName');
+        }
+        return this.elements.profileImgNameInput;
     }
 
     getNameInput() {

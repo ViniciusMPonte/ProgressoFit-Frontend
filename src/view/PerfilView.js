@@ -1,5 +1,6 @@
 import BaseView from "./BaseView.js";
 import { CopyrightComponent } from "./component/CopyrightComponent.js";
+import { AvatarComponent } from "./component/AvatarComponent.js";
 
 export class PerfilView extends BaseView {
 
@@ -70,6 +71,10 @@ export class PerfilView extends BaseView {
         if (editButton) editButton.classList.remove('d-none');
         if (saveButton) saveButton.classList.add('d-none');
         if (cancelButton) cancelButton.classList.add('d-none');
+    }
+
+    renderAvartarImgOptions(){
+        return new AvatarComponent().getAllAvatarImgOptions();
     }
 
     static renderFooter() {
