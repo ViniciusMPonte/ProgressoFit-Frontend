@@ -118,16 +118,12 @@ export class PerfilController extends BaseController {
 
     setupOptAvatarImgsListener() {
         const avatarOptionsContainer = this.dom.getAvatarOptions()
+        const imageOptions = [...avatarOptionsContainer.children];
         const profileImgNameInput = this.dom.getProfileImgNameInput()
 
-        const imageOptions = [...avatarOptionsContainer.children];
-
         imageOptions.forEach(option => {
-            option.addEventListener('click', function () {
-
-                imageOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                
+            option.addEventListener('click', () => {
+                this.view.swapSelected(imageOptions, option);
                 profileImgNameInput.value = option.getAttribute('data-image');
             });
         });

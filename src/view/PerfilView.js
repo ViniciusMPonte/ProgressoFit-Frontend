@@ -73,7 +73,12 @@ export class PerfilView extends BaseView {
         if (cancelButton) cancelButton.classList.add('d-none');
     }
 
-    renderAvartarImgOptions(){
+    swapSelected(allTags, selectedTag) {
+        allTags.forEach(opt => opt.classList.remove('selected'));
+        selectedTag.classList.add('selected');
+    }
+
+    renderAvartarImgOptions() {
         return new AvatarComponent().getAllAvatarImgOptions();
     }
 
