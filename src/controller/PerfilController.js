@@ -99,8 +99,9 @@ export class PerfilController extends BaseController {
         const name = this.dom.getNameInput()?.value;
         const email = this.dom.getEmailInput()?.value;
         const password = this.dom.getPasswordInput()?.value;
+        const profileImgName = this.dom.getProfileImgNameInput()?.value;
 
-        const registerDto = new RegisterDTO(name, email, password);
+        const registerDto = new RegisterDTO(name, email, password, profileImgName);
         const validation = registerDto.validate();
 
         if (!validation.isValid) {

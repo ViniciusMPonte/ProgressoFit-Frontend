@@ -1,8 +1,11 @@
+import { AvatarComponent } from '../../view/component/AvatarComponent.js'
+
 export class RegisterDTO {
-    constructor(name = '', email = '', password = '') {
+    constructor(name = '', email = '', password = '', profileImgName = '') {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.profileImgName = profileImgName;
     }
 
     validate() {
@@ -20,6 +23,12 @@ export class RegisterDTO {
             errors.push('Senha deve ter pelo menos 8 caracteres');
         }
 
+        if (!this.profileImgName) {
+            errors.push('Imagem não selecionada');
+        } else if (!AvatarComponent.avatarNames.includes(this.profileImgName)) {
+            errors.push('Nome de imagem inválido');
+        }
+
         return {
             isValid: errors.length === 0,
             errors
@@ -35,7 +44,8 @@ export class RegisterDTO {
         return {
             name: this.name.trim(),
             email: this.email.trim().toLowerCase(),
-            password: this.password
+            password: this.password,
+            profileImgName: this.profileImgName.trim()
         };
     }
 }

@@ -1,22 +1,20 @@
 export class AvatarComponent {
-    constructor() {
-        this.avatarNames = [
-            'avatar-1',
-            'avatar-2',
-            'avatar-3',
-            'avatar-4',
-            'avatar-5',
-            'avatar-6',
-        ];
-    }
+    static avatarNames = [
+        'avatar-1',
+        'avatar-2',
+        'avatar-3',
+        'avatar-4',
+        'avatar-5',
+        'avatar-6',
+    ];
 
     getAvatarNames() {
-        return this.avatarNames;
+        return AvatarComponent.avatarNames;
     }
 
     getAllAvatarImg() {
         let buffer = ''
-        this.avatarNames.forEach((avatarName) => {
+        AvatarComponent.avatarNames.forEach((avatarName) => {
             buffer += `<img src="/src/assets/images/avatars/${avatarName}.png"/>`
         })
         return buffer
@@ -24,7 +22,7 @@ export class AvatarComponent {
 
     getAllAvatarImgOptions() {
         let buffer = ''
-        this.avatarNames.forEach((avatarName) => {
+        AvatarComponent.avatarNames.forEach((avatarName) => {
             buffer += `
                 <div class="image-option" data-image="${avatarName}">    
                     <img src="/src/assets/images/avatars/${avatarName}.png"/>
