@@ -23,9 +23,7 @@ export class RegisterDTO {
             errors.push('Senha deve ter pelo menos 8 caracteres');
         }
 
-        if (!this.profileImgName) {
-            errors.push('Imagem não selecionada');
-        } else if (!AvatarComponent.avatarNames.includes(this.profileImgName)) {
+        if (this.profileImgName != '' && !AvatarComponent.avatarNames.includes(this.profileImgName)) {
             errors.push('Nome de imagem inválido');
         }
 
