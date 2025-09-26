@@ -3,7 +3,7 @@ import { Routes } from "../router/Routes.js";
 export class ApiService extends Routes {
     constructor() {
         super()
-        this.baseURL = 'http://localhost:8090';
+        this.baseURL = 'https://progressofit-backend.onrender.com/';
         this.headers = {
             'Content-Type': 'application/json',
         };
