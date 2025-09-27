@@ -25,10 +25,10 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
-                            <i class="fa-solid fa-weight-scale fa-2xl"></i>
+                            <i class="fa-solid fa-ruler fa-2xl"></i>
                             <div style="display: flex; flex-direction: column;">
-                                <span class="g-bold">Peso Atual</span>
-                                <span id="currentWeight">60 kg</span>
+                                <span class="g-bold">Minha Altura</span>
+                                <span id="currentWeight">1.80 m</span>
                             </div>
                         </div>
                     </div>
@@ -45,10 +45,10 @@
 
                     <div class="col-4">
                         <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
-                            <i class="fa-solid fa-weight-scale fa-2xl"></i>
+                            <i class="fa-solid fa-fire fa-2xl"></i>
                             <div style="display: flex; flex-direction: column;">
-                                <span class="g-bold">Peso Atual</span>
-                                <span id="currentWeight">60 kg</span>
+                                <span class="g-bold">Streak Atual</span>
+                                <span id="currentWeight">7 dias</span>
                             </div>
                         </div>
                     </div>
@@ -81,8 +81,23 @@
                                 Você definiu uma meta para essa dia, você realizou seu treino?
                             </p>
                             <button type="button" class="btn btn-danger" id="toggleButton">
-                                <span id="toggleLabel">☐ Não</span>
+                                <span id="toggleLabel">Não &nbsp<i class="fa-solid fa-square-xmark fa-xl"></i></span>
                             </button>
+                            <button type="button" class="btn btn-light" id="calendarButton">
+                                <i class="fa-solid fa-calendar-week fa-lg"></i>
+                            </button>
+                            <script>
+                                const calendarButton = document.getElementById("calendarButton");
+                                const dataField = document.getElementById("dataField");
+
+                                calendarButton.addEventListener("click", () => {
+                                    if (dataField.showPicker) {
+                                    dataField.showPicker();
+                                    } else {
+                                    dataField.click();
+                                    }
+                                });
+                            </script>
                         </div>
                     </form>
                 </div>
