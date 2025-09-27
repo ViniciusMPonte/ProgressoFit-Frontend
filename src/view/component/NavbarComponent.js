@@ -7,7 +7,7 @@ export class NavbarComponent {
         return `
             <nav class="navbar bg-primary fixed-top">
                 <div class="container-fluid">
-                    <a class="navbar-brand text-white" href="#">${NavbarComponent.config.brand}</a>
+                    <a class="navbar-brand text-white" href="#"><img src="../src/assets/images/logotipo.svg" alt="logotipo" height="auto" width="200px"></a>
                     <button class="navbar-toggler btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <i class="fa-solid fa-bars fa-lg"></i>
                     </button>
