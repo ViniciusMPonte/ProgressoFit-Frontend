@@ -24,6 +24,7 @@ export class DashboardController extends BaseController {
         this.setupDynamicButtonListener();
         this.setupFormListener();
         this.setupSubmitWithToggleButtonListener();
+        this.setupWeightFormListener(); // novo: listener do formulário de peso
     }
 
     setupFormListener() {
@@ -38,7 +39,6 @@ export class DashboardController extends BaseController {
     }
 
     setupDynamicButtonListener() {
-
         const dataField = this.dom.getDataField();
         if (!dataField) return
 
@@ -52,6 +52,16 @@ export class DashboardController extends BaseController {
         if (toggleButton && toggleLabel) {
             toggleButton.addEventListener('click', async () => {
                 await this.handleTrainingCountFormSubmit();
+            });
+        }
+    }
+
+    setupWeightFormListener() {
+        const form = this.dom.getWeightForm();
+        if (form) {
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                await this.handleWeightFormSubmit();
             });
         }
     }
@@ -104,15 +114,17 @@ export class DashboardController extends BaseController {
 
     async handleWeightDailyChart() {
         try {
-            const response = await fetch('/weight-daily-mock.json');
-            const data = await response.json();
+            // Chama o endpoint do backend que retorna os dados semanais
+            const response = await this.apiService.get('/api/weight/weekly/last-months/1');
+            const data = response.data;
+
             const tag = this.dom.getWeightDailyWeeklyChartTag();
             if (!tag) return;
 
             this.view.WeightDailyStatisticChart(tag, data);
 
         } catch (error) {
-            console.error('Erro ao carregar dados de peso diário:', error);
+            console.error('Erro ao carregar dados de peso semanal:', error);
         }
     }
 
@@ -154,6 +166,56 @@ export class DashboardController extends BaseController {
             this.view.showLoading(false);
         }
     }
+
+    async handleWeightFormSubmit() {
+        const weight = this.dom.getWeightInput()?.value; 
+        const data = this.dom.getWeightDateField()?.value; 
+        const endpoint = `/api/weight/date/${data}`;
+
+        const formData = {
+            weightKg: parseFloat(weight)
+        };
+
+        this.view.showLoading(true);
+
+        try {
+            const result = await this.apiService.request(endpoint, {
+                method: 'PUT',
+                body: JSON.stringify(formData)
+            });
+
+            if (result.success) {
+                this.view.alert('Peso registrado com sucesso!', 'success');
+                await this.handleWeightDailyChart();
+            } else {
+                this.view.alert(`Erro no envio: ${result.error}`, 'danger');
+                console.error('Erro da API:', result.error);
+            }
+
+        } catch (error) {
+            this.view.alert(`Erro de conexão: ${error.message}`, 'danger');
+            console.error('Erro inesperado:', error);
+        } finally {
+            this.view.showLoading(false);
+        }
+    }
+
+    convertTrainingDataShort(trainingData) {
+        if (!Array.isArray(trainingData) || trainingData.length === 0) {
+            return { labels: [], data: [] };
+        }
+
+        
+        const labels = trainingData.map(item => {
+            const start = item.weekStartDate?.split('-').reverse().join('/');
+            const end = item.weekEndDate?.split('-').reverse().join('/');
+            return `${start} - ${end}`;
+        });
+
+        const data = trainingData.map(item => item.averageWeight);
+
+        return { labels, data };
+    }
 }
 
 class DOMElementManager {
@@ -181,13 +243,13 @@ class DOMElementManager {
         }
         return this.elements.TrainingPerWeeklyChart;
     }
+
     getWeightDailyWeeklyChartTag() {
         if (!this.elements.WeightDailyWeeklyChartTag) {
             this.elements.WeightDailyWeeklyChartTag = document.querySelector('#weight-daily-weekly-chart');
         }
         return this.elements.WeightDailyWeeklyChartTag;
     }
-
 
     getDataForm() {
         if (!this.elements.dataForm) {
@@ -217,9 +279,28 @@ class DOMElementManager {
         return this.elements.toggleLabel;
     }
 
+    getWeightForm() {
+        if (!this.elements.weightForm) {
+            this.elements.weightForm = document.querySelector('#weightForm');
+        }
+        return this.elements.weightForm;
+    }
+
+    getWeightInput() {
+        if (!this.elements.weightInput) {
+            this.elements.weightInput = document.querySelector('#weightInput');
+        }
+        return this.elements.weightInput;
+    }
+
+    getWeightDateField() {
+        if (!this.elements.weightDateField) {
+            this.elements.weightDateField = document.querySelector('#weightDateField');
+        }
+        return this.elements.weightDateField;
+    }
+
     destroy() {
         this.elements = {};
     }
-
-
 }

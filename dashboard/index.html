@@ -53,12 +53,34 @@
                     </form>
                 </div>
             </div>
+        </div>
+       
+        <div class="row mt-4">
             <div class="col-lg-8">
                 <div class="card">
                     <div class="chart-container">
                         <h3 class="g-bold">Gráfico de peso - Mensal</h3>
-                    <canvas id="weight-daily-weekly-chart"></canvas>
+                        <canvas id="weight-daily-weekly-chart"></canvas>
+                    </div>
                 </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-start">
+                <div class="card w-100">
+                    <form id="weightForm">
+                        <div class="card-header" style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-solid fa-weight-scale fa-2xl"></i>
+                            <div style="display: flex; flex-direction: column;">
+                                <label class="g-bold" for="weightDateField">Data</label>
+                                <input class="custom-date" type="date" id="weightDateField" name="weightDate" required />
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 10px;">
+                            <label class="g-bold" for="weightInput">Peso (kg)</label>
+                            <input type="number" step="0.1" id="weightInput" name="weight" placeholder="Digite seu peso"
+                                required />
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin: 10px;">Salvar Peso</button>
+                    </form>
                 </div>
             </div>
         </div>
