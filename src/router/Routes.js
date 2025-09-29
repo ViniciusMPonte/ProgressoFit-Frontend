@@ -47,7 +47,7 @@ export class Routes {
             return this.routes.home.url;
         }
 
-        pathname = pathname.trim().toLowerCase()
+        pathname = pathname.trim()
 
         if (pathname.endsWith('/')) {
             pathname += 'index.html';
