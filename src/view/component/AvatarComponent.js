@@ -15,7 +15,7 @@ export class AvatarComponent {
     getAllAvatarImg() {
         let buffer = ''
         AvatarComponent.avatarNames.forEach((avatarName) => {
-            buffer += `<img src="/src/assets/images/avatars/${avatarName}.png"/>`
+            buffer += `<img src="../src/assets/images/avatars/${avatarName}.png"/>`
         })
         return buffer
     }
@@ -25,7 +25,7 @@ export class AvatarComponent {
         AvatarComponent.avatarNames.forEach((avatarName) => {
             buffer += `
                 <div class="image-option" data-image="${avatarName}">    
-                    <img src="/src/assets/images/avatars/${avatarName}.png"/>
+                    <img src="../src/assets/images/avatars/${avatarName}.png"/>
                 </div>
             `
         })

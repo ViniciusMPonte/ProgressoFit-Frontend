@@ -14,7 +14,7 @@ export class HeroComponent {
     }
 
     getAvatarImg(){
-        return `<img class="avatar-fixo" src="/src/assets/images/avatars/${this.profileImgName}.png" alt="Avatar do Usuário" />`
+        return `<img class="avatar-fixo" src="../src/assets/images/avatars/${this.profileImgName}.png" alt="Avatar do Usuário" />`
     }
 }
 
