@@ -12,17 +12,51 @@
 </head>
 
 <body>
-    <header>
-        <div class="section-top bg-primary row g-0">
-            <div class="col-2 d-flex align-items-end justify-content-center" style="position: relative">
+    <header class="bg-primary">
+        <div class="section-top row g-0" style="top: 125px;">
+            <div class="col-2 d-flex align-items-end justify-content-center"  style="position: relative">
                 <div id="avatar-container"></div>
             </div>
             <div class="col-10 d-flex align-items-end">
                 <h1 id="userName" class="text-white"></h1>
             </div>
+            <div class="col-2"></div>
+            <div class="col-10" style="margin-top: 25px;">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
+                            <i class="fa-solid fa-ruler fa-2xl"></i>
+                            <div style="display: flex; flex-direction: column;">
+                                <span class="g-bold">Minha Altura</span>
+                                <span id="currentWeight">1.80 m</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
+                            <i class="fa-solid fa-weight-scale fa-2xl"></i>
+                            <div style="display: flex; flex-direction: column;">
+                                <span class="g-bold">Peso Atual</span>
+                                <span id="currentWeight">60 kg</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
+                            <i class="fa-solid fa-fire fa-2xl"></i>
+                            <div style="display: flex; flex-direction: column;">
+                                <span class="g-bold">Streak Atual</span>
+                                <span id="currentWeight">7 dias</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
-    <main>
+    <main>    
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
@@ -47,13 +81,28 @@
                                 Você definiu uma meta para essa dia, você realizou seu treino?
                             </p>
                             <button type="button" class="btn btn-danger" id="toggleButton">
-                                <span id="toggleLabel">☐ Não</span>
+                                <span id="toggleLabel">Não &nbsp<i class="fa-solid fa-square-xmark fa-xl"></i></span>
                             </button>
+                            <button type="button" class="btn btn-light" id="calendarButton">
+                                <span><i class="fa-solid fa-calendar-week fa-lg"></i>&nbsp Mudar data</span>
+                            </button>
+                            <script>
+                                const calendarButton = document.getElementById("calendarButton");
+                                const dataField = document.getElementById("dataField");
+
+                                calendarButton.addEventListener("click", () => {
+                                    if (dataField.showPicker) {
+                                    dataField.showPicker();
+                                    } else {
+                                    dataField.click();
+                                    }
+                                });
+                            </script>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 g-4">
                 <div class="card">
                     <div class="chart-container">
                         <h3 class="g-bold">Gráfico de peso - Mensal</h3>

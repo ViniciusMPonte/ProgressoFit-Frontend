@@ -27,11 +27,11 @@ export class DashboardView extends BaseView {
         if (this.toggleState) {
             toggleButton.classList.remove('btn-danger');
             toggleButton.classList.add('btn-primary');
-            toggleLabel.innerHTML = '☑ Sim';
+            toggleLabel.innerHTML = '<i class="fa-solid fa-square-check fa-xl"></i>&nbsp Sim';
         } else {
             toggleButton.classList.remove('btn-primary');
             toggleButton.classList.add('btn-danger');
-            toggleLabel.innerHTML = '☐ Não';
+            toggleLabel.innerHTML = 'Não &nbsp<i class="fa-solid fa-square-xmark fa-xl"></i>';
         }
     }
 
