@@ -34,6 +34,7 @@ export class LoaderPage {
     }
 
     load(pathname = window.location.pathname) {
+        alert(pathname)
         pathname = this.redirectManager.normalizePathname(pathname)
         this.controllers[pathname].loadPage()
     }
