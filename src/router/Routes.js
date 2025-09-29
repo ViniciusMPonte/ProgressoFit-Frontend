@@ -2,27 +2,27 @@ export class Routes {
 
     routes = {
         home: {
-            url: '/index.html',
+            url: '/ProgressoFit-Frontend/index.html',
             requiresAuth: false
         },
         cadastro: {
-            url: '/cadastro/index.html',
+            url: '/ProgressoFit-Frontend/cadastro/index.html',
             requiresAuth: false
         },
         login: {
-            url: '/login/index.html',
+            url: '/ProgressoFit-Frontend/login/index.html',
             requiresAuth: false
         },
         perfil: {
-            url: '/perfil/index.html',
+            url: '/ProgressoFit-Frontend/perfil/index.html',
             requiresAuth: true
         },
         dashboard: {
-            url: '/dashboard/index.html',
+            url: '/ProgressoFit-Frontend/dashboard/index.html',
             requiresAuth: true
         },
         logout: {
-            url: '/logout/index.html',
+            url: '/ProgressoFit-Frontend/logout/index.html',
             requiresAuth: true
         }
     }
