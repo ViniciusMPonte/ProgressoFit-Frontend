@@ -3,6 +3,7 @@ import { PerfilController } from "./controller/PerfilController.js";
 import { DashboardController } from "./controller/DashboardController.js";
 import { HomeController } from "./controller/HomeController.js";
 import { RegisterController } from "./controller/RegisterController.js";
+import { LogoutController } from "./controller/LogoutController.js";
 import { RedirectManager } from "./router/RedirectManager.js";
 import { ApiService } from "./service/ApiService.js";
 
@@ -19,6 +20,7 @@ export class LoaderPage {
             [routes.login.url]: new LoginController(this.redirectManager, this.apiService),
             [routes.perfil.url]: new PerfilController(this.redirectManager, this.apiService),
             [routes.dashboard.url]: new DashboardController(this.redirectManager, this.apiService),
+            [routes.logout.url]: new LogoutController(this.redirectManager, this.apiService),
         };
 
         const needToken = true;

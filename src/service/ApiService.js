@@ -1,9 +1,10 @@
 import { Routes } from "../router/Routes.js";
+import EnvironmentConfig from "../EnvironmentConfig.js";
 
 export class ApiService extends Routes {
     constructor() {
         super()
-        this.baseURL = 'https://progressofit-backend.onrender.com';
+        this.baseURL = EnvironmentConfig.API_URL;
         this.headers = {
             'Content-Type': 'application/json',
         };

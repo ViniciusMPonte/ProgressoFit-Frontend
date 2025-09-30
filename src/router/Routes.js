@@ -1,28 +1,30 @@
+import EnvironmentConfig from '../EnvironmentConfig.js'
+
 export class Routes {
 
     routes = {
         home: {
-            url: '/ProgressoFit-Frontend/index.html',
+            url: `${EnvironmentConfig.BASE_URL}/index.html`,
             requiresAuth: false
         },
         cadastro: {
-            url: '/ProgressoFit-Frontend/cadastro/index.html',
+            url: `${EnvironmentConfig.BASE_URL}/cadastro/index.html`,
             requiresAuth: false
         },
         login: {
-            url: '/ProgressoFit-Frontend/login/index.html',
+            url: `${EnvironmentConfig.BASE_URL}/login/index.html`,
             requiresAuth: false
         },
         perfil: {
-            url: '/ProgressoFit-Frontend/perfil/index.html',
+            url: `${EnvironmentConfig.BASE_URL}/perfil/index.html`,
             requiresAuth: true
         },
         dashboard: {
-            url: '/ProgressoFit-Frontend/dashboard/index.html',
+            url: `${EnvironmentConfig.BASE_URL}/dashboard/index.html`,
             requiresAuth: true
         },
         logout: {
-            url: '/ProgressoFit-Frontend/logout/index.html',
+            url: `${EnvironmentConfig.BASE_URL}/logout/index.html`,
             requiresAuth: true
         }
     }
