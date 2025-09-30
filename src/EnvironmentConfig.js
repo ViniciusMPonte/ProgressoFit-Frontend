@@ -1,6 +1,6 @@
 export default class EnvironmentConfig {
-    static ENVIRONMENT = 'develop';
-    //static ENVIRONMENT = 'production';
+    //static ENVIRONMENT = 'develop';
+    static ENVIRONMENT = 'production';
 
     static API_URL = this.ENVIRONMENT === 'production'
         ? 'https://progressofit-backend.onrender.com'
