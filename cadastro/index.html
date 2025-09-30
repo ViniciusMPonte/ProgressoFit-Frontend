@@ -8,31 +8,31 @@
 
     <link href="../src/styles/bootstrap/bootstrap.css" rel="stylesheet">
     <link href="../src/styles/main.css" rel="stylesheet">
-    <link href="../src/styles/cadastro/cadastro.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
 </head>
 
 <body>
 <main class="text-center form-signin">
     <form id="loginForm">
-        <img class="mb-4" src="../src/assets/images/avatar.png" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 fw-normal">Cadastre-se</h1>
+        <h1 class="h1 text-white mb-3 fw-normal">Bem vindo ao <b>ProgressoFit!</b></h1>
+        <h1 class="h3  text-white mb-3 fw-normal">Cadastre-se</h1>
 
-        <div class="form-floating">
+        <div class="form-floating form-floating-with-icon person-icon">
             <input type="text" class="form-control" id="floatingName" placeholder="nome" required>
             <label for="floatingName">Nome</label>
         </div>
 
-        <div class="form-floating">
+        <div class="form-floating form-floating-with-icon email-icon">
             <input type="email" class="form-control" id="floatingEmail" placeholder="nome@exemplo.com" required>
             <label for="floatingEmail">E-mail</label>
         </div>
 
-        <div class="form-floating">
+        <div class="form-floating form-floating-with-icon password-icon">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Senha" required>
             <label for="floatingPassword">Senha</label>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit" id="registerButton">
+        <button class="btn btn-lg btn-primary" type="submit" id="registerButton">
             Criar conta
         </button>
 

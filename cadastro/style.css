@@ -1,5 +1,5 @@
 body {
-    background-image: url("../src/assets/images/bg-login.svg");
+    background-image: url("../src/assets/images/bg-cadastro.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
@@ -29,7 +29,7 @@ nav.navbar {
     margin-top: 10px;
 }
 
-#loginButton {
+#registerButton {
     margin-top: 30px;
     width: 200px;
 }
@@ -56,6 +56,11 @@ nav.navbar {
     font-size: 16px;
     color: #6c757d;
     opacity: 0.8;
+}
+
+
+.form-floating-with-icon.person-icon::before {
+    content: '\f007';
 }
 
 .form-floating-with-icon.email-icon::before {
