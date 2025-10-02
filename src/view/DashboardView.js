@@ -21,35 +21,35 @@ export class DashboardView extends BaseView {
     }
 
     updateToogleButton() {
-        const toggleButton = this.dom.getToggleButton();
+        const trainingFormSubmitBtn = this.dom.getTrainingFormSubmitBtn();
         const toggleLabel = this.dom.getToggleLabel();
 
         if (this.toggleState) {
-            toggleButton.classList.remove('btn-danger');
-            toggleButton.classList.add('btn-primary');
+            trainingFormSubmitBtn.classList.remove('btn-danger');
+            trainingFormSubmitBtn.classList.add('btn-primary');
             toggleLabel.innerHTML = '<i class="fa-solid fa-square-check fa-xl"></i>&nbsp Sim';
         } else {
-            toggleButton.classList.remove('btn-primary');
-            toggleButton.classList.add('btn-danger');
+            trainingFormSubmitBtn.classList.remove('btn-primary');
+            trainingFormSubmitBtn.classList.add('btn-danger');
             toggleLabel.innerHTML = '<i class="fa-solid fa-square-xmark fa-xl"></i>&nbsp Não';
         }
     }
 
     showLoading(show) {
-        const toggleButton = this.dom.getToggleButton();
+        const trainingFormSubmitBtn = this.dom.getTrainingFormSubmitBtn();
         const toggleLabel = this.dom.getToggleLabel();
 
-        if (toggleButton) {
-            toggleButton.disabled = show;
+        if (trainingFormSubmitBtn) {
+            trainingFormSubmitBtn.disabled = show;
 
             if (show) {
-                toggleButton.classList.add('disabled');
+                trainingFormSubmitBtn.classList.add('disabled');
                 toggleLabel.innerHTML = `
                 <span class="spinner-border spinner-border-sm me-2"></span>
                 Enviando...
             `;
             } else {
-                toggleButton.classList.remove('disabled');
+                trainingFormSubmitBtn.classList.remove('disabled');
                 this.updateToogleButton()
             }
         }

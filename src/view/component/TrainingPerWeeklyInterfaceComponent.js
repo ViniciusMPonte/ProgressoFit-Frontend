@@ -32,7 +32,7 @@ export class TrainingPerWeeklyInterfaceComponent {
                     </div>
                     <div class="form-group">
                         <p>Você definiu uma meta para essa dia, você realizou seu treino?</p>
-                        <button type="button" class="btn btn-danger" id="toggleButton">
+                        <button type="button" class="btn btn-danger" id="training-form-submit-btn">
                             <span id="toggleLabel"><i class="fa-solid fa-square-xmark fa-xl"></i>&nbsp Não</span>
                         </button>
                         <button type="button" class="btn btn-light" id="training-calendar-button">
@@ -64,11 +64,11 @@ class DOMElementManager {
         return this.elements.trainingDataField;
     }
 
-    getToggleButton() {
-        if (!this.elements.toggleButton) {
-            this.elements.toggleButton = document.querySelector('#toggleButton');
+    getTrainingFormSubmitBtn() {
+        if (!this.elements.trainingFormSubmitBtn) {
+            this.elements.trainingFormSubmitBtn = document.querySelector('#training-form-submit-btn');
         }
-        return this.elements.toggleButton;
+        return this.elements.trainingFormSubmitBtn;
     }
 
     getToggleLabel() {

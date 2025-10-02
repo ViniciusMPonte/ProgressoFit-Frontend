@@ -23,7 +23,7 @@ export class DashboardController extends BaseController {
     setupEventListeners() {
         this.setupDynamicButtonListener();
         this.setupFormListener();
-        this.setupSubmitWithToggleButtonListener();
+        this.setupSubmitWithTrainingFormSubmitBtnListener();
         this.setupWeightFormListener();
     }
 
@@ -45,12 +45,12 @@ export class DashboardController extends BaseController {
         trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton());
     }
 
-    setupSubmitWithToggleButtonListener() {
-        const toggleButton = this.dom.getToggleButton();
+    setupSubmitWithTrainingFormSubmitBtnListener() {
+        const trainingFormSubmitBtn = this.dom.getTrainingFormSubmitBtn();
         const toggleLabel = this.dom.getToggleLabel();
 
-        if (toggleButton && toggleLabel) {
-            toggleButton.addEventListener('click', async () => {
+        if (trainingFormSubmitBtn && toggleLabel) {
+            trainingFormSubmitBtn.addEventListener('click', async () => {
                 await this.handleTrainingCountFormSubmit();
             });
         }
@@ -264,11 +264,11 @@ class DOMElementManager {
         return this.elements.trainingDataField;
     }
 
-    getToggleButton() {
-        if (!this.elements.toggleButton) {
-            this.elements.toggleButton = document.querySelector('#toggleButton');
+    getTrainingFormSubmitBtn() {
+        if (!this.elements.trainingFormSubmitBtn) {
+            this.elements.trainingFormSubmitBtn = document.querySelector('#training-form-submit-btn');
         }
-        return this.elements.toggleButton;
+        return this.elements.trainingFormSubmitBtn;
     }
 
     getToggleLabel() {
