@@ -1,0 +1,84 @@
+
+
+export class TrainingPerWeeklyInterfaceComponent {
+
+    constructor() {
+
+    }
+
+    listener() {
+        const calendarButton = document.getElementById("calendarButton");
+        const dataField = document.getElementById("dataField");
+
+        calendarButton.addEventListener("click", () => {
+            if (dataField.showPicker) {
+                dataField.showPicker();
+            } else {
+                dataField.click();
+            }
+        });
+    }
+
+    render() {
+        return /*html*/`
+            <div class="card">
+                <form id="training-per-weekly-form">
+                    <div class="card-header">
+                        <i class="fa-solid fa-calendar-week fa-2xl"></i>
+                        <div>
+                            <label class="g-bold pointer-events-none" for="dataField">Data</label>
+                            <input class="custom-date pointer-events-none" type="date" id="dataField" name="data" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p>Você definiu uma meta para essa dia, você realizou seu treino?</p>
+                        <button type="button" class="btn btn-danger" id="toggleButton">
+                            <span id="toggleLabel">Não &nbsp<i class="fa-solid fa-square-xmark fa-xl"></i></span>
+                        </button>
+                        <button type="button" class="btn btn-light" id="calendarButton">
+                            <span><i class="fa-solid fa-calendar-week fa-lg"></i>&nbsp Mudar data</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `
+    }
+}
+
+class DOMElementManager {
+    constructor() {
+        this.elements = {};
+    }
+
+    getTrainingPerWeeklyForm() {
+        if (!this.elements.trainingPerWeeklyForm) {
+            this.elements.trainingPerWeeklyForm = document.querySelector('#training-per-weekly-form');
+        }
+        return this.elements.trainingPerWeeklyForm;
+    }
+
+    getDataField() {
+        if (!this.elements.dataField) {
+            this.elements.dataField = document.querySelector('#dataField');
+        }
+        return this.elements.dataField;
+    }
+
+    getToggleButton() {
+        if (!this.elements.toggleButton) {
+            this.elements.toggleButton = document.querySelector('#toggleButton');
+        }
+        return this.elements.toggleButton;
+    }
+
+    getToggleLabel() {
+        if (!this.elements.toggleLabel) {
+            this.elements.toggleLabel = document.querySelector('#toggleLabel');
+        }
+        return this.elements.toggleLabel;
+    }
+
+    destroy() {
+        this.elements = {};
+    }
+}

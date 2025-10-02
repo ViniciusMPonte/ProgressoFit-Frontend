@@ -56,3 +56,13 @@ header {
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
+
+#training-per-weekly-form .card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#training-per-weekly-form .card-header label {
+  display: block;
+}

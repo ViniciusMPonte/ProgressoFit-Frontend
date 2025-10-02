@@ -8,7 +8,7 @@ body {
 }
 
 /* NAVBAR */
-body.padding-navbar{
+body.padding-navbar {
     padding-top: 56px;
 }
 
@@ -76,4 +76,9 @@ body {
         width: auto;
         max-width: none;
     }
+}
+
+/* INPUT NÃO CLICAVEL */
+.pointer-events-none {
+    pointer-events: none;
 }

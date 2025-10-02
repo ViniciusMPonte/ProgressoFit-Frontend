@@ -24,11 +24,11 @@ export class DashboardController extends BaseController {
         this.setupDynamicButtonListener();
         this.setupFormListener();
         this.setupSubmitWithToggleButtonListener();
-        this.setupWeightFormListener(); // novo: listener do formulário de peso
+        this.setupWeightFormListener();
     }
 
     setupFormListener() {
-        const form = this.dom.getDataForm();
+        const form = this.dom.getTrainingPerWeeklyForm();
 
         if (form) {
             form.addEventListener('submit', async (event) => {
@@ -114,7 +114,6 @@ export class DashboardController extends BaseController {
 
     async handleWeightDailyChart() {
         try {
-            // Chama o endpoint do backend que retorna os dados semanais
             const response = await this.apiService.get('/api/weight/weekly/last-months/1');
             const data = response.data;
 
@@ -251,11 +250,11 @@ class DOMElementManager {
         return this.elements.WeightDailyWeeklyChartTag;
     }
 
-    getDataForm() {
-        if (!this.elements.dataForm) {
-            this.elements.dataForm = document.querySelector('#dataForm');
+    getTrainingPerWeeklyForm() {
+        if (!this.elements.trainingPerWeeklyForm) {
+            this.elements.trainingPerWeeklyForm = document.querySelector('#training-per-weekly-form');
         }
-        return this.elements.dataForm;
+        return this.elements.trainingPerWeeklyForm;
     }
 
     getDataField() {

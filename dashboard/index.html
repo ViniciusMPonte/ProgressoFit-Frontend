@@ -14,7 +14,7 @@
 <body>
     <header class="bg-primary">
         <div class="section-top row g-0" style="top: 125px;">
-            <div class="col-2 d-flex align-items-end justify-content-center"  style="position: relative">
+            <div class="col-2 d-flex align-items-end justify-content-center" style="position: relative">
                 <div id="avatar-container"></div>
             </div>
             <div class="col-10 d-flex align-items-end">
@@ -24,7 +24,8 @@
             <div class="col-10" style="margin-top: 25px;">
                 <div class="row">
                     <div class="col-4">
-                        <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
+                        <div class="card"
+                            style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
                             <i class="fa-solid fa-ruler fa-2xl"></i>
                             <div style="display: flex; flex-direction: column;">
                                 <span class="g-bold">Minha Altura</span>
@@ -34,7 +35,8 @@
                     </div>
 
                     <div class="col-4">
-                        <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
+                        <div class="card"
+                            style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
                             <i class="fa-solid fa-weight-scale fa-2xl"></i>
                             <div style="display: flex; flex-direction: column;">
                                 <span class="g-bold">Peso Atual</span>
@@ -44,7 +46,8 @@
                     </div>
 
                     <div class="col-4">
-                        <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
+                        <div class="card"
+                            style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px;">
                             <i class="fa-solid fa-fire fa-2xl"></i>
                             <div style="display: flex; flex-direction: column;">
                                 <span class="g-bold">Streak Atual</span>
@@ -56,7 +59,7 @@
             </div>
         </div>
     </header>
-    <main>    
+    <main>
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
@@ -68,12 +71,12 @@
             </div>
             <div class="col-lg-4">
                 <div class="card">
-                    <form id="dataForm">
-                        <div class="card-header" style="display: flex; align-items: center; gap: 10px;">
+                    <form id="training-per-weekly-form">
+                        <div class="card-header">
                             <i class="fa-solid fa-calendar-week fa-2xl"></i>
-                            <div style="display: flex; flex-direction: column;">
-                                <label class="g-bold" for="dataField">Data</label>
-                                <input class="custom-date" type="date" id="dataField" name="data" required />
+                            <div>
+                                <label class="g-bold pointer-events-none" for="dataField">Data</label>
+                                <input class="custom-date pointer-events-none" type="date" id="dataField" name="data" required />
                             </div>
                         </div>
                         <div class="form-group">
@@ -92,9 +95,9 @@
 
                                 calendarButton.addEventListener("click", () => {
                                     if (dataField.showPicker) {
-                                    dataField.showPicker();
+                                        dataField.showPicker();
                                     } else {
-                                    dataField.click();
+                                        dataField.click();
                                     }
                                 });
                             </script>
@@ -122,7 +125,8 @@
                             <i class="fa-solid fa-weight-scale fa-2xl"></i>
                             <div style="display: flex; flex-direction: column;">
                                 <label class="g-bold" for="weightDateField">Data</label>
-                                <input class="custom-date" type="date" id="weightDateField" name="weightDate" required />
+                                <input class="custom-date" type="date" id="weightDateField" name="weightDate"
+                                    required />
                             </div>
                         </div>
                         <div class="form-group" style="margin-top: 10px;">
