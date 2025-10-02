@@ -7,14 +7,14 @@ export class TrainingPerWeeklyInterfaceComponent {
     }
 
     listener() {
-        const calendarButton = document.getElementById("calendarButton");
-        const dataField = document.getElementById("dataField");
+        const trainingCalendarButton = document.getElementById("training-calendar-button");
+        const trainingDataField = document.getElementById("training-data-field");
 
-        calendarButton.addEventListener("click", () => {
-            if (dataField.showPicker) {
-                dataField.showPicker();
+        trainingCalendarButton.addEventListener("click", () => {
+            if (trainingDataField.showPicker) {
+                trainingDataField.showPicker();
             } else {
-                dataField.click();
+                trainingDataField.click();
             }
         });
     }
@@ -26,16 +26,16 @@ export class TrainingPerWeeklyInterfaceComponent {
                     <div class="card-header">
                         <i class="fa-solid fa-calendar-week fa-2xl"></i>
                         <div>
-                            <label class="g-bold pointer-events-none" for="dataField">Data</label>
-                            <input class="custom-date pointer-events-none" type="date" id="dataField" name="data" required />
+                            <label class="g-bold pointer-events-none" for="training-data-field">Data</label>
+                            <input class="custom-date pointer-events-none" type="date" id="training-data-field" name="data" required />
                         </div>
                     </div>
                     <div class="form-group">
                         <p>Você definiu uma meta para essa dia, você realizou seu treino?</p>
                         <button type="button" class="btn btn-danger" id="toggleButton">
-                            <span id="toggleLabel">Não &nbsp<i class="fa-solid fa-square-xmark fa-xl"></i></span>
+                            <span id="toggleLabel"><i class="fa-solid fa-square-xmark fa-xl"></i>&nbsp Não</span>
                         </button>
-                        <button type="button" class="btn btn-light" id="calendarButton">
+                        <button type="button" class="btn btn-light" id="training-calendar-button">
                             <span><i class="fa-solid fa-calendar-week fa-lg"></i>&nbsp Mudar data</span>
                         </button>
                     </div>
@@ -57,11 +57,11 @@ class DOMElementManager {
         return this.elements.trainingPerWeeklyForm;
     }
 
-    getDataField() {
-        if (!this.elements.dataField) {
-            this.elements.dataField = document.querySelector('#dataField');
+    getTrainingDataField() {
+        if (!this.elements.trainingDataField) {
+            this.elements.trainingDataField = document.querySelector('#training-data-field');
         }
-        return this.elements.dataField;
+        return this.elements.trainingDataField;
     }
 
     getToggleButton() {

@@ -17,7 +17,7 @@ export class DashboardController extends BaseController {
         this.setUserNameProfile();
         this.handleWeeklyChart();
         this.handleWeightDailyChart();
-        this.setDataFieldValueToday();
+        this.setTrainingDataFieldValueToday();
     }
 
     setupEventListeners() {
@@ -39,10 +39,10 @@ export class DashboardController extends BaseController {
     }
 
     setupDynamicButtonListener() {
-        const dataField = this.dom.getDataField();
-        if (!dataField) return
+        const trainingDataField = this.dom.getTrainingDataField();
+        if (!trainingDataField) return
 
-        dataField.addEventListener('change', () => this.handleSetupDynamicButton());
+        trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton());
     }
 
     setupSubmitWithToggleButtonListener() {
@@ -77,7 +77,7 @@ export class DashboardController extends BaseController {
     }
 
     async handleSetupDynamicButton() {
-        const selectedDate = this.dom.getDataField()?.value;
+        const selectedDate = this.dom.getTrainingDataField()?.value;
         if (!selectedDate) return
 
         const trainingCount = await this.getDataTraining(selectedDate);
@@ -127,14 +127,14 @@ export class DashboardController extends BaseController {
         }
     }
 
-    async setDataFieldValueToday() {
-        this.dom.getDataField().value = new Date().toISOString().split('T')[0];
+    async setTrainingDataFieldValueToday() {
+        this.dom.getTrainingDataField().value = new Date().toISOString().split('T')[0];
         this.handleSetupDynamicButton()
     }
 
     async handleTrainingCountFormSubmit() {
         const trainingCount = this.view.getToggleState() ? 0 : 1;
-        const data = this.dom.getDataField()?.value;
+        const data = this.dom.getTrainingDataField()?.value;
         const endpoint = `/api/statistics/date/${data}`;
 
         const formData = {
@@ -257,11 +257,11 @@ class DOMElementManager {
         return this.elements.trainingPerWeeklyForm;
     }
 
-    getDataField() {
-        if (!this.elements.dataField) {
-            this.elements.dataField = document.querySelector('#dataField');
+    getTrainingDataField() {
+        if (!this.elements.trainingDataField) {
+            this.elements.trainingDataField = document.querySelector('#training-data-field');
         }
-        return this.elements.dataField;
+        return this.elements.trainingDataField;
     }
 
     getToggleButton() {
