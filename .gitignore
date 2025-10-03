@@ -4,3 +4,4 @@
 /src/styles/bootstrap/.idea/
 /src/styles/bootstrap/node_modules/
 /src/EnvironmentConfig.js
+.prettierrc
