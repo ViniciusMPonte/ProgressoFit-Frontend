@@ -201,22 +201,6 @@ export class DashboardController extends BaseController {
             console.error('Erro inesperado:', error)
         }
     }
-
-    convertTrainingDataShort(trainingData) {
-        if (!Array.isArray(trainingData) || trainingData.length === 0) {
-            return { labels: [], data: [] }
-        }
-
-        const labels = trainingData.map((item) => {
-            const start = item.weekStartDate?.split('-').reverse().join('/')
-            const end = item.weekEndDate?.split('-').reverse().join('/')
-            return `${start} - ${end}`
-        })
-
-        const data = trainingData.map((item) => item.averageWeight)
-
-        return { labels, data }
-    }
 }
 
 class DOMElementManager {
