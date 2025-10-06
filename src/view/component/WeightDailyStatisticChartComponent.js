@@ -44,7 +44,8 @@ export class WeightDailyStatisticChartComponent extends BaseChartComponent {
             {
                 scales: {
                     y: {
-                        min: 0,
+                        min: 50,
+                        max: 130, 
                         ticks: {
                             stepSize: 10
                         },
