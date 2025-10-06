@@ -17,6 +17,7 @@ export class DashboardController extends BaseController {
         this.setUserNameProfile()
 
         this.view.renderTrainingPerWeeklyInterfaceComponent(this.dom.getTrainingPerWeeklyInterface())
+        this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal())
         this.setTrainingDataFieldValueToday()
 
         this.handleWeeklyChart()
@@ -128,15 +129,7 @@ export class DashboardController extends BaseController {
     }
 
     async setTrainingDataFieldValueToday() {
-        this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField().value = new Date()
-            .toLocaleDateString('pt-BR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-            })
-            .split('/')
-            .reverse()
-            .join('-')
+        this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField().value = this.view.getTodayString()
         this.handleSetupDynamicButton()
     }
 
@@ -227,6 +220,13 @@ class DOMElementManager {
             this.elements.trainingPerWeeklyInterface = document.querySelector('#training-per-weekly-interface')
         }
         return this.elements.trainingPerWeeklyInterface
+    }
+
+    getTrainingPerWeeklyGoal() {
+        if (!this.elements.trainingPerWeeklyGoal) {
+            this.elements.trainingPerWeeklyGoal = document.querySelector('#training-per-weekly-goal')
+        }
+        return this.elements.trainingPerWeeklyGoal
     }
 
     getTrainingPerWeeklyChartTag() {
