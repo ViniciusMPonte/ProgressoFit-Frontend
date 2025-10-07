@@ -17,7 +17,7 @@ export class DashboardController extends BaseController {
         this.setUserNameProfile()
 
         this.view.renderTrainingPerWeeklyInterfaceComponent(this.dom.getTrainingPerWeeklyInterface())
-        this.handleCurrentPeriodGoal()
+        this.handleCurrentGoal()
         this.setTrainingDataFieldValueToday()
 
         this.handleWeeklyChart()
@@ -153,7 +153,7 @@ export class DashboardController extends BaseController {
             if (result.success) {
                 this.view.alert('Dados enviados com sucesso!', 'success')
                 await this.handleWeeklyChart()
-                await this.handleCurrentPeriodGoal()
+                await this.handleCurrentGoal()
             } else {
                 this.view.alert(`Erro no envio: ${result.error}`, 'danger')
                 console.error('Erro da API:', result.error)
@@ -196,26 +196,24 @@ export class DashboardController extends BaseController {
         }
     }
 
-    async handleCurrentPeriodGoal() {
+    async handleCurrentGoal() {
         try {
-            const response = await this.apiService.get('/api/statistics/last/7')
-            const data = response.data
+            let response
 
-            this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
+            response = await this.apiService.get('/api/goals/label/training')
+            const trainingGoal = response.data
 
-            const tag = this.dom.getWeightDailyWeeklyChartTag()
-            if (!tag) return
+            response = await this.apiService.get(`/api/statistics/weekly/period?startDate=${trainingGoal.startDate}&endDate=${trainingGoal.endDate}`)
+            const trainingData = response.data
 
-            this.view.renderWeightDailyStatisticChart(tag, data)
-        } catch (error) {
-            console.error('Erro ao carregar dados de peso semanal:', error)
-        }
-    }
+            response = await this.apiService.get(`/api/statistics/last/${trainingGoal.periodDays}`)
+            const currentPeriod = response.data
 
-    async handleCurrentPercentGoal() {
-        try {
-            const response = await this.apiService.get('/api/goals')
-            const data = response.data
+            const data = {
+                trainingGoal: trainingGoal,
+                trainingData: trainingData,
+                currentPeriod: currentPeriod
+            }
 
             this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
 
