@@ -19,8 +19,8 @@ export class DashboardView extends BaseView {
         new TrainingPerWeeklyInterfaceComponent(targetTag).autoRender()
     }
 
-    renderTrainingPerWeeklyGoalComponent(targetTag){
-        new TrainingPerWeeklyGoalComponent(targetTag).autoRender()
+    renderTrainingPerWeeklyGoalComponent(targetTag, data){
+        new TrainingPerWeeklyGoalComponent(targetTag, data).autoRender()
     }
 
     renderWelcomeText(data){

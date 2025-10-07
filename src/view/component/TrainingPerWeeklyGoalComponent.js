@@ -1,19 +1,28 @@
 export class TrainingPerWeeklyGoalComponent {
-    constructor(targetTag) {
+    constructor(targetTag, data) {
         this.targetTag = targetTag
         this.dom = new DOMElementManager()
 
-        // MOCK
+        this.data = data
+        this.periodDaysArray = this.transformArrayToPeriodDays(this.data, 7)
+    }
 
-        this.periodDaysArray = {
-            '31': '1',
-            '01': '0',
-            '02': '0',
-            '03': '1',
-            '04': '0',
-            '05': '1',
-            '06': '0',
+    transformArrayToPeriodDays(dataArray, totalDays = null) {
+        const periodDaysArray = {}
+        const today = new Date()
+        const lastDay = totalDays !== null ? totalDays : today.getDate()
+
+        for (let day = 1; day <= lastDay; day++) {
+            const dayStr = String(day).padStart(2, '0')
+            periodDaysArray[dayStr] = '0'
         }
+
+        dataArray.forEach((item) => {
+            const day = item.date.split('-')[2]
+            periodDaysArray[day] = String(item.count)
+        })
+
+        return periodDaysArray
     }
 
     renderPeriod() {

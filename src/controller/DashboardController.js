@@ -17,7 +17,7 @@ export class DashboardController extends BaseController {
         this.setUserNameProfile()
 
         this.view.renderTrainingPerWeeklyInterfaceComponent(this.dom.getTrainingPerWeeklyInterface())
-        this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal())
+        this.handleCurrentPeriodGoal()
         this.setTrainingDataFieldValueToday()
 
         this.handleWeeklyChart()
@@ -153,6 +153,7 @@ export class DashboardController extends BaseController {
             if (result.success) {
                 this.view.alert('Dados enviados com sucesso!', 'success')
                 await this.handleWeeklyChart()
+                await this.handleCurrentPeriodGoal()
             } else {
                 this.view.alert(`Erro no envio: ${result.error}`, 'danger')
                 console.error('Erro da API:', result.error)
@@ -192,6 +193,38 @@ export class DashboardController extends BaseController {
         } catch (error) {
             this.view.alert(`Erro de conexão: ${error.message}`, 'danger')
             console.error('Erro inesperado:', error)
+        }
+    }
+
+    async handleCurrentPeriodGoal() {
+        try {
+            const response = await this.apiService.get('/api/statistics/last/7')
+            const data = response.data
+
+            this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
+
+            const tag = this.dom.getWeightDailyWeeklyChartTag()
+            if (!tag) return
+
+            this.view.renderWeightDailyStatisticChart(tag, data)
+        } catch (error) {
+            console.error('Erro ao carregar dados de peso semanal:', error)
+        }
+    }
+
+    async handleCurrentPercentGoal() {
+        try {
+            const response = await this.apiService.get('/api/goals')
+            const data = response.data
+
+            this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
+
+            const tag = this.dom.getWeightDailyWeeklyChartTag()
+            if (!tag) return
+
+            this.view.renderWeightDailyStatisticChart(tag, data)
+        } catch (error) {
+            console.error('Erro ao carregar dados de peso semanal:', error)
         }
     }
 }
