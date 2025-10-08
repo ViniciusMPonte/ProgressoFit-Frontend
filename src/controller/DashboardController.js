@@ -224,18 +224,12 @@ export class DashboardController extends BaseController {
             }
 
             this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
-
-            const tag = this.dom.getWeightDailyWeeklyChartTag()
-            if (!tag) return
-
-            this.view.renderWeightDailyStatisticChart(tag, data)
         } catch (error) {
             console.error('Erro ao carregar dados de peso semanal:', error)
         }
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
-    const weightCalendarBtn = document.getElementById('weight-calendar-btn');
     const weightDateField = document.getElementById('weightDateField');
 
     const today = new Date();
@@ -243,14 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     weightDateField.value = `${yyyy}-${mm}-${dd}`;
-
-    weightCalendarBtn.addEventListener('click', () => {
-        if (weightDateField.showPicker) {
-            weightDateField.showPicker(); 
-        } else {
-            weightDateField.focus();      
-        }
-    });
 });
 
 class DOMElementManager {
