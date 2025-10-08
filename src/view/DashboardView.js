@@ -3,6 +3,8 @@ import { HeroComponent } from "./component/HeroComponent.js";
 import { CopyrightComponent } from "./component/CopyrightComponent.js";
 import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyChartComponent.js";
 import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
+import { TrainingPerWeeklyInterfaceComponent } from "./component/TrainingPerWeeklyInterfaceComponent.js";
+import { TrainingPerWeeklyGoalComponent } from "./component/TrainingPerWeeklyGoalComponent.js";
 
 export class DashboardView extends BaseView {
 
@@ -10,49 +12,15 @@ export class DashboardView extends BaseView {
         super()
         this.dom = dom
         this.toggleState = false;
+        this.trainingPerWeeklyInterfaceComponent = new TrainingPerWeeklyInterfaceComponent()
     }
 
-    getToggleState() {
-        return this.toggleState
+    renderTrainingPerWeeklyInterfaceComponent(targetTag){
+        new TrainingPerWeeklyInterfaceComponent(targetTag).autoRender()
     }
 
-    setToggleState(boolean) {
-        this.toggleState = boolean
-    }
-
-    updateToogleButton() {
-        const toggleButton = this.dom.getToggleButton();
-        const toggleLabel = this.dom.getToggleLabel();
-
-        if (this.toggleState) {
-            toggleButton.classList.remove('btn-danger');
-            toggleButton.classList.add('btn-primary');
-            toggleLabel.innerHTML = '<i class="fa-solid fa-square-check fa-xl"></i>&nbsp Sim';
-        } else {
-            toggleButton.classList.remove('btn-primary');
-            toggleButton.classList.add('btn-danger');
-            toggleLabel.innerHTML = 'Não &nbsp<i class="fa-solid fa-square-xmark fa-xl"></i>';
-        }
-    }
-
-    showLoading(show) {
-        const toggleButton = this.dom.getToggleButton();
-        const toggleLabel = this.dom.getToggleLabel();
-
-        if (toggleButton) {
-            toggleButton.disabled = show;
-
-            if (show) {
-                toggleButton.classList.add('disabled');
-                toggleLabel.innerHTML = `
-                <span class="spinner-border spinner-border-sm me-2"></span>
-                Enviando...
-            `;
-            } else {
-                toggleButton.classList.remove('disabled');
-                this.updateToogleButton()
-            }
-        }
+    renderTrainingPerWeeklyGoalComponent(targetTag, data){
+        new TrainingPerWeeklyGoalComponent(targetTag, data).autoRender()
     }
 
     renderWelcomeText(data){
@@ -73,7 +41,7 @@ export class DashboardView extends BaseView {
         new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
     }
 
-    WeightDailyStatisticChart(ctx, data) {
+    renderWeightDailyStatisticChart(ctx, data) {
 
         const existingChart = Chart.getChart(ctx);
         if (existingChart) {

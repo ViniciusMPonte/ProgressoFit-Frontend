@@ -6,8 +6,11 @@ export default class BaseChartComponent {
 
     extractLabelsFromPeriods(periods) {
         return periods.map(item => {
-            const startDate = new Date(item.weekStartDate);
-            const endDate = new Date(item.weekEndDate);
+            const [year, month, day] = item.weekStartDate.split('-');
+            const startDate = new Date(year, month - 1, day);
+
+            const [endYear, endMonth, endDay] = item.weekEndDate.split('-');
+            const endDate = new Date(endYear, endMonth - 1, endDay);
 
             const startFormatted = startDate.toLocaleDateString('pt-BR', {
                 day: '2-digit',
