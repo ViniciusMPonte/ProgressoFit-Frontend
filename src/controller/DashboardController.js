@@ -48,6 +48,13 @@ export class DashboardController extends BaseController {
 
         trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton())
     }
+    
+    setupDynamicButtonListener() {
+        const trainingDataField = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField()
+        if (!trainingDataField) return
+
+        trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton())
+    }
 
     setupSubmitWithTrainingFormSubmitBtnListener() {
         const trainingFormSubmitBtn = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingFormSubmitBtn()
@@ -127,6 +134,7 @@ export class DashboardController extends BaseController {
             console.error('Erro ao carregar dados de peso semanal:', error)
         }
     }
+    
 
     async setTrainingDataFieldValueToday() {
         this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField().value = this.view.getTodayString()
@@ -226,6 +234,24 @@ export class DashboardController extends BaseController {
         }
     }
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const weightCalendarBtn = document.getElementById('weight-calendar-btn');
+    const weightDateField = document.getElementById('weightDateField');
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    weightDateField.value = `${yyyy}-${mm}-${dd}`;
+
+    weightCalendarBtn.addEventListener('click', () => {
+        if (weightDateField.showPicker) {
+            weightDateField.showPicker(); 
+        } else {
+            weightDateField.focus();      
+        }
+    });
+});
 
 class DOMElementManager {
     constructor() {
@@ -299,3 +325,5 @@ class DOMElementManager {
         this.elements = {}
     }
 }
+
+   
