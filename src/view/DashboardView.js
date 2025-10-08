@@ -4,6 +4,7 @@ import { CopyrightComponent } from "./component/CopyrightComponent.js";
 import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyChartComponent.js";
 import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
 import { TrainingPerWeeklyInterfaceComponent } from "./component/TrainingPerWeeklyInterfaceComponent.js";
+import { TrainingPerWeeklyGoalComponent } from "./component/TrainingPerWeeklyGoalComponent.js";
 
 export class DashboardView extends BaseView {
 
@@ -16,6 +17,10 @@ export class DashboardView extends BaseView {
 
     renderTrainingPerWeeklyInterfaceComponent(targetTag){
         new TrainingPerWeeklyInterfaceComponent(targetTag).autoRender()
+    }
+
+    renderTrainingPerWeeklyGoalComponent(targetTag, data){
+        new TrainingPerWeeklyGoalComponent(targetTag, data).autoRender()
     }
 
     renderWelcomeText(data){

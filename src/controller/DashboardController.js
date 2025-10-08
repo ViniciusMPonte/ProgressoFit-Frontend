@@ -17,6 +17,7 @@ export class DashboardController extends BaseController {
         this.setUserNameProfile()
 
         this.view.renderTrainingPerWeeklyInterfaceComponent(this.dom.getTrainingPerWeeklyInterface())
+        this.handleCurrentGoal()
         this.setTrainingDataFieldValueToday()
 
         this.handleWeeklyChart()
@@ -136,15 +137,7 @@ export class DashboardController extends BaseController {
     
 
     async setTrainingDataFieldValueToday() {
-        this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField().value = new Date()
-            .toLocaleDateString('pt-BR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-            })
-            .split('/')
-            .reverse()
-            .join('-')
+        this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField().value = this.view.getTodayString()
         this.handleSetupDynamicButton()
     }
 
@@ -168,6 +161,7 @@ export class DashboardController extends BaseController {
             if (result.success) {
                 this.view.alert('Dados enviados com sucesso!', 'success')
                 await this.handleWeeklyChart()
+                await this.handleCurrentGoal()
             } else {
                 this.view.alert(`Erro no envio: ${result.error}`, 'danger')
                 console.error('Erro da API:', result.error)
@@ -210,20 +204,34 @@ export class DashboardController extends BaseController {
         }
     }
 
-    convertTrainingDataShort(trainingData) {
-        if (!Array.isArray(trainingData) || trainingData.length === 0) {
-            return { labels: [], data: [] }
+    async handleCurrentGoal() {
+        try {
+            let response
+
+            response = await this.apiService.get('/api/goals/label/training')
+            const trainingGoal = response.data
+
+            response = await this.apiService.get(`/api/statistics/weekly/period?startDate=${trainingGoal.startDate}&endDate=${trainingGoal.endDate}`)
+            const trainingData = response.data
+
+            response = await this.apiService.get(`/api/statistics/last/${trainingGoal.periodDays}`)
+            const currentPeriod = response.data
+
+            const data = {
+                trainingGoal: trainingGoal,
+                trainingData: trainingData,
+                currentPeriod: currentPeriod
+            }
+
+            this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
+
+            const tag = this.dom.getWeightDailyWeeklyChartTag()
+            if (!tag) return
+
+            this.view.renderWeightDailyStatisticChart(tag, data)
+        } catch (error) {
+            console.error('Erro ao carregar dados de peso semanal:', error)
         }
-
-        const labels = trainingData.map((item) => {
-            const start = item.weekStartDate?.split('-').reverse().join('/')
-            const end = item.weekEndDate?.split('-').reverse().join('/')
-            return `${start} - ${end}`
-        })
-
-        const data = trainingData.map((item) => item.averageWeight)
-
-        return { labels, data }
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -269,6 +277,13 @@ class DOMElementManager {
             this.elements.trainingPerWeeklyInterface = document.querySelector('#training-per-weekly-interface')
         }
         return this.elements.trainingPerWeeklyInterface
+    }
+
+    getTrainingPerWeeklyGoal() {
+        if (!this.elements.trainingPerWeeklyGoal) {
+            this.elements.trainingPerWeeklyGoal = document.querySelector('#training-per-weekly-goal')
+        }
+        return this.elements.trainingPerWeeklyGoal
     }
 
     getTrainingPerWeeklyChartTag() {

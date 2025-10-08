@@ -66,3 +66,19 @@ header {
 #training-per-weekly-form .card-header label {
   display: block;
 }
+
+.period {
+  display: flex;
+  justify-content: space-between;
+}
+
+.period span {
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;
+  background-color: #dc3545;
+}
+
+.checked {
+  background-color: #56cf31 !important;
+}
