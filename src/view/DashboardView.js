@@ -5,6 +5,7 @@ import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyCh
 import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
 import { TrainingPerWeeklyInterfaceComponent } from "./component/TrainingPerWeeklyInterfaceComponent.js";
 import { TrainingPerWeeklyGoalComponent } from "./component/TrainingPerWeeklyGoalComponent.js";
+import { WeightPerWeeklyInterfaceComponent } from "./component/WeightPerWeeklyInterfaceComponent.js";
 
 export class DashboardView extends BaseView {
 
@@ -13,6 +14,7 @@ export class DashboardView extends BaseView {
         this.dom = dom
         this.toggleState = false;
         this.trainingPerWeeklyInterfaceComponent = new TrainingPerWeeklyInterfaceComponent()
+        this.weightPerWeeklyInterfaceComponent = new WeightPerWeeklyInterfaceComponent()
     }
 
     renderTrainingPerWeeklyInterfaceComponent(targetTag){
@@ -21,6 +23,10 @@ export class DashboardView extends BaseView {
 
     renderTrainingPerWeeklyGoalComponent(targetTag, data){
         new TrainingPerWeeklyGoalComponent(targetTag, data).autoRender()
+    }
+
+    renderWeightPerWeeklyInterfaceComponent(targetTag){
+        new WeightPerWeeklyInterfaceComponent(targetTag).autoRender()
     }
 
     renderWelcomeText(data){

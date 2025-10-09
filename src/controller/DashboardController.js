@@ -19,16 +19,18 @@ export class DashboardController extends BaseController {
         this.view.renderTrainingPerWeeklyInterfaceComponent(this.dom.getTrainingPerWeeklyInterface())
         this.handleCurrentGoal()
         this.setTrainingDataFieldValueToday()
+        this.handleTrainingWeeklyChart()
 
-        this.handleWeeklyChart()
+        this.view.renderWeightPerWeeklyInterfaceComponent(this.dom.getWeightPerWeeklyInterface())
+
         this.handleWeightDailyChart()
     }
 
     setupEventListeners() {
         this.setupDynamicButtonListener()
         this.setupFormListener()
-        this.setupSubmitWithTrainingFormSubmitBtnListener()
-        this.setupWeightFormListener()
+        this.setupTrainingFormSubmitBtnListener()
+        this.setupWeightFormSubmitBtnListener()
     }
 
     setupFormListener() {
@@ -48,7 +50,7 @@ export class DashboardController extends BaseController {
 
         trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton())
     }
-    
+
     setupDynamicButtonListener() {
         const trainingDataField = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField()
         if (!trainingDataField) return
@@ -56,7 +58,7 @@ export class DashboardController extends BaseController {
         trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton())
     }
 
-    setupSubmitWithTrainingFormSubmitBtnListener() {
+    setupTrainingFormSubmitBtnListener() {
         const trainingFormSubmitBtn = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingFormSubmitBtn()
 
         if (trainingFormSubmitBtn) {
@@ -66,11 +68,11 @@ export class DashboardController extends BaseController {
         }
     }
 
-    setupWeightFormListener() {
-        const form = this.dom.getWeightForm()
-        if (form) {
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault()
+    setupWeightFormSubmitBtnListener() {
+        const weightFormSubmitBtn = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightFormSubmitBtn()
+
+        if (weightFormSubmitBtn) {
+            weightFormSubmitBtn.addEventListener('click', async () => {
                 await this.handleWeightFormSubmit()
             })
         }
@@ -109,7 +111,7 @@ export class DashboardController extends BaseController {
         }
     }
 
-    async handleWeeklyChart() {
+    async handleTrainingWeeklyChart() {
         try {
             const response = await this.apiService.get('/api/statistics/weekly/last-months/1')
             const tag = this.dom.getTrainingPerWeeklyChartTag()
@@ -134,7 +136,6 @@ export class DashboardController extends BaseController {
             console.error('Erro ao carregar dados de peso semanal:', error)
         }
     }
-    
 
     async setTrainingDataFieldValueToday() {
         this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField().value = this.view.getTodayString()
@@ -160,7 +161,7 @@ export class DashboardController extends BaseController {
 
             if (result.success) {
                 this.view.alert('Dados enviados com sucesso!', 'success')
-                await this.handleWeeklyChart()
+                await this.handleTrainingWeeklyChart()
                 await this.handleCurrentGoal()
             } else {
                 this.view.alert(`Erro no envio: ${result.error}`, 'danger')
@@ -177,8 +178,8 @@ export class DashboardController extends BaseController {
     }
 
     async handleWeightFormSubmit() {
-        const weight = this.dom.getWeightInput()?.value
-        const data = this.dom.getWeightDateField()?.value
+        const weight = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightInput()?.value
+        const data = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightDateField()?.value
         const endpoint = `/api/weight/date/${data}`
 
         const formData = {
@@ -220,7 +221,7 @@ export class DashboardController extends BaseController {
             const data = {
                 trainingGoal: trainingGoal,
                 trainingData: trainingData,
-                currentPeriod: currentPeriod
+                currentPeriod: currentPeriod,
             }
 
             this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
@@ -230,14 +231,14 @@ export class DashboardController extends BaseController {
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
-    const weightDateField = document.getElementById('weightDateField');
+    const weightDateField = document.getElementById('weight-date-field')
 
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    weightDateField.value = `${yyyy}-${mm}-${dd}`;
-});
+    const today = new Date()
+    const yyyy = today.getFullYear()
+    const mm = String(today.getMonth() + 1).padStart(2, '0')
+    const dd = String(today.getDate()).padStart(2, '0')
+    weightDateField.value = `${yyyy}-${mm}-${dd}`
+})
 
 class DOMElementManager {
     constructor() {
@@ -286,6 +287,13 @@ class DOMElementManager {
         return this.elements.WeightDailyWeeklyChartTag
     }
 
+    getWeightPerWeeklyInterface() {
+        if (!this.elements.weightPerWeeklyInterface) {
+            this.elements.weightPerWeeklyInterface = document.querySelector('#weight-per-weekly-interface')
+        }
+        return this.elements.weightPerWeeklyInterface
+    }
+
     getWeightForm() {
         if (!this.elements.weightForm) {
             this.elements.weightForm = document.querySelector('#weightForm')
@@ -311,5 +319,3 @@ class DOMElementManager {
         this.elements = {}
     }
 }
-
-   
