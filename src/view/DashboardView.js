@@ -1,10 +1,10 @@
 import BaseView from "./BaseView.js";
 import { HeroComponent } from "./component/HeroComponent.js";
 import { CopyrightComponent } from "./component/CopyrightComponent.js";
-import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyChartComponent.js";
+import { TrainingPerWeeklyChartComponent } from "./component/training-per-weekly/chart/TrainingPerWeeklyChartComponent.js";
+import { TrainingPerWeeklyInterfaceComponent } from "./component/training-per-weekly/TrainingPerWeeklyInterfaceComponent.js";
+import { TrainingPerWeeklyGoalComponent } from "./component/training-per-weekly/TrainingPerWeeklyGoalComponent.js";
 import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
-import { TrainingPerWeeklyInterfaceComponent } from "./component/TrainingPerWeeklyInterfaceComponent.js";
-import { TrainingPerWeeklyGoalComponent } from "./component/TrainingPerWeeklyGoalComponent.js";
 import { WeightPerWeeklyInterfaceComponent } from "./component/WeightPerWeeklyInterfaceComponent.js";
 
 export class DashboardView extends BaseView {
@@ -37,14 +37,14 @@ export class DashboardView extends BaseView {
         return new HeroComponent(data).getAvatarImg()
     }
 
-    renderTrainingPerWeeklyChart(ctx, data) {
+    renderTrainingPerWeeklyChart(ctx) {
 
         const existingChart = Chart.getChart(ctx);
         if (existingChart) {
             existingChart.destroy();
         }
 
-        new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
+        new TrainingPerWeeklyChartComponent(ctx).autoRender()
     }
 
     renderWeightDailyStatisticChart(ctx, data) {

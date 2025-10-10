@@ -111,16 +111,11 @@ export class DashboardController extends BaseController {
         }
     }
 
-    async handleTrainingWeeklyChart() {
-        try {
-            const response = await this.apiService.get('/api/statistics/weekly/last-months/1')
-            const tag = this.dom.getTrainingPerWeeklyChartTag()
-            if (!tag) return
+    handleTrainingWeeklyChart() {
+        const tag = this.dom.getTrainingPerWeeklyChartTag()
+        if (!tag) return
 
-            this.view.renderTrainingPerWeeklyChart(tag, response.data)
-        } catch (error) {
-            console.error('Erro ao carregar dados semanais:', error)
-        }
+        this.view.renderTrainingPerWeeklyChart(tag)
     }
 
     async handleWeightDailyChart() {
@@ -161,7 +156,7 @@ export class DashboardController extends BaseController {
 
             if (result.success) {
                 this.view.alert('Dados enviados com sucesso!', 'success')
-                await this.handleTrainingWeeklyChart()
+                this.handleTrainingWeeklyChart()
                 await this.handleCurrentGoal()
             } else {
                 this.view.alert(`Erro no envio: ${result.error}`, 'danger')
