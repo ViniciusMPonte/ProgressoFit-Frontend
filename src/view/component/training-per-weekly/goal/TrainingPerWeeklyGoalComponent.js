@@ -1,19 +1,27 @@
+import { TrainingPerWeeklyGoalService } from './service/TrainingPerWeeklyGoalService.js'
 import { TrainingGoalCalculatorService } from './service/TrainingGoalCalculatorService.js'
 import { PeriodDataService } from './service/PeriodDataService.js'
 import { GoalStatusService } from './service/GoalStatusService.js'
 import { MathHelper } from './helper/MathHelper.js'
 
 export class TrainingPerWeeklyGoalComponent {
-    constructor(targetTag, data) {
+    constructor(targetTag) {
         this.targetTag = targetTag
         this.dom = new DOMElementManager()
 
+        this.componentService = new TrainingPerWeeklyGoalService()
         this.calculatorService = new TrainingGoalCalculatorService()
         this.goalStatusService = new GoalStatusService()
         this.periodDataService = new PeriodDataService()
+    }
+
+    async autoRender() {
+        const data = await this.componentService.getDataCurrentGoal()
 
         this._initializeData(data)
         this._calculateMetrics(data)
+
+        this.targetTag.innerHTML = this.get()
     }
 
     _initializeData(data) {
@@ -67,10 +75,6 @@ export class TrainingPerWeeklyGoalComponent {
                 </div>
             </div>
         `
-    }
-
-    autoRender() {
-        this.targetTag.innerHTML = this.get()
     }
 }
 

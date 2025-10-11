@@ -118,6 +118,13 @@ export class DashboardController extends BaseController {
         this.view.renderTrainingPerWeeklyChart(tag)
     }
 
+    handleCurrentGoal() {
+        const tag = this.dom.getTrainingPerWeeklyGoal()
+        if (!tag) return
+
+        this.view.renderTrainingPerWeeklyGoalComponent(tag)
+    }
+
     async handleWeightDailyChart() {
         try {
             const response = await this.apiService.get('/api/weight/weekly/last-months/1')
@@ -197,31 +204,6 @@ export class DashboardController extends BaseController {
         } catch (error) {
             this.view.alert(`Erro de conexão: ${error.message}`, 'danger')
             console.error('Erro inesperado:', error)
-        }
-    }
-
-    async handleCurrentGoal() {
-        try {
-            let response
-
-            response = await this.apiService.get('/api/goals/label/training')
-            const trainingGoal = response.data
-
-            response = await this.apiService.get(`/api/statistics/weekly/period?startDate=${trainingGoal.startDate}&endDate=${trainingGoal.endDate}`)
-            const trainingData = response.data
-
-            response = await this.apiService.get(`/api/statistics/current-week`)
-            const currentPeriod = response.data
-
-            const data = {
-                trainingGoal: trainingGoal,
-                trainingData: trainingData,
-                currentPeriod: currentPeriod,
-            }
-
-            this.view.renderTrainingPerWeeklyGoalComponent(this.dom.getTrainingPerWeeklyGoal(), data)
-        } catch (error) {
-            console.error('Erro ao carregar dados de peso semanal:', error)
         }
     }
 }
