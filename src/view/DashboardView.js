@@ -4,8 +4,8 @@ import { CopyrightComponent } from './component/CopyrightComponent.js'
 import { TrainingPerWeeklyChartComponent } from './component/training-per-weekly/chart/TrainingPerWeeklyChartComponent.js'
 import { TrainingPerWeeklyInterfaceComponent } from './component/training-per-weekly/TrainingPerWeeklyInterfaceComponent.js'
 import { TrainingPerWeeklyGoalComponent } from './component/training-per-weekly/goal/TrainingPerWeeklyGoalComponent.js'
-import { WeightDailyStatisticChartComponent } from './component/WeightDailyStatisticChartComponent.js'
-import { WeightPerWeeklyInterfaceComponent } from './component/WeightPerWeeklyInterfaceComponent.js'
+import { WeightDailyStatisticChartComponent } from './component/weight-per-weekly/WeightDailyStatisticChartComponent.js'
+import { WeightPerWeeklyInterfaceComponent } from './component/weight-per-weekly/WeightPerWeeklyInterfaceComponent.js'
 
 export class DashboardView extends BaseView {
     constructor(dom) {

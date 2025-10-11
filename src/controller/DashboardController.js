@@ -22,7 +22,7 @@ export class DashboardController extends BaseController {
         this.handleTrainingWeeklyChart()
 
         this.view.renderWeightPerWeeklyInterfaceComponent(this.dom.getWeightPerWeeklyInterface())
-
+        this.setWeightDataFieldValueToday()
         this.handleWeightDailyChart()
     }
 
@@ -125,6 +125,11 @@ export class DashboardController extends BaseController {
         this.view.renderTrainingPerWeeklyGoalComponent(tag)
     }
 
+    setWeightDataFieldValueToday() {
+        const weightDateField = document.getElementById('weight-date-field')
+        weightDateField.value = this.view.getTodayString()
+    }
+
     async handleWeightDailyChart() {
         try {
             const response = await this.apiService.get('/api/weight/weekly/last-months/1')
@@ -207,15 +212,6 @@ export class DashboardController extends BaseController {
         }
     }
 }
-document.addEventListener('DOMContentLoaded', () => {
-    const weightDateField = document.getElementById('weight-date-field')
-
-    const today = new Date()
-    const yyyy = today.getFullYear()
-    const mm = String(today.getMonth() + 1).padStart(2, '0')
-    const dd = String(today.getDate()).padStart(2, '0')
-    weightDateField.value = `${yyyy}-${mm}-${dd}`
-})
 
 class DOMElementManager {
     constructor() {
