@@ -210,7 +210,7 @@ export class DashboardController extends BaseController {
             response = await this.apiService.get(`/api/statistics/weekly/period?startDate=${trainingGoal.startDate}&endDate=${trainingGoal.endDate}`)
             const trainingData = response.data
 
-            response = await this.apiService.get(`/api/statistics/last/${trainingGoal.periodDays}`)
+            response = await this.apiService.get(`/api/statistics/current-week`)
             const currentPeriod = response.data
 
             const data = {

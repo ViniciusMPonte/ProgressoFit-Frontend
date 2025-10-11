@@ -3,7 +3,7 @@ import { HeroComponent } from "./component/HeroComponent.js";
 import { CopyrightComponent } from "./component/CopyrightComponent.js";
 import { TrainingPerWeeklyChartComponent } from "./component/training-per-weekly/chart/TrainingPerWeeklyChartComponent.js";
 import { TrainingPerWeeklyInterfaceComponent } from "./component/training-per-weekly/TrainingPerWeeklyInterfaceComponent.js";
-import { TrainingPerWeeklyGoalComponent } from "./component/training-per-weekly/TrainingPerWeeklyGoalComponent.js";
+import { TrainingPerWeeklyGoalComponent } from "./component/training-per-weekly/goal/TrainingPerWeeklyGoalComponent.js";
 import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
 import { WeightPerWeeklyInterfaceComponent } from "./component/WeightPerWeeklyInterfaceComponent.js";
 
