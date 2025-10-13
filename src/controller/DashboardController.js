@@ -58,6 +58,7 @@ export class DashboardController extends BaseController {
     }
 
     //Weight
+    //Weight - Interface
     setupWeightFormSubmitBtnListener() {
         const weightFormSubmitBtn = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightFormSubmitBtn()
 
@@ -71,20 +72,6 @@ export class DashboardController extends BaseController {
     setWeightDataFieldValueToday() {
         const weightDateField = document.getElementById('weight-date-field')
         weightDateField.value = this.view.getTodayString()
-    }
-
-    async handleWeightDailyChart() {
-        try {
-            const response = await this.apiService.get('/api/weight/weekly/last-months/1')
-            const data = response.data
-
-            const tag = this.dom.getWeightDailyWeeklyChartTag()
-            if (!tag) return
-
-            this.view.renderWeightDailyStatisticChart(tag, data)
-        } catch (error) {
-            console.error('Erro ao carregar dados de peso semanal:', error)
-        }
     }
 
     async handleWeightFormSubmit() {
@@ -104,7 +91,7 @@ export class DashboardController extends BaseController {
 
             if (result.success) {
                 this.view.alert('Peso registrado com sucesso!', 'success')
-                await this.handleWeightDailyChart()
+                this.handleWeightDailyChart()
             } else {
                 this.view.alert(`Erro no envio: ${result.error}`, 'danger')
                 console.error('Erro da API:', result.error)
@@ -113,6 +100,11 @@ export class DashboardController extends BaseController {
             this.view.alert(`Erro de conexão: ${error.message}`, 'danger')
             console.error('Erro inesperado:', error)
         }
+    }
+
+    //Weight - chart
+    handleWeightDailyChart() {
+        this.view.renderWeightDailyStatisticChart()
     }
 }
 

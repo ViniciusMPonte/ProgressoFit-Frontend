@@ -4,7 +4,7 @@ import { CopyrightComponent } from './component/CopyrightComponent.js'
 import { TrainingPerWeeklyChartComponent } from './component/training-per-weekly/chart/TrainingPerWeeklyChartComponent.js'
 import { TrainingPerWeeklyInterfaceComponent } from './component/training-per-weekly/interface/TrainingPerWeeklyInterfaceComponent.js'
 import { TrainingPerWeeklyGoalComponent } from './component/training-per-weekly/goal/TrainingPerWeeklyGoalComponent.js'
-import { WeightDailyStatisticChartComponent } from './component/weight-per-weekly/WeightDailyStatisticChartComponent.js'
+import { WeightDailyStatisticChartComponent } from './component/weight-per-weekly/chart/WeightDailyStatisticChartComponent.js'
 import { WeightPerWeeklyInterfaceComponent } from './component/weight-per-weekly/WeightPerWeeklyInterfaceComponent.js'
 
 export class DashboardView extends BaseView {
@@ -22,7 +22,6 @@ export class DashboardView extends BaseView {
     renderAvatarImg(data) {
         return new HeroComponent(data).getAvatarImg()
     }
-
 
     renderFooter() {
         return CopyrightComponent.get()
@@ -57,12 +56,14 @@ export class DashboardView extends BaseView {
         new WeightPerWeeklyInterfaceComponent(targetTag).autoRender()
     }
 
-    renderWeightDailyStatisticChart(ctx, data) {
+    renderWeightDailyStatisticChart() {
+        const ctx = this.dom.getWeightDailyWeeklyChartTag()
+
         const existingChart = Chart.getChart(ctx)
         if (existingChart) {
             existingChart.destroy()
         }
 
-        new WeightDailyStatisticChartComponent(ctx, data).autoRender()
+        new WeightDailyStatisticChartComponent(ctx).autoRender()
     }
 }
