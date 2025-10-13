@@ -1,35 +1,27 @@
+import { TrainingPerWeeklyInterfaceService } from './service/TrainingPerWeeklyInterfaceService.js'
+import DaseView from '../../../BaseView.js'
+
 export class TrainingPerWeeklyInterfaceComponent {
     constructor(targetTag) {
         this.targetTag = targetTag
+
         this.dom = new DOMElementManager()
-        this.toggleState = false
+        this.componentService = new TrainingPerWeeklyInterfaceService(this.dom)
     }
 
-    getToggleState() {
-        return this.toggleState
+    autoRender() {
+        this.targetTag.innerHTML = this.get()
+        this.setupCalendarButtonListener()
+        this.setupDynamicButtonListener()
+        this.setupTrainingFormSubmitBtnListener()
     }
 
-    setToggleState(boolean) {
-        this.toggleState = boolean
-    }
-
-    setupCalendarButtonListener() {
-        const trainingCalendarButton = this.dom.getTrainingCalendarBtn()
-        const trainingDataField = this.dom.getTrainingDataField()
-
-        trainingCalendarButton.addEventListener('click', () => {
-            if (trainingDataField.showPicker) {
-                trainingDataField.showPicker()
-            } else {
-                trainingDataField.click()
-            }
-        })
-    }
-
-    updateToogleButton() {
+    async updateToogleButton() {
         const trainingFormSubmitBtn = this.dom.getTrainingFormSubmitBtn()
 
-        if (this.toggleState) {
+        await this.componentService.updateToggleState()
+
+        if (this.componentService.getToggleState()) {
             trainingFormSubmitBtn.classList.remove('btn-danger')
             trainingFormSubmitBtn.classList.add('btn-primary')
             trainingFormSubmitBtn.innerHTML = '<i class="fa-solid fa-square-check fa-xl"></i>&nbsp Sim'
@@ -84,9 +76,37 @@ export class TrainingPerWeeklyInterfaceComponent {
         `
     }
 
-    autoRender() {
-        this.targetTag.innerHTML = this.get()
-        this.setupCalendarButtonListener()
+    //listener
+    setupCalendarButtonListener() {
+        const trainingCalendarButton = this.dom.getTrainingCalendarBtn()
+        const trainingDataField = this.dom.getTrainingDataField()
+
+        trainingCalendarButton.addEventListener('click', () => {
+            if (trainingDataField.showPicker) {
+                trainingDataField.showPicker()
+            } else {
+                trainingDataField.click()
+            }
+        })
+    }
+
+    setupDynamicButtonListener() {
+        const trainingDataField = this.dom.getTrainingDataField()
+        if (!trainingDataField) return
+        trainingDataField.value = new DaseView().getTodayString()
+        this.updateToogleButton()
+        trainingDataField.addEventListener('change', () => this.updateToogleButton())
+    }
+
+    setupTrainingFormSubmitBtnListener() {
+        const trainingFormSubmitBtn = this.dom.getTrainingFormSubmitBtn()
+
+        if (trainingFormSubmitBtn) {
+            trainingFormSubmitBtn.addEventListener('click', async () => {
+                await this.componentService.countFormSubmit()
+                await this.updateToogleButton()
+            })
+        }
     }
 }
 

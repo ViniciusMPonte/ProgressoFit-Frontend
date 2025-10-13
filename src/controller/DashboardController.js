@@ -16,68 +16,20 @@ export class DashboardController extends BaseController {
     setupDynamicContent() {
         this.setUserNameProfile()
 
-        this.view.renderTrainingPerWeeklyInterfaceComponent(this.dom.getTrainingPerWeeklyInterface())
-        this.handleCurrentGoal()
-        this.setTrainingDataFieldValueToday()
+        this.handleTrainingWeeklyInterface()
+        this.handleTrainingWeeklyGoal()
         this.handleTrainingWeeklyChart()
 
-        this.view.renderWeightPerWeeklyInterfaceComponent(this.dom.getWeightPerWeeklyInterface())
+        this.view.renderWeightPerWeeklyInterfaceComponent()
         this.setWeightDataFieldValueToday()
         this.handleWeightDailyChart()
     }
 
     setupEventListeners() {
-        this.setupDynamicButtonListener()
-        this.setupFormListener()
-        this.setupTrainingFormSubmitBtnListener()
         this.setupWeightFormSubmitBtnListener()
     }
 
-    setupFormListener() {
-        const form = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingPerWeeklyForm()
-
-        if (form) {
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault()
-                await this.handleTrainingCountFormSubmit()
-            })
-        }
-    }
-
-    setupDynamicButtonListener() {
-        const trainingDataField = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField()
-        if (!trainingDataField) return
-
-        trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton())
-    }
-
-    setupDynamicButtonListener() {
-        const trainingDataField = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField()
-        if (!trainingDataField) return
-
-        trainingDataField.addEventListener('change', () => this.handleSetupDynamicButton())
-    }
-
-    setupTrainingFormSubmitBtnListener() {
-        const trainingFormSubmitBtn = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingFormSubmitBtn()
-
-        if (trainingFormSubmitBtn) {
-            trainingFormSubmitBtn.addEventListener('click', async () => {
-                await this.handleTrainingCountFormSubmit()
-            })
-        }
-    }
-
-    setupWeightFormSubmitBtnListener() {
-        const weightFormSubmitBtn = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightFormSubmitBtn()
-
-        if (weightFormSubmitBtn) {
-            weightFormSubmitBtn.addEventListener('click', async () => {
-                await this.handleWeightFormSubmit()
-            })
-        }
-    }
-
+    //Geral
     async setUserNameProfile() {
         const userNameTag = this.dom.getUserName()
         const avatarContainerTag = this.dom.getAvatarContainer()
@@ -88,41 +40,32 @@ export class DashboardController extends BaseController {
         avatarContainerTag.innerHTML = this.view.renderAvatarImg(response.data)
     }
 
-    async handleSetupDynamicButton() {
-        const selectedDate = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField()?.value
-        if (!selectedDate) return
-
-        const trainingCount = await this.getDataTraining(selectedDate)
-        if (typeof trainingCount === 'number' && trainingCount > 0) {
-            this.view.trainingPerWeeklyInterfaceComponent.setToggleState(true)
-        } else {
-            this.view.trainingPerWeeklyInterfaceComponent.setToggleState(false)
-        }
-
-        this.view.trainingPerWeeklyInterfaceComponent.updateToogleButton()
+    //Training
+    handleTrainingWeeklyInterface() {
+        this.view.renderTrainingPerWeeklyInterfaceComponent(() => {
+            this.view.alert('Dados enviados com sucesso!', 'success')
+            this.handleTrainingWeeklyChart()
+            this.handleTrainingWeeklyGoal()
+        })
     }
 
-    async getDataTraining(date) {
-        try {
-            const response = await this.apiService.get(`/api/statistics/date/${date}`)
-            return parseInt(response.data.count)
-        } catch (error) {
-            return 0
-        }
+    handleTrainingWeeklyGoal() {
+        this.view.renderTrainingPerWeeklyGoalComponent()
     }
 
     handleTrainingWeeklyChart() {
-        const tag = this.dom.getTrainingPerWeeklyChartTag()
-        if (!tag) return
-
-        this.view.renderTrainingPerWeeklyChart(tag)
+        this.view.renderTrainingPerWeeklyChart()
     }
 
-    handleCurrentGoal() {
-        const tag = this.dom.getTrainingPerWeeklyGoal()
-        if (!tag) return
+    //Weight
+    setupWeightFormSubmitBtnListener() {
+        const weightFormSubmitBtn = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightFormSubmitBtn()
 
-        this.view.renderTrainingPerWeeklyGoalComponent(tag)
+        if (weightFormSubmitBtn) {
+            weightFormSubmitBtn.addEventListener('click', async () => {
+                await this.handleWeightFormSubmit()
+            })
+        }
     }
 
     setWeightDataFieldValueToday() {
@@ -141,46 +84,6 @@ export class DashboardController extends BaseController {
             this.view.renderWeightDailyStatisticChart(tag, data)
         } catch (error) {
             console.error('Erro ao carregar dados de peso semanal:', error)
-        }
-    }
-
-    async setTrainingDataFieldValueToday() {
-        this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField().value = this.view.getTodayString()
-        this.handleSetupDynamicButton()
-    }
-
-    async handleTrainingCountFormSubmit() {
-        const trainingCount = this.view.trainingPerWeeklyInterfaceComponent.getToggleState() ? 0 : 1
-        const data = this.view.trainingPerWeeklyInterfaceComponent.dom.getTrainingDataField()?.value
-        const endpoint = `/api/statistics/date/${data}`
-
-        const formData = {
-            count: trainingCount,
-        }
-
-        this.view.trainingPerWeeklyInterfaceComponent.showLoading(true)
-
-        try {
-            const result = await this.apiService.request(endpoint, {
-                method: 'PUT',
-                body: JSON.stringify(formData),
-            })
-
-            if (result.success) {
-                this.view.alert('Dados enviados com sucesso!', 'success')
-                this.handleTrainingWeeklyChart()
-                await this.handleCurrentGoal()
-            } else {
-                this.view.alert(`Erro no envio: ${result.error}`, 'danger')
-                console.error('Erro da API:', result.error)
-            }
-        } catch (error) {
-            this.view.alert(`Erro de conexão: ${error.message}`, 'danger')
-            console.error('Erro inesperado:', error)
-        } finally {
-            const newToggleState = !this.view.trainingPerWeeklyInterfaceComponent.getToggleState()
-            this.view.trainingPerWeeklyInterfaceComponent.setToggleState(newToggleState)
-            this.view.trainingPerWeeklyInterfaceComponent.showLoading(false)
         }
     }
 
@@ -246,7 +149,7 @@ class DOMElementManager {
         return this.elements.trainingPerWeeklyGoal
     }
 
-    getTrainingPerWeeklyChartTag() {
+    getTrainingPerWeeklyChart() {
         if (!this.elements.TrainingPerWeeklyChart) {
             this.elements.TrainingPerWeeklyChart = document.querySelector('#training-per-weekly-chart')
         }
