@@ -6,6 +6,7 @@ import { TrainingPerWeeklyInterfaceComponent } from './component/training-per-we
 import { TrainingPerWeeklyGoalComponent } from './component/training-per-weekly/goal/TrainingPerWeeklyGoalComponent.js'
 import { WeightDailyStatisticChartComponent } from './component/weight-per-weekly/chart/WeightDailyStatisticChartComponent.js'
 import { WeightPerWeeklyInterfaceComponent } from './component/weight-per-weekly/interface/WeightPerWeeklyInterfaceComponent.js'
+import { WeightPerWeeklyGoalComponent } from './component/weight-per-weekly/goal/WeightPerWeeklyGoalComponent.js'
 
 export class DashboardView extends BaseView {
     constructor(dom) {
@@ -57,6 +58,11 @@ export class DashboardView extends BaseView {
 
         component.componentService.setCallbackForm(cbFuction)
         component.autoRender()
+    }
+
+    renderWeightPerWeeklyGoalComponent() {
+        const targetTag = this.dom.getWeightPerWeeklyGoal()
+        new WeightPerWeeklyGoalComponent(targetTag).autoRender()
     }
 
     renderWeightDailyStatisticChart() {

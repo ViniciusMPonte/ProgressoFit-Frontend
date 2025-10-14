@@ -21,6 +21,7 @@ export class DashboardController extends BaseController {
         this.handleTrainingWeeklyChart()
 
         this.handleWeightWeeklyInterface()
+        this.handleWeightWeeklyGoal()
         this.handleWeightDailyChart()
     }
 
@@ -59,7 +60,12 @@ export class DashboardController extends BaseController {
         this.view.renderWeightPerWeeklyInterfaceComponent(() => {
             this.view.alert('Peso registrado com sucesso!', 'success')
             this.handleWeightDailyChart()
+            this.handleWeightWeeklyGoal()
         })
+    }
+
+    handleWeightWeeklyGoal(){
+        this.view.renderWeightPerWeeklyGoalComponent()
     }
 
     handleWeightDailyChart() {
@@ -119,6 +125,13 @@ class DOMElementManager {
             this.elements.weightPerWeeklyInterface = document.querySelector('#weight-per-weekly-interface')
         }
         return this.elements.weightPerWeeklyInterface
+    }
+
+    getWeightPerWeeklyGoal() {
+        if (!this.elements.weightPerWeeklyGoal) {
+            this.elements.weightPerWeeklyGoal = document.querySelector('#weight-per-weekly-goal')
+        }
+        return this.elements.weightPerWeeklyGoal
     }
 
     getWeightForm() {

@@ -27,7 +27,7 @@ export class WeightDailyStatisticChartComponent {
             [
                 {
                     data: this.weightData.data,
-                    backgroundColor: ['rgba(92, 250, 30, 0.6)'],
+                    backgroundColor: ['rgba(92, 250, 30, 0.4)'],
                     fill: true,
                     borderColor: 'rgba(97, 243, 57, 1)',
                     tension: 0.4,
@@ -38,12 +38,12 @@ export class WeightDailyStatisticChartComponent {
                 scales: {
                     y: {
                         min: 50,
-                        max: 130,
+                        max: 80,
                         ticks: {
-                            stepSize: 10,
+                            stepSize: 1,
                         },
                         grid: {
-                            display: false,
+                            display: true,
                         },
                     },
                     x: {
