@@ -1,5 +1,6 @@
 import { WeightPerWeeklyGoalService } from './service/WeightPerWeeklyGoalService.js'
 import { MathHelper } from '../../training-per-weekly/goal/helper/MathHelper.js'
+import { GoalStatusService } from './service/GoalStatusService.js'
 
 export class WeightPerWeeklyGoalComponent {
     constructor(targetTag) {
@@ -7,10 +8,10 @@ export class WeightPerWeeklyGoalComponent {
 
         this.dom = new DOMElementManager()
         this.componentService = new WeightPerWeeklyGoalService()
+        this.goalStatusService = new GoalStatusService()
 
         //mock
         this.goalFailed = false
-        //this.percentageGoal = 50
     }
 
     async autoRender() {
@@ -36,6 +37,12 @@ export class WeightPerWeeklyGoalComponent {
         const currentResult = (data.weightEndDate.weightKg - data.weightStartDate.weightKg) * direction
 
         this.percentageGoal = MathHelper.calculatePercentage(currentResult, targetGoal)
+        this.goalFailed = this.goalStatusService.checkIfGoalFailed(
+            data.weightGoal.targetValue,
+            this.weightEndDate.weightKg,
+            direction,
+            data.weightGoal.endDate
+        )
     }
 
     renderGoalStatus(goalFailed) {
