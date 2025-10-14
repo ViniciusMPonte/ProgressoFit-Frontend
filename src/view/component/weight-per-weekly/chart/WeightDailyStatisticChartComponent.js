@@ -5,23 +5,41 @@ export class WeightDailyStatisticChartComponent {
     constructor(ctx) {
         this.chartService = new ChartService(ctx)
         this.componentService = new WeightDailyStatisticChartService()
+
+        this.minY = null
+        this.maxY = null
     }
 
     async autoRender() {
-        await this.updateWeightData()
+        this.weightData = await this.componentService.getDataLastMonths()
+
+        const data = await this.componentService.getDataCurrentGoal()
+        this._initializeData(data)
+        this._calculateMetrics(data)
+
         this.render()
     }
 
-    async updateWeightData() {
-        try {
-            const data = await this.componentService.getDataLastMonths()
-            this.weightData = data
-        } catch (error) {
-            console.error('Erro ao atualizar dados de treino:', error?.message || error)
+    _initializeData(data) {
+        this.defaultWeightMin = data.weightMin.weightKg
+        this.defaultWeightMax = data.weightMax.weightKg
+    }
+
+    _calculateMetrics(data) {
+        const diff = data.weightGoal.targetValue - data.weightStartDate.weightKg
+        const direction = Math.sign(diff)
+
+        if (direction > 0) {
+            this.maxY = data.weightGoal.targetValue
+        } else if (direction < 0) {
+            this.minY = data.weightGoal.targetValue
         }
     }
 
     render() {
+        const minY = this.minY ?? this.defaultWeightMin - 1
+        const maxY = this.maxY ?? this.defaultWeightMax + 1
+
         this.chartService.create(
             this.weightData.labels,
             [
@@ -37,8 +55,8 @@ export class WeightDailyStatisticChartComponent {
             {
                 scales: {
                     y: {
-                        min: 50,
-                        max: 80,
+                        min: minY,
+                        max: maxY,
                         ticks: {
                             stepSize: 1,
                         },
