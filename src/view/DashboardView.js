@@ -5,7 +5,7 @@ import { TrainingPerWeeklyChartComponent } from './component/training-per-weekly
 import { TrainingPerWeeklyInterfaceComponent } from './component/training-per-weekly/interface/TrainingPerWeeklyInterfaceComponent.js'
 import { TrainingPerWeeklyGoalComponent } from './component/training-per-weekly/goal/TrainingPerWeeklyGoalComponent.js'
 import { WeightDailyStatisticChartComponent } from './component/weight-per-weekly/chart/WeightDailyStatisticChartComponent.js'
-import { WeightPerWeeklyInterfaceComponent } from './component/weight-per-weekly/WeightPerWeeklyInterfaceComponent.js'
+import { WeightPerWeeklyInterfaceComponent } from './component/weight-per-weekly/interface/WeightPerWeeklyInterfaceComponent.js'
 
 export class DashboardView extends BaseView {
     constructor(dom) {
@@ -51,9 +51,12 @@ export class DashboardView extends BaseView {
         new TrainingPerWeeklyChartComponent(ctx).autoRender()
     }
 
-    renderWeightPerWeeklyInterfaceComponent() {
+    renderWeightPerWeeklyInterfaceComponent(cbFuction) {
         const targetTag = this.dom.getWeightPerWeeklyInterface()
-        new WeightPerWeeklyInterfaceComponent(targetTag).autoRender()
+        const component = new WeightPerWeeklyInterfaceComponent(targetTag)
+
+        component.componentService.setCallbackForm(cbFuction)
+        component.autoRender()
     }
 
     renderWeightDailyStatisticChart() {

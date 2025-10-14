@@ -20,14 +20,11 @@ export class DashboardController extends BaseController {
         this.handleTrainingWeeklyGoal()
         this.handleTrainingWeeklyChart()
 
-        this.view.renderWeightPerWeeklyInterfaceComponent()
-        this.setWeightDataFieldValueToday()
+        this.handleWeightWeeklyInterface()
         this.handleWeightDailyChart()
     }
 
-    setupEventListeners() {
-        this.setupWeightFormSubmitBtnListener()
-    }
+    setupEventListeners() {}
 
     //Geral
     async setUserNameProfile() {
@@ -58,51 +55,13 @@ export class DashboardController extends BaseController {
     }
 
     //Weight
-    //Weight - Interface
-    setupWeightFormSubmitBtnListener() {
-        const weightFormSubmitBtn = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightFormSubmitBtn()
-
-        if (weightFormSubmitBtn) {
-            weightFormSubmitBtn.addEventListener('click', async () => {
-                await this.handleWeightFormSubmit()
-            })
-        }
+    handleWeightWeeklyInterface() {
+        this.view.renderWeightPerWeeklyInterfaceComponent(() => {
+            this.view.alert('Peso registrado com sucesso!', 'success')
+            this.handleWeightDailyChart()
+        })
     }
 
-    setWeightDataFieldValueToday() {
-        const weightDateField = document.getElementById('weight-date-field')
-        weightDateField.value = this.view.getTodayString()
-    }
-
-    async handleWeightFormSubmit() {
-        const weight = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightInput()?.value
-        const data = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightDateField()?.value
-        const endpoint = `/api/weight/date/${data}`
-
-        const formData = {
-            weightKg: parseFloat(weight),
-        }
-
-        try {
-            const result = await this.apiService.request(endpoint, {
-                method: 'PUT',
-                body: JSON.stringify(formData),
-            })
-
-            if (result.success) {
-                this.view.alert('Peso registrado com sucesso!', 'success')
-                this.handleWeightDailyChart()
-            } else {
-                this.view.alert(`Erro no envio: ${result.error}`, 'danger')
-                console.error('Erro da API:', result.error)
-            }
-        } catch (error) {
-            this.view.alert(`Erro de conexão: ${error.message}`, 'danger')
-            console.error('Erro inesperado:', error)
-        }
-    }
-
-    //Weight - chart
     handleWeightDailyChart() {
         this.view.renderWeightDailyStatisticChart()
     }
