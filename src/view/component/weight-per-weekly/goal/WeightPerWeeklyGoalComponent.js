@@ -9,9 +9,6 @@ export class WeightPerWeeklyGoalComponent {
         this.dom = new DOMElementManager()
         this.componentService = new WeightPerWeeklyGoalService()
         this.goalStatusService = new GoalStatusService()
-
-        //mock
-        this.goalFailed = false
     }
 
     async autoRender() {

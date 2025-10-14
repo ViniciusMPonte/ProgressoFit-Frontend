@@ -10,6 +10,17 @@ export class WeightPerWeeklyInterfaceService {
         this.callbackForm = cbFuction
     }
 
+    async getWeightData(date) {
+        try {
+            const response = await this.apiService.get(`/api/weight/date/${date}`)
+            if (!response.success) return ''
+
+            return parseInt(response.data.weightKg)
+        } catch (error) {
+            return ''
+        }
+    }
+
     async weightFormSubmit() {
         const weight = this.dom.getWeightInput()?.value
         const date = this.dom.getWeightDateField()?.value

@@ -13,6 +13,12 @@ export class WeightPerWeeklyInterfaceComponent {
         this.targetTag.innerHTML = this.get()
         this.setupCalendarButtonListener()
         this.setupWeightFormSubmitBtnListener()
+        this.setupDynamicInputListener()
+    }
+
+    async getWeightInputData() {
+        const date = this.dom.getWeightDateField()?.value
+        this.dom.getWeightInput().value = await this.componentService.getWeightData(date)
     }
 
     showLoading(show) {
@@ -82,6 +88,13 @@ export class WeightPerWeeklyInterfaceComponent {
         weightFormSubmitBtn.addEventListener('click', async () => {
             await this.componentService.weightFormSubmit()
         })
+    }
+
+    setupDynamicInputListener() {
+        const weightDateField = this.dom.getWeightDateField()
+        if (!weightDateField) return
+        this.getWeightInputData()
+        weightDateField.addEventListener('change', () => this.getWeightInputData())
     }
 }
 
