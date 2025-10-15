@@ -20,14 +20,12 @@ export class DashboardController extends BaseController {
         this.handleTrainingWeeklyGoal()
         this.handleTrainingWeeklyChart()
 
-        this.view.renderWeightPerWeeklyInterfaceComponent()
-        this.setWeightDataFieldValueToday()
+        this.handleWeightWeeklyInterface()
+        this.handleWeightWeeklyGoal()
         this.handleWeightDailyChart()
     }
 
-    setupEventListeners() {
-        this.setupWeightFormSubmitBtnListener()
-    }
+    setupEventListeners() {}
 
     //Geral
     async setUserNameProfile() {
@@ -58,61 +56,20 @@ export class DashboardController extends BaseController {
     }
 
     //Weight
-    setupWeightFormSubmitBtnListener() {
-        const weightFormSubmitBtn = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightFormSubmitBtn()
-
-        if (weightFormSubmitBtn) {
-            weightFormSubmitBtn.addEventListener('click', async () => {
-                await this.handleWeightFormSubmit()
-            })
-        }
+    handleWeightWeeklyInterface() {
+        this.view.renderWeightPerWeeklyInterfaceComponent(() => {
+            this.view.alert('Peso registrado com sucesso!', 'success')
+            this.handleWeightDailyChart()
+            this.handleWeightWeeklyGoal()
+        })
     }
 
-    setWeightDataFieldValueToday() {
-        const weightDateField = document.getElementById('weight-date-field')
-        weightDateField.value = this.view.getTodayString()
+    handleWeightWeeklyGoal(){
+        this.view.renderWeightPerWeeklyGoalComponent()
     }
 
-    async handleWeightDailyChart() {
-        try {
-            const response = await this.apiService.get('/api/weight/weekly/last-months/1')
-            const data = response.data
-
-            const tag = this.dom.getWeightDailyWeeklyChartTag()
-            if (!tag) return
-
-            this.view.renderWeightDailyStatisticChart(tag, data)
-        } catch (error) {
-            console.error('Erro ao carregar dados de peso semanal:', error)
-        }
-    }
-
-    async handleWeightFormSubmit() {
-        const weight = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightInput()?.value
-        const data = this.view.weightPerWeeklyInterfaceComponent.dom.getWeightDateField()?.value
-        const endpoint = `/api/weight/date/${data}`
-
-        const formData = {
-            weightKg: parseFloat(weight),
-        }
-
-        try {
-            const result = await this.apiService.request(endpoint, {
-                method: 'PUT',
-                body: JSON.stringify(formData),
-            })
-
-            if (result.success) {
-                this.view.alert('Peso registrado com sucesso!', 'success')
-                await this.handleWeightDailyChart()
-            } else {
-                this.view.alert(`Erro no envio: ${result.error}`, 'danger')
-                console.error('Erro da API:', result.error)
-            }
-        } catch (error) {
-            this.view.alert(`Erro de conexão: ${error.message}`, 'danger')
-            console.error('Erro inesperado:', error)
-        }
+    handleWeightDailyChart() {
+        this.view.renderWeightDailyStatisticChart()
     }
 }
 
@@ -168,6 +125,13 @@ class DOMElementManager {
             this.elements.weightPerWeeklyInterface = document.querySelector('#weight-per-weekly-interface')
         }
         return this.elements.weightPerWeeklyInterface
+    }
+
+    getWeightPerWeeklyGoal() {
+        if (!this.elements.weightPerWeeklyGoal) {
+            this.elements.weightPerWeeklyGoal = document.querySelector('#weight-per-weekly-goal')
+        }
+        return this.elements.weightPerWeeklyGoal
     }
 
     getWeightForm() {

@@ -1,37 +1,40 @@
+import { WeightPerWeeklyInterfaceService } from './service/WeightPerWeeklyInterfaceService.js'
+import DaseView from '../../../BaseView.js'
+
 export class WeightPerWeeklyInterfaceComponent {
     constructor(targetTag) {
         this.targetTag = targetTag
+
         this.dom = new DOMElementManager()
+        this.componentService = new WeightPerWeeklyInterfaceService(this.dom)
     }
 
-    setupCalendarButtonListener() {
-        const weightCalendarButton = this.dom.getWeightCalendarBtn()
-        const weightDataField = this.dom.getWeightDateField()
+    autoRender() {
+        this.targetTag.innerHTML = this.get()
+        this.setupCalendarButtonListener()
+        this.setupWeightFormSubmitBtnListener()
+        this.setupDynamicInputListener()
+    }
 
-        weightCalendarButton.addEventListener('click', () => {
-            if (weightDataField.showPicker) {
-                weightDataField.showPicker()
-            } else {
-                weightDataField.click()
-            }
-        })
+    async getWeightInputData() {
+        const date = this.dom.getWeightDateField()?.value
+        this.dom.getWeightInput().value = await this.componentService.getWeightData(date)
     }
 
     showLoading(show) {
         const weightFormSubmitBtn = this.dom.getWeightFormSubmitBtn()
+        if (!weightFormSubmitBtn) return
 
-        if (weightFormSubmitBtn) {
-            weightFormSubmitBtn.disabled = show
+        weightFormSubmitBtn.disabled = show
 
-            if (show) {
-                weightFormSubmitBtn.classList.add('disabled')
-                weightFormSubmitBtn.innerHTML = `
+        if (show) {
+            weightFormSubmitBtn.classList.add('disabled')
+            weightFormSubmitBtn.innerHTML = `
                     <span class="spinner-border spinner-border-sm me-2"></span>
                     Enviando...
                 `
-            } else {
-                weightFormSubmitBtn.classList.remove('disabled')
-            }
+        } else {
+            weightFormSubmitBtn.classList.remove('disabled')
         }
     }
 
@@ -62,9 +65,36 @@ export class WeightPerWeeklyInterfaceComponent {
         `
     }
 
-    autoRender() {
-        this.targetTag.innerHTML = this.get()
-        this.setupCalendarButtonListener()
+    //listeners
+    setupCalendarButtonListener() {
+        const weightCalendarButton = this.dom.getWeightCalendarBtn()
+        const weightDataField = this.dom.getWeightDateField()
+
+        weightDataField.value = new DaseView().getTodayString()
+
+        weightCalendarButton.addEventListener('click', () => {
+            if (weightDataField.showPicker) {
+                weightDataField.showPicker()
+            } else {
+                weightDataField.click()
+            }
+        })
+    }
+
+    setupWeightFormSubmitBtnListener() {
+        const weightFormSubmitBtn = this.dom.getWeightFormSubmitBtn()
+        if (!weightFormSubmitBtn) return
+
+        weightFormSubmitBtn.addEventListener('click', async () => {
+            await this.componentService.weightFormSubmit()
+        })
+    }
+
+    setupDynamicInputListener() {
+        const weightDateField = this.dom.getWeightDateField()
+        if (!weightDateField) return
+        this.getWeightInputData()
+        weightDateField.addEventListener('change', () => this.getWeightInputData())
     }
 }
 

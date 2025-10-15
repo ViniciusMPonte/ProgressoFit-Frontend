@@ -1,225 +1,84 @@
-import BaseController from "./BaseController.js";
-import { PerfilView } from "../view/PerfilView.js";
-import { RegisterDTO } from "../model/dto/RegisterDTO.js";
+import BaseController from './BaseController.js'
+import { PerfilView } from '../view/PerfilView.js'
 
 export class PerfilController extends BaseController {
     constructor(redirectManager, apiService) {
-        super(redirectManager, apiService);
-        this.dom = new DOMElementManager();
+        super(redirectManager, apiService)
+        this.dom = new DOMElementManager()
         this.view = new PerfilView(this.dom)
-        this.originalData = {};
     }
 
     loadPage() {
         this.setupDynamicContent()
-        this.setupEventListeners();
+        this.setupEventListeners()
     }
 
     setupEventListeners() {
-        this.setupSaveButtonListener();
-        this.setupEditButtonListener();
-        this.setupCancelButtonListener();
-        this.setupOptAvatarImgsListener()
+        // Event listeners são gerenciados pelos componentes
     }
 
     setupDynamicContent() {
-        this.getAndShowUserProfileInfo()
-        this.showAvatarImgOptions()
+        this.handleSidebarNavigation()
+        this.handleEditProfileComponent()
+        this.handleTrainingComponent()
+        this.handleWeightComponent()
+        this.handleFooter()
     }
 
-    setupSaveButtonListener() {
-        const saveButton = this.dom.getSaveButton();
-        if (!saveButton) return;
+    handleSidebarNavigation() {
+        this.view.renderSidebarNavigation()
+    }
 
-        saveButton.addEventListener('click', () => {
-            this.updateProfileData();
+    handleEditProfileComponent() {
+        this.view.renderEditProfileComponent((message, type) => {
+            this.view.alert(message, type)
         })
     }
 
-    setupEditButtonListener() {
-        const editButton = this.dom.getEditButton();
-        if (!editButton) return;
-
-        editButton.addEventListener('click', () => {
-            this.view.enableEdit();
-            this.storeOriginalData();
-            this.dom.getPasswordInput().value = ''
+    handleTrainingComponent() {
+        this.view.renderTrainingSection((message, type) => {
+            this.view.alert(message, type)
         })
     }
 
-    setupCancelButtonListener() {
-        const cancelButton = this.dom.getCancelButton();
-        if (!cancelButton) return;
-
-        cancelButton.addEventListener('click', () => {
-            this.view.disableEdit();
-            this.restoresOriginalData();
+    handleWeightComponent() {
+        this.view.renderWeightSection((message, type) => {
+            this.view.alert(message, type)
         })
     }
 
-    storeOriginalData() {
-        this.originalData = {
-            name: this.dom.getNameInput()?.value || '',
-            email: this.dom.getEmailInput()?.value || '',
-            password: this.dom.getPasswordInput()?.value || '',
-            profileImgName: this.dom.getProfileImgNameInput()?.value || '',
-        };
-    }
-
-    restoresOriginalData() {
-        const nameInput = this.dom.getNameInput();
-        const emailInput = this.dom.getEmailInput();
-        const passwordInput = this.dom.getPasswordInput();
-        const profileImgNameInput = this.dom.getProfileImgNameInput()
-
-        if (nameInput) nameInput.value = this.originalData.name;
-        if (emailInput) emailInput.value = this.originalData.email;
-        if (passwordInput) passwordInput.value = this.originalData.password;
-        if (profileImgNameInput) profileImgNameInput.value = this.originalData.profileImgName;
-        this.view.selectAvatarOptByImgName(this.originalData.profileImgName);
-    }
-
-    showAvatarImgOptions() {
-        const avatarOptions = this.dom.getAvatarOptions();
-        if (!avatarOptions) return;
-
-        avatarOptions.innerHTML = this.view.renderAvartarImgOptions()
-    }
-
-    setupOptAvatarImgsListener() {
-        const avatarOptionsContainer = this.dom.getAvatarOptions()
-        const imageOptions = [...avatarOptionsContainer.children];
-        const profileImgNameInput = this.dom.getProfileImgNameInput()
-
-        imageOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                this.view.swapSelected(imageOptions, option);
-                profileImgNameInput.value = option.getAttribute('data-image');
-            });
-        });
-    }
-
-    async updateProfileData() {
-        const name = this.dom.getNameInput()?.value;
-        const email = this.dom.getEmailInput()?.value;
-        const password = this.dom.getPasswordInput()?.value;
-        const profileImgName = this.dom.getProfileImgNameInput()?.value;
-
-        const registerDto = new RegisterDTO(name, email, password, profileImgName);
-        const validation = registerDto.validate();
-
-        if (!validation.isValid) {
-            this.view.alert(validation.errors[0], 'warning');
-            return;
-        }
-
-        try {
-            const result = await this.apiService.put('/api/user', registerDto);
-
-            if (result.success) {
-                this.redirect.to('perfil');
-            } else {
-                this.view.alert(result.message || 'Erro ao criar conta. Tente novamente.', 'danger');
-            }
-        } catch (error) {
-            console.error('Erro durante o atualização:', error);
-            this.view.alert('Erro interno. Tente novamente mais tarde.', 'danger');
-        }
-    }
-
-    async getAndShowUserProfileInfo() {
-        let response = await this.apiService.get('/api/user');
-        this.dom.getNameInput().value = response.data.name
-        this.dom.getEmailInput().value = response.data.email
-        this.dom.getPasswordInput().value = '********'
-        this.dom.getProfileImgNameInput().value = response.data.profileImgName
-        this.view.selectAvatarOptByImgName(response.data.profileImgName)
+    handleFooter() {
+        this.view.renderFooter()
     }
 }
 
 class DOMElementManager {
     constructor() {
-        this.elements = {};
+        this.elements = {}
     }
 
-    getFooterTag() {
-        if (!this.elements.footerTag) {
-            this.elements.footerTag = document.querySelector('#footer');
+    getProfileContainer() {
+        if (!this.elements.profileContainer) {
+            this.elements.profileContainer = document.querySelector('#profile-container')
         }
-        return this.elements.footerTag;
+        return this.elements.profileContainer
     }
 
-    getForm() {
-        if (!this.elements.form) {
-            this.elements.form = document.querySelector('#profileForm');
+    getTrainingContainer() {
+        if (!this.elements.trainingContainer) {
+            this.elements.trainingContainer = document.querySelector('#training-container')
         }
-        return this.elements.form;
+        return this.elements.trainingContainer
     }
 
-    getAvatarOptions() {
-        if (!this.elements.avatarOptions) {
-            this.elements.avatarOptions = document.querySelector('#avatar-options');
+    getWeightContainer() {
+        if (!this.elements.weightContainer) {
+            this.elements.weightContainer = document.querySelector('#weight-container')
         }
-        return this.elements.avatarOptions;
-    }
-
-    getProfileImgNameInput() {
-        if (!this.elements.profileImgNameInput) {
-            this.elements.profileImgNameInput = document.querySelector('#profileImgName');
-        }
-        return this.elements.profileImgNameInput;
-    }
-
-    getNameInput() {
-        if (!this.elements.nameInput) {
-            this.elements.nameInput = document.querySelector('#floatingName');
-        }
-        return this.elements.nameInput;
-    }
-
-    getEmailInput() {
-        if (!this.elements.emailInput) {
-            this.elements.emailInput = document.querySelector('#floatingEmail');
-        }
-        return this.elements.emailInput;
-    }
-
-    getPasswordInput() {
-        if (!this.elements.passwordInput) {
-            this.elements.passwordInput = document.querySelector('#floatingPassword');
-        }
-        return this.elements.passwordInput;
-    }
-
-    getEditButton() {
-        if (!this.elements.editButton) {
-            this.elements.editButton = document.querySelector('#editButton');
-        }
-        return this.elements.editButton;
-    }
-
-    getSaveButton() {
-        if (!this.elements.saveButton) {
-            this.elements.saveButton = document.querySelector('#saveButton');
-        }
-        return this.elements.saveButton;
-    }
-
-    getCancelButton() {
-        if (!this.elements.cancelButton) {
-            this.elements.cancelButton = document.querySelector('#cancelButton');
-        }
-        return this.elements.cancelButton;
-    }
-
-    getLoadingDiv() {
-        if (!this.elements.loadingDiv) {
-            this.elements.loadingDiv = document.querySelector('#loading');
-        }
-        return this.elements.loadingDiv;
+        return this.elements.weightContainer
     }
 
     destroy() {
-        this.elements = {};
+        this.elements = {}
     }
 }

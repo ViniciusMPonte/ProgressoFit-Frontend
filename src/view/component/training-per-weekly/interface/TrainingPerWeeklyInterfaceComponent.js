@@ -34,20 +34,19 @@ export class TrainingPerWeeklyInterfaceComponent {
 
     showLoading(show) {
         const trainingFormSubmitBtn = this.dom.getTrainingFormSubmitBtn()
+        if (!trainingFormSubmitBtn) return
 
-        if (trainingFormSubmitBtn) {
-            trainingFormSubmitBtn.disabled = show
+        trainingFormSubmitBtn.disabled = show
 
-            if (show) {
-                trainingFormSubmitBtn.classList.add('disabled')
-                trainingFormSubmitBtn.innerHTML = `
+        if (show) {
+            trainingFormSubmitBtn.classList.add('disabled')
+            trainingFormSubmitBtn.innerHTML = `
                     <span class="spinner-border spinner-border-sm me-2"></span>
                     Enviando...
                 `
-            } else {
-                trainingFormSubmitBtn.classList.remove('disabled')
-                this.updateToogleButton()
-            }
+        } else {
+            trainingFormSubmitBtn.classList.remove('disabled')
+            this.updateToogleButton()
         }
     }
 
@@ -76,10 +75,12 @@ export class TrainingPerWeeklyInterfaceComponent {
         `
     }
 
-    //listener
+    //listeners
     setupCalendarButtonListener() {
         const trainingCalendarButton = this.dom.getTrainingCalendarBtn()
         const trainingDataField = this.dom.getTrainingDataField()
+
+        trainingDataField.value = new DaseView().getTodayString()
 
         trainingCalendarButton.addEventListener('click', () => {
             if (trainingDataField.showPicker) {
@@ -93,20 +94,18 @@ export class TrainingPerWeeklyInterfaceComponent {
     setupDynamicButtonListener() {
         const trainingDataField = this.dom.getTrainingDataField()
         if (!trainingDataField) return
-        trainingDataField.value = new DaseView().getTodayString()
         this.updateToogleButton()
         trainingDataField.addEventListener('change', () => this.updateToogleButton())
     }
 
     setupTrainingFormSubmitBtnListener() {
         const trainingFormSubmitBtn = this.dom.getTrainingFormSubmitBtn()
+        if (!trainingFormSubmitBtn) return
 
-        if (trainingFormSubmitBtn) {
-            trainingFormSubmitBtn.addEventListener('click', async () => {
-                await this.componentService.countFormSubmit()
-                await this.updateToogleButton()
-            })
-        }
+        trainingFormSubmitBtn.addEventListener('click', async () => {
+            await this.componentService.countFormSubmit()
+            await this.updateToogleButton()
+        })
     }
 }
 
