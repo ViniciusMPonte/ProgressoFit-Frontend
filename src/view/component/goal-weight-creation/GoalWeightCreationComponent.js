@@ -36,9 +36,9 @@ export class GoalWeightCreationComponent {
         return /*html*/ `
             <style>
                 #goal-weight-creation-form .card-header {
-                    margin: 0; 
-                    align-items: center; 
-                    padding: 20px; 
+                    margin: 0;
+                    align-items: center;
+                    padding: 20px;
                     font-size: x-large;
                 }
                 #goal-weight-creation-form .custom-border {
@@ -57,35 +57,42 @@ export class GoalWeightCreationComponent {
                 </div>
                 <div class="card-body">
                     <p class="text-muted">Defina sua meta de peso</p>
-                    <div class="form-group mb-3">
-                        <label class="g-bold" for="goal-weight-target-value">Meta (peso alvo em kg)</label>
-                        <input 
-                            type="number" 
-                            step="0.1" 
-                            id="goal-weight-target-value" 
-                            name="targetValue" 
-                            class="form-control"
-                            placeholder="Ex: 75.0" 
-                            required 
-                        />
-                        <small class="text-muted">Defina o peso que deseja alcançar</small>
-                    </div>
                     <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="g-bold" for="goal-weight-inicial-value">Peso inicial (em kg)</label>
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    id="goal-weight-inicial-value"
+                                    name="inicialValue"
+                                    class="form-control"
+                                    placeholder="Ex: 75.0"
+                                    required
+                                />
+                                <small class="text-muted">Digite o seu peso atual</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="g-bold" for="goal-weight-target-value">Meta (em kg)</label>
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    id="goal-weight-target-value"
+                                    name="targetValue"
+                                    class="form-control"
+                                    placeholder="Ex: 75.0"
+                                    required
+                                />
+                                <small class="text-muted">Defina o peso que deseja alcançar</small>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <label class="g-bold" for="goal-weight-start-date">Data de Início</label>
                             <div class="input-group custom-border">
-                                <input 
-                                    type="date" 
-                                    id="goal-weight-start-date" 
-                                    name="startDate" 
-                                    class="form-control pointer-events-none custom-date"
-                                    required 
-                                />
-                                <button 
-                                    type="button" 
-                                    class="custom-calendar-btn" 
-                                    id="goal-weight-start-calendar-btn"
-                                >
+                                <input type="date" id="goal-weight-start-date" name="startDate" class="form-control pointer-events-none custom-date" required />
+                                <button type="button" class="custom-calendar-btn" id="goal-weight-start-calendar-btn">
                                     <i class="fa-solid fa-calendar"></i>
                                 </button>
                             </div>
@@ -93,30 +100,16 @@ export class GoalWeightCreationComponent {
                         <div class="col-md-6">
                             <label class="g-bold" for="goal-weight-end-date">Data de Término</label>
                             <div class="input-group custom-border">
-                                <input 
-                                    type="date" 
-                                    id="goal-weight-end-date" 
-                                    name="endDate" 
-                                    class="form-control pointer-events-none custom-date"
-                                    required 
-                                />
-                                <button 
-                                    type="button" 
-                                    class="custom-calendar-btn" 
-                                    id="goal-weight-end-calendar-btn"
-                                >
+                                <input type="date" id="goal-weight-end-date" name="endDate" class="form-control pointer-events-none custom-date" required />
+                                <button type="button" class="custom-calendar-btn" id="goal-weight-end-calendar-btn">
                                     <i class="fa-solid fa-calendar"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-primary" id="goal-weight-form-submit-btn">
-                            Salvar Objetivo
-                        </button>
-                        <button type="button" class="btn btn-light" id="goal-weight-form-reset-btn">
-                            Limpar
-                        </button>
+                        <button type="button" class="btn btn-primary" id="goal-weight-form-submit-btn">Salvar Objetivo</button>
+                        <button type="button" class="btn btn-light" id="goal-weight-form-reset-btn">Limpar</button>
                     </div>
                 </div>
             </form>
@@ -169,21 +162,17 @@ export class GoalWeightCreationComponent {
     }
 
     async setupDefaultValues() {
+        const inicialValueInput = this.dom.getGoalInicialValue()
         const targetValueInput = this.dom.getGoalTargetValue()
         const startDateField = this.dom.getGoalStartDate()
         const endDateField = this.dom.getGoalEndDate()
 
         const data = await this.componentService.getCurrentGoal()
 
+        if (inicialValueInput) inicialValueInput.value = data.initialValue
         if (targetValueInput) targetValueInput.value = data.targetValue
-
-        if (startDateField) {
-            startDateField.value = data.startDate
-        }
-
-        if (endDateField) {
-            endDateField.value = data.endDate
-        }
+        if (startDateField) startDateField.value = data.startDate
+        if (endDateField) endDateField.value = data.endDate   
     }
 
     resetForm() {
@@ -205,6 +194,13 @@ class DOMElementManager {
             this.elements.goalWeightCreationForm = document.querySelector('#goal-weight-creation-form')
         }
         return this.elements.goalWeightCreationForm
+    }
+
+    getGoalInicialValue() {
+        if (!this.elements.goalInicialValue) {
+            this.elements.goalInicialValue = document.querySelector('#goal-weight-inicial-value')
+        }
+        return this.elements.goalInicialValue
     }
 
     getGoalTargetValue() {

@@ -12,11 +12,12 @@ export class GoalWeightCreationService {
     }
 
     async handleGoalFormSubmit() {
-        const targetValue = this.dom.getGoalTargetValue()?.value
+        const inicialValue = parseFloat(this.dom.getGoalInicialValue()?.value)
+        const targetValue = parseFloat(this.dom.getGoalTargetValue()?.value)
         const startDate = this.dom.getGoalStartDate()?.value
         const endDate = this.dom.getGoalEndDate()?.value
 
-        if (!targetValue || !startDate || !endDate) {
+        if (!inicialValue || !targetValue || !startDate || !endDate) {
             console.error('Todos os campos são obrigatórios')
             if (this.callbackForm) {
                 this.callbackForm('Preencha todos os campos obrigatórios', 'error')
@@ -33,7 +34,7 @@ export class GoalWeightCreationService {
         }
 
         const formData = {
-            targetValue: parseFloat(targetValue),
+            targetValue: targetValue,
             startDate: startDate,
             endDate: endDate,
             valueUnit: 'kg',
@@ -41,7 +42,7 @@ export class GoalWeightCreationService {
         }
 
         try {
-            const result = await this.createGoal(formData)
+            const result = await this.createGoal(formData, inicialValue)
 
             if (result) {
                 if (this.callbackForm) {
@@ -64,25 +65,35 @@ export class GoalWeightCreationService {
     }
 
     async getCurrentGoal() {
-        const endpoint = '/api/goals/label/weight'
-
         try {
-            const result = await this.apiService.get(endpoint)
+            const goalResult = await this.apiService.get('/api/goals/label/weight')
+            if (!goalResult.success) throw new Error()
 
-            if (result.success) {
-                return result.data
+            const goalData = goalResult.data
+            const weightResult = await this.apiService.get(`/api/weight/date/${goalData.startDate}`)
+
+            if (weightResult.success) {
+                goalData.initialValue = weightResult.data.weightKg
             }
+
+            return goalData
         } catch (error) {
             console.error('Erro ao buscar objetivo:', error)
-            return false
+            return {
+                targetValue: '',
+                initialValue: '',
+                startDate: '',
+                endDate: '',
+            }
         }
     }
-
-    async createGoal(formData) {
-        const endpoint = '/api/goals/label/weight'
-
+    async createGoal(formData, inicialValue) {
+        let result
         try {
-            const result = await this.apiService.put(endpoint, formData)
+            result = await this.apiService.put(`/api/weight/date/${formData.startDate}`, { weightKg: inicialValue })
+            if (!result.success) throw new Error()
+
+            result = await this.apiService.put('/api/goals/label/weight', formData)
 
             if (result.success) {
                 return true
