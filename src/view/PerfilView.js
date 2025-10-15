@@ -33,25 +33,13 @@ export class PerfilView extends BaseView {
         const targetTag = this.dom.getTrainingContainer()
         if (!targetTag) return
 
-        targetTag.innerHTML = /*html*/ `
-            <div class="card-header" style="margin: 0; align-items: center; padding: 20px; font-size: x-large">
-                <span class="g-bold"><i class="fa-solid fa-dumbbell fa-lg"></i>&nbsp;&nbsp;Treinos</span>
-            </div>
-            <div class="card-body p-4">
-                <div id="goal-training-creation-container"></div>
-            </div>
-        `
+        const component = new GoalTrainingCreationComponent(targetTag)
 
-        const goalTrainingCreationContainer = document.querySelector('#goal-training-creation-container')
-        if (goalTrainingCreationContainer) {
-            const component = new GoalTrainingCreationComponent(targetTag)
-            
-            if (cbFunction) {
-                component.componentService.setCallbackForm(cbFunction)
-            }
-            
-            component.autoRender()
+        if (cbFunction) {
+            component.componentService.setCallbackForm(cbFunction)
         }
+
+        component.autoRender()
     }
 
     renderWeightPlaceholder() {
