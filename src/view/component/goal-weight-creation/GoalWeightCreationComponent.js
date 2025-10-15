@@ -1,10 +1,10 @@
-import { GoalTrainingCreationService } from './service/GoalTrainingCreationService.js'
+import { GoalWeightCreationService } from './service/GoalWeightCreationService.js'
 
-export class GoalTrainingCreationComponent {
+export class GoalWeightCreationComponent {
     constructor(targetTag) {
         this.targetTag = targetTag
         this.dom = new DOMElementManager()
-        this.componentService = new GoalTrainingCreationService(this.dom)
+        this.componentService = new GoalWeightCreationService(this.dom)
     }
 
     autoRender() {
@@ -35,48 +35,48 @@ export class GoalTrainingCreationComponent {
     get() {
         return /*html*/ `
             <style>
-                #goal-training-creation-form .card-header {
+                #goal-weight-creation-form .card-header {
                     margin: 0; 
                     align-items: center; 
                     padding: 20px; 
                     font-size: x-large;
                 }
-                #goal-training-creation-form .custom-border {
+                #goal-weight-creation-form .custom-border {
                     border: var(--bs-border-width) solid var(--bs-border-color);
                     border-radius: 25px;
                 }
-                #goal-training-creation-form .custom-calendar-btn {
+                #goal-weight-creation-form .custom-calendar-btn {
                     border: none;
                     background-color: transparent;
                     padding-right: 15px;
                 }
             </style>
-            <form id="goal-training-creation-form">
+            <form id="goal-weight-creation-form">
                 <div class="card-header">
-                    <span class="g-bold"><i class="fa-solid fa-dumbbell fa-lg"></i>&nbsp;&nbsp;Treinos</span>
+                    <span class="g-bold"><i class="fa-solid fa-weight-scale fa-lg"></i>&nbsp;&nbsp;Peso</span>
                 </div>
                 <div class="card-body">
-                    <p class="text-muted">Defina sua meta semanal</p>
+                    <p class="text-muted">Defina sua meta de peso</p>
                     <div class="form-group mb-3">
-                        <label class="g-bold" for="goal-training-target-value">Meta (valor alvo)</label>
+                        <label class="g-bold" for="goal-weight-target-value">Meta (peso alvo em kg)</label>
                         <input 
                             type="number" 
                             step="0.1" 
-                            id="goal-training-target-value" 
+                            id="goal-weight-target-value" 
                             name="targetValue" 
                             class="form-control"
-                            placeholder="Ex: 3.0" 
+                            placeholder="Ex: 75.0" 
                             required 
                         />
-                        <small class="text-muted">Defina o valor que deseja alcançar por dia</small>
+                        <small class="text-muted">Defina o peso que deseja alcançar</small>
                     </div>
-                 <div class="row mb-3">
+                    <div class="row mb-3">
                         <div class="col-md-6">
-                            <label class="g-bold" for="goal-training-start-date">Data de Início</label>
+                            <label class="g-bold" for="goal-weight-start-date">Data de Início</label>
                             <div class="input-group custom-border">
                                 <input 
                                     type="date" 
-                                    id="goal-training-start-date" 
+                                    id="goal-weight-start-date" 
                                     name="startDate" 
                                     class="form-control pointer-events-none custom-date"
                                     required 
@@ -84,18 +84,18 @@ export class GoalTrainingCreationComponent {
                                 <button 
                                     type="button" 
                                     class="custom-calendar-btn" 
-                                    id="goal-training-start-calendar-btn"
+                                    id="goal-weight-start-calendar-btn"
                                 >
                                     <i class="fa-solid fa-calendar"></i>
                                 </button>
                             </div>
                         </div>
-                     <div class="col-md-6">
-                            <label class="g-bold" for="goal-training-end-date">Data de Término</label>
+                        <div class="col-md-6">
+                            <label class="g-bold" for="goal-weight-end-date">Data de Término</label>
                             <div class="input-group custom-border">
                                 <input 
                                     type="date" 
-                                    id="goal-training-end-date" 
+                                    id="goal-weight-end-date" 
                                     name="endDate" 
                                     class="form-control pointer-events-none custom-date"
                                     required 
@@ -103,18 +103,18 @@ export class GoalTrainingCreationComponent {
                                 <button 
                                     type="button" 
                                     class="custom-calendar-btn" 
-                                    id="goal-training-end-calendar-btn"
+                                    id="goal-weight-end-calendar-btn"
                                 >
                                     <i class="fa-solid fa-calendar"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                 <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-primary" id="goal-training-form-submit-btn">
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-primary" id="goal-weight-form-submit-btn">
                             Salvar Objetivo
                         </button>
-                        <button type="button" class="btn btn-light" id="goal-training-form-reset-btn">
+                        <button type="button" class="btn btn-light" id="goal-weight-form-reset-btn">
                             Limpar
                         </button>
                     </div>
@@ -187,7 +187,7 @@ export class GoalTrainingCreationComponent {
     }
 
     resetForm() {
-        const form = this.dom.getGoalTrainingCreationForm()
+        const form = this.dom.getGoalWeightCreationForm()
         if (form) {
             form.reset()
             this.setupDefaultValues()
@@ -200,58 +200,58 @@ class DOMElementManager {
         this.elements = {}
     }
 
-    getGoalTrainingCreationForm() {
-        if (!this.elements.goalTrainingCreationForm) {
-            this.elements.goalTrainingCreationForm = document.querySelector('#goal-training-creation-form')
+    getGoalWeightCreationForm() {
+        if (!this.elements.goalWeightCreationForm) {
+            this.elements.goalWeightCreationForm = document.querySelector('#goal-weight-creation-form')
         }
-        return this.elements.goalTrainingCreationForm
+        return this.elements.goalWeightCreationForm
     }
 
     getGoalTargetValue() {
         if (!this.elements.goalTargetValue) {
-            this.elements.goalTargetValue = document.querySelector('#goal-training-target-value')
+            this.elements.goalTargetValue = document.querySelector('#goal-weight-target-value')
         }
         return this.elements.goalTargetValue
     }
 
     getGoalStartDate() {
         if (!this.elements.goalStartDate) {
-            this.elements.goalStartDate = document.querySelector('#goal-training-start-date')
+            this.elements.goalStartDate = document.querySelector('#goal-weight-start-date')
         }
         return this.elements.goalStartDate
     }
 
     getGoalEndDate() {
         if (!this.elements.goalEndDate) {
-            this.elements.goalEndDate = document.querySelector('#goal-training-end-date')
+            this.elements.goalEndDate = document.querySelector('#goal-weight-end-date')
         }
         return this.elements.goalEndDate
     }
 
     getGoalStartCalendarBtn() {
         if (!this.elements.goalStartCalendarBtn) {
-            this.elements.goalStartCalendarBtn = document.querySelector('#goal-training-start-calendar-btn')
+            this.elements.goalStartCalendarBtn = document.querySelector('#goal-weight-start-calendar-btn')
         }
         return this.elements.goalStartCalendarBtn
     }
 
     getGoalEndCalendarBtn() {
         if (!this.elements.goalEndCalendarBtn) {
-            this.elements.goalEndCalendarBtn = document.querySelector('#goal-training-end-calendar-btn')
+            this.elements.goalEndCalendarBtn = document.querySelector('#goal-weight-end-calendar-btn')
         }
         return this.elements.goalEndCalendarBtn
     }
 
     getGoalFormSubmitBtn() {
         if (!this.elements.goalFormSubmitBtn) {
-            this.elements.goalFormSubmitBtn = document.querySelector('#goal-training-form-submit-btn')
+            this.elements.goalFormSubmitBtn = document.querySelector('#goal-weight-form-submit-btn')
         }
         return this.elements.goalFormSubmitBtn
     }
 
     getGoalFormResetBtn() {
         if (!this.elements.goalFormResetBtn) {
-            this.elements.goalFormResetBtn = document.querySelector('#goal-training-form-reset-btn')
+            this.elements.goalFormResetBtn = document.querySelector('#goal-weight-form-reset-btn')
         }
         return this.elements.goalFormResetBtn
     }

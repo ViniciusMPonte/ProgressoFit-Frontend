@@ -42,7 +42,9 @@ export class PerfilController extends BaseController {
     }
 
     handleWeightComponent() {
-        this.view.renderWeightPlaceholder()
+        this.view.renderWeightSection((message, type) => {
+            this.view.alert(message, type)
+        })
     }
 
     handleFooter() {
