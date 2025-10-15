@@ -21,11 +21,12 @@ export class WeightDailyStatisticChartComponent {
     }
 
     _initializeData(data) {
-        this.defaultWeightMin = data.weightMin.weightKg
-        this.defaultWeightMax = data.weightMax.weightKg
+        this.defaultWeightMin = data ? data.weightMin.weightKg : 1
+        this.defaultWeightMax = data ? data.weightMax.weightKg : 99
     }
 
     _calculateMetrics(data) {
+        if(!data) return
         const diff = data.weightGoal.targetValue - data.weightStartDate.weightKg
         const direction = Math.sign(diff)
 

@@ -61,11 +61,11 @@ export class GoalTrainingCreationComponent {
                         <label class="g-bold" for="goal-training-target-value">Meta (valor alvo)</label>
                         <input 
                             type="number" 
-                            step="0.1" 
+                            step="0" 
                             id="goal-training-target-value" 
                             name="targetValue" 
                             class="form-control"
-                            placeholder="Ex: 3.0" 
+                            placeholder="Ex: 3" 
                             required 
                         />
                         <small class="text-muted">Defina o valor que deseja alcançar por dia</small>
