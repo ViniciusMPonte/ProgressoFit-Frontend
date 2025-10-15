@@ -1,6 +1,6 @@
 import { ApiService } from '../../../../service/ApiService.js'
 
-export class GoalCreationService {
+export class GoalTrainingCreationService {
     constructor(dom) {
         this.apiService = new ApiService()
         this.dom = dom

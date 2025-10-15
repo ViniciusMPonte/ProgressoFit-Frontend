@@ -1,6 +1,6 @@
 import BaseView from './BaseView.js'
 import { EditProfileComponent } from './component/profile/EditProfileComponent.js'
-import { GoalCreationComponent } from './component/goal-creation/GoalCreationComponent.js'
+import { GoalTrainingCreationComponent } from './component/goal-training-creation/GoalTrainingCreationComponent.js'
 import { SidebarNavigationComponent } from './component/navigation/SidebarNavigationComponent.js'
 import { CopyrightComponent } from './component/CopyrightComponent.js'
 
@@ -38,13 +38,13 @@ export class PerfilView extends BaseView {
                 <span class="g-bold"><i class="fa-solid fa-dumbbell fa-lg"></i>&nbsp;&nbsp;Treinos</span>
             </div>
             <div class="card-body p-4">
-                <div id="goal-creation-container"></div>
+                <div id="goal-training-creation-container"></div>
             </div>
         `
 
-        const goalCreationContainer = document.querySelector('#goal-creation-container')
-        if (goalCreationContainer) {
-            const component = new GoalCreationComponent(targetTag)
+        const goalTrainingCreationContainer = document.querySelector('#goal-training-creation-container')
+        if (goalTrainingCreationContainer) {
+            const component = new GoalTrainingCreationComponent(targetTag)
             
             if (cbFunction) {
                 component.componentService.setCallbackForm(cbFunction)

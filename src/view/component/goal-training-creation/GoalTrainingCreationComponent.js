@@ -1,10 +1,10 @@
-import { GoalCreationService } from './service/GoalCreationService.js'
+import { GoalTrainingCreationService } from './service/GoalTrainingCreationService.js'
 
-export class GoalCreationComponent {
+export class GoalTrainingCreationComponent {
     constructor(targetTag) {
         this.targetTag = targetTag
         this.dom = new DOMElementManager()
-        this.componentService = new GoalCreationService(this.dom)
+        this.componentService = new GoalTrainingCreationService(this.dom)
     }
 
     autoRender() {
@@ -35,23 +35,23 @@ export class GoalCreationComponent {
     get() {
         return /*html*/ `
             <style>
-                #goal-creation-form .card-header {
+                #goal-training-creation-form .card-header {
                     margin: 0; 
                     align-items: center; 
                     padding: 20px; 
                     font-size: x-large;
                 }
-                #goal-creation-form .custom-border {
+                #goal-training-creation-form .custom-border {
                     border: var(--bs-border-width) solid var(--bs-border-color);
                     border-radius: 25px;
                 }
-                #goal-creation-form .custom-calendar-btn {
+                #goal-training-creation-form .custom-calendar-btn {
                     border: none;
                     background-color: transparent;
                     padding-right: 15px;
                 }
             </style>
-            <form id="goal-creation-form">
+            <form id="goal-training-creation-form">
                 <div class="card-header">
                     <span class="g-bold"><i class="fa-solid fa-dumbbell fa-lg"></i>&nbsp;&nbsp;Treinos</span>
                 </div>
@@ -187,7 +187,7 @@ export class GoalCreationComponent {
     }
 
     resetForm() {
-        const form = this.dom.getGoalCreationForm()
+        const form = this.dom.getGoalTrainingCreationForm()
         if (form) {
             form.reset()
             this.setupDefaultValues()
@@ -200,11 +200,11 @@ class DOMElementManager {
         this.elements = {}
     }
 
-    getGoalCreationForm() {
-        if (!this.elements.goalCreationForm) {
-            this.elements.goalCreationForm = document.querySelector('#goal-creation-form')
+    getGoalTrainingCreationForm() {
+        if (!this.elements.goalTrainingCreationForm) {
+            this.elements.goalTrainingCreationForm = document.querySelector('#goal-training-creation-form')
         }
-        return this.elements.goalCreationForm
+        return this.elements.goalTrainingCreationForm
     }
 
     getGoalTargetValue() {
