@@ -36,7 +36,9 @@ export class PerfilController extends BaseController {
     }
 
     handleTrainingComponent() {
-        this.view.renderTrainingPlaceholder()
+        this.view.renderTrainingSection((message, type) => {
+            this.view.alert(message, type)
+        })
     }
 
     handleWeightComponent() {
