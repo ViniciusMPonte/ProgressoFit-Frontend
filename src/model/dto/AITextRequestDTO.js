@@ -8,7 +8,6 @@ export class AITextRequestDTO {
         this.prompt = data.prompt || ''
     }
 
-    // Cria uma nova solicitação
     static create(prompt) {
         return new AITextRequestDTO({
             prompt,
@@ -17,19 +16,16 @@ export class AITextRequestDTO {
         })
     }
 
-    // Marca como lido
     markAsRead() {
         this.isRead = true
         return this
     }
 
-    // Marca como não lido
     markAsUnread() {
         this.isRead = false
         return this
     }
 
-    // Define a resposta gerada pela IA
     setAiResponse(response) {
         this.aiResponse = response
         this.needsGeneration = false
@@ -37,30 +33,25 @@ export class AITextRequestDTO {
         return this
     }
 
-    // Registra uma tentativa de geração
     recordAttempt() {
         this.lastAttemptAt = new Date()
         return this
     }
 
-    // Marca que precisa gerar novamente
     markForRegeneration() {
         this.needsGeneration = true
         this.aiResponse = null
         return this
     }
 
-    // Verifica se está pendente de geração
     isPending() {
         return this.needsGeneration && !this.aiResponse
     }
 
-    // Verifica se foi gerado com sucesso
     isGenerated() {
         return !this.needsGeneration && this.aiResponse !== null
     }
 
-    // Converte para objeto simples (útil para localStorage)
     toJSON() {
         return {
             aiResponse: this.aiResponse,
@@ -72,7 +63,6 @@ export class AITextRequestDTO {
         }
     }
 
-    // Cria instância a partir de objeto (útil ao ler do localStorage)
     static fromJSON(json) {
         return new AITextRequestDTO(json)
     }

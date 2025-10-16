@@ -1,11 +1,13 @@
 import BaseController from './BaseController.js'
 import { DashboardView } from '../view/DashboardView.js'
+import { AIService } from '../service/AIService.js'
 
 export class DashboardController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
         this.dom = new DOMElementManager()
         this.view = new DashboardView(this.dom)
+        this.aiService = new AIService()
     }
 
     loadPage() {
@@ -48,7 +50,7 @@ export class DashboardController extends BaseController {
     }
 
     handleTrainingWeeklyGoal() {
-        this.view.renderTrainingPerWeeklyGoalComponent()
+        this.view.renderTrainingPerWeeklyGoalComponent(this.getCallbackGenerateTextAI())
     }
 
     handleTrainingWeeklyChart() {
@@ -64,12 +66,23 @@ export class DashboardController extends BaseController {
         })
     }
 
-    handleWeightWeeklyGoal(){
+    handleWeightWeeklyGoal() {
         this.view.renderWeightPerWeeklyGoalComponent()
     }
 
     handleWeightDailyChart() {
         this.view.renderWeightDailyStatisticChart()
+    }
+
+    //AI
+    getCallbackGenerateTextAI() {
+        return () => {
+            this.aiService.processAllPendingWithRetry().then(results => {
+                if (results.length > 0) {
+                    this.view.alert(results[0].data.aiResponse, 'success', null, 60000)
+                }
+            })
+        }
     }
 }
 

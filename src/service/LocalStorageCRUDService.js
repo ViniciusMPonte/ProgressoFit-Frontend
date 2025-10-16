@@ -4,14 +4,12 @@ export class LocalStorageCRUDService {
         this.init()
     }
 
-    // Inicializa o storage se não existir
     init() {
         if (!localStorage.getItem(this.key)) {
             localStorage.setItem(this.key, JSON.stringify([]))
         }
     }
 
-    // Lê todos os dados
     getAll() {
         try {
             return JSON.parse(localStorage.getItem(this.key)) || []
@@ -21,19 +19,16 @@ export class LocalStorageCRUDService {
         }
     }
 
-    // Busca um item por ID
     getById(id) {
         const items = this.getAll()
         return items.find(item => item.id === id)
     }
 
-    // Busca itens por critério
     find(predicate) {
         const items = this.getAll()
         return items.filter(predicate)
     }
 
-    // Cria um novo item
     create(data) {
         const items = this.getAll()
         const newItem = {
@@ -47,7 +42,6 @@ export class LocalStorageCRUDService {
         return newItem
     }
 
-    // Atualiza um item por ID
     update(id, data) {
         const items = this.getAll()
         const index = items.findIndex(item => item.id === id)
@@ -59,8 +53,8 @@ export class LocalStorageCRUDService {
         items[index] = {
             ...items[index],
             ...data,
-            id: items[index].id, // Preserva o ID original
-            createdAt: items[index].createdAt, // Preserva data de criação
+            id: items[index].id,
+            createdAt: items[index].createdAt,
             updatedAt: new Date().toISOString(),
         }
 
@@ -68,7 +62,6 @@ export class LocalStorageCRUDService {
         return items[index]
     }
 
-    // Deleta um item por ID
     delete(id) {
         const items = this.getAll()
         const filtered = items.filter(item => item.id !== id)
@@ -81,18 +74,15 @@ export class LocalStorageCRUDService {
         return true
     }
 
-    // Deleta todos os itens
     deleteAll() {
         localStorage.setItem(this.key, JSON.stringify([]))
         return true
     }
 
-    // Conta total de itens
     count() {
         return this.getAll().length
     }
 
-    // Gera um ID único
     generateId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2)
     }
