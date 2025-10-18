@@ -1,9 +1,9 @@
-import { LocalStorageCRUDService } from '../../../../../service/LocalStorageCRUDService.js'
-import { AIService } from '../../../../../service/AIService.js'
+import { LocalStorageCRUDService } from './LocalStorageCRUDService.js'
+import { AIService } from './AIService.js'
 
-export class LocalStorageService {
-    constructor() {
-        this.localStorageCRUDService = new LocalStorageCRUDService('training-progress')
+export class ProgressStorageService extends LocalStorageCRUDService {
+    constructor(label) {
+        super(label)
         this.aiService = new AIService()
 
     }
@@ -11,9 +11,9 @@ export class LocalStorageService {
     storeProgressIfBetter(percentageGoal, goalFailed) {
         if (goalFailed) return
         
-        const items = this.localStorageCRUDService.getAll()
+        const items = this.getAll()
         if (items.length === 0) {
-            const newProgress = this.localStorageCRUDService.create({
+            const newProgress = this.create({
                 percentage: percentageGoal,
                 goalFailed: false,
             })
@@ -23,7 +23,7 @@ export class LocalStorageService {
         const currentProgress = items[0]
 
         if (percentageGoal > currentProgress.percentage) {
-            const updated = this.localStorageCRUDService.update(currentProgress.id, {
+            const updated = this.update(currentProgress.id, {
                 percentage: percentageGoal,
                 goalFailed: false,
             })
@@ -32,10 +32,10 @@ export class LocalStorageService {
     }
 
     resetProgress() {
-        const items = this.localStorageCRUDService.getAll()
+        const items = this.getAll()
 
         if (items.length === 0) {
-            const newProgress = this.localStorageCRUDService.create({
+            const newProgress = this.create({
                 percentage: 0,
                 goalFailed: false,
             })
@@ -44,7 +44,7 @@ export class LocalStorageService {
         }
 
         const currentProgress = items[0]
-        const reset = this.localStorageCRUDService.update(currentProgress.id, {
+        const reset = this.update(currentProgress.id, {
             percentage: 0,
             goalFailed: false,
         })
@@ -53,7 +53,7 @@ export class LocalStorageService {
     }
 
     getCurrentProgress() {
-        const items = this.localStorageCRUDService.getAll()
+        const items = this.getAll()
         return items.length > 0 ? items[0] : null
     }
 }

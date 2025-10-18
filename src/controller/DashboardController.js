@@ -67,7 +67,7 @@ export class DashboardController extends BaseController {
     }
 
     handleWeightWeeklyGoal() {
-        this.view.renderWeightPerWeeklyGoalComponent()
+        this.view.renderWeightPerWeeklyGoalComponent(this.getCallbackGenerateTextAI())
     }
 
     handleWeightDailyChart() {

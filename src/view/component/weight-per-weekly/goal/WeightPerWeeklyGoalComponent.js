@@ -1,6 +1,7 @@
 import { WeightPerWeeklyGoalService } from './service/WeightPerWeeklyGoalService.js'
 import { MathHelper } from '../../training-per-weekly/goal/helper/MathHelper.js'
 import { GoalStatusService } from './service/GoalStatusService.js'
+import { ProgressStorageService } from '../../../../service/ProgressStorageService.js'
 
 export class WeightPerWeeklyGoalComponent {
     constructor(targetTag) {
@@ -9,6 +10,11 @@ export class WeightPerWeeklyGoalComponent {
         this.dom = new DOMElementManager()
         this.componentService = new WeightPerWeeklyGoalService()
         this.goalStatusService = new GoalStatusService()
+        this.progressStorageService = new ProgressStorageService('weight-progress')
+    }
+
+    setCallbackProgress(cbFuction) {
+        this.callbackProgress = cbFuction
     }
 
     async autoRender() {
@@ -18,6 +24,7 @@ export class WeightPerWeeklyGoalComponent {
         this._calculateMetrics(data)
 
         this.targetTag.innerHTML = this.get()
+        this.callbackProgress()
     }
 
     _initializeData(data) {
@@ -40,6 +47,7 @@ export class WeightPerWeeklyGoalComponent {
             direction,
             data.weightGoal.endDate
         )
+        this.progressStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
     }
 
     renderGoalStatus(goalFailed) {

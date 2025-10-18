@@ -3,7 +3,7 @@ import { TrainingGoalCalculatorService } from './service/TrainingGoalCalculatorS
 import { PeriodDataService } from './service/PeriodDataService.js'
 import { GoalStatusService } from './service/GoalStatusService.js'
 import { MathHelper } from './helper/MathHelper.js'
-import { LocalStorageService } from './service/LocalStorageService.js'
+import { ProgressStorageService } from '../../../../service/ProgressStorageService.js'
 
 export class TrainingPerWeeklyGoalComponent {
     constructor(targetTag) {
@@ -14,7 +14,7 @@ export class TrainingPerWeeklyGoalComponent {
         this.calculatorService = new TrainingGoalCalculatorService()
         this.goalStatusService = new GoalStatusService()
         this.periodDataService = new PeriodDataService()
-        this.localStorageService = new LocalStorageService()
+        this.progressStorageService = new ProgressStorageService('training-progress')
     }
 
     setCallbackProgress(cbFuction) {
@@ -45,7 +45,7 @@ export class TrainingPerWeeklyGoalComponent {
         this.percentageGoal = MathHelper.calculatePercentage(this.consecutiveWeeksWithGoal, this.totalWeeks)
         this.goalFailed = this.goalStatusService.checkIfGoalFailed(trainingStatus.nextPeriodStartDate, this.trainingGoal.endDate)
         this.periodDaysArray = this.periodDataService.transformWeeklyData(this.currentPeriod)
-        this.localStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
+        this.progressStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
     }
 
     renderGoalStatus(goalFailed) {
