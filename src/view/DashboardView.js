@@ -1,29 +1,22 @@
-import BaseView from "./BaseView.js";
-import { HeroComponent } from "./component/HeroComponent.js";
-import { CopyrightComponent } from "./component/CopyrightComponent.js";
-import { TrainingPerWeeklyChartComponent } from "./component/TrainingPerWeeklyChartComponent.js";
-import { WeightDailyStatisticChartComponent } from "./component/WeightDailyStatisticChartComponent.js";
-import { TrainingPerWeeklyInterfaceComponent } from "./component/TrainingPerWeeklyInterfaceComponent.js";
-import { TrainingPerWeeklyGoalComponent } from "./component/TrainingPerWeeklyGoalComponent.js";
+import BaseView from './BaseView.js'
+import { HeroComponent } from './component/HeroComponent.js'
+import { CopyrightComponent } from './component/CopyrightComponent.js'
+import { TrainingPerWeeklyChartComponent } from './component/training-per-weekly/chart/TrainingPerWeeklyChartComponent.js'
+import { TrainingPerWeeklyInterfaceComponent } from './component/training-per-weekly/interface/TrainingPerWeeklyInterfaceComponent.js'
+import { TrainingPerWeeklyGoalComponent } from './component/training-per-weekly/goal/TrainingPerWeeklyGoalComponent.js'
+import { WeightDailyStatisticChartComponent } from './component/weight-per-weekly/chart/WeightDailyStatisticChartComponent.js'
+import { WeightPerWeeklyInterfaceComponent } from './component/weight-per-weekly/interface/WeightPerWeeklyInterfaceComponent.js'
+import { WeightPerWeeklyGoalComponent } from './component/weight-per-weekly/goal/WeightPerWeeklyGoalComponent.js'
 
 export class DashboardView extends BaseView {
-
     constructor(dom) {
         super()
         this.dom = dom
-        this.toggleState = false;
-        this.trainingPerWeeklyInterfaceComponent = new TrainingPerWeeklyInterfaceComponent()
+
+        this.weightPerWeeklyInterfaceComponent = new WeightPerWeeklyInterfaceComponent()
     }
 
-    renderTrainingPerWeeklyInterfaceComponent(targetTag){
-        new TrainingPerWeeklyInterfaceComponent(targetTag).autoRender()
-    }
-
-    renderTrainingPerWeeklyGoalComponent(targetTag, data){
-        new TrainingPerWeeklyGoalComponent(targetTag, data).autoRender()
-    }
-
-    renderWelcomeText(data){
+    renderWelcomeText(data) {
         return new HeroComponent(data).getWelcomeText()
     }
 
@@ -31,27 +24,58 @@ export class DashboardView extends BaseView {
         return new HeroComponent(data).getAvatarImg()
     }
 
-    renderTrainingPerWeeklyChart(ctx, data) {
-
-        const existingChart = Chart.getChart(ctx);
-        if (existingChart) {
-            existingChart.destroy();
-        }
-
-        new TrainingPerWeeklyChartComponent(ctx, data).autoRender()
-    }
-
-    renderWeightDailyStatisticChart(ctx, data) {
-
-        const existingChart = Chart.getChart(ctx);
-        if (existingChart) {
-            existingChart.destroy();
-        }
-
-        new WeightDailyStatisticChartComponent(ctx, data).autoRender()
-    }
-
     renderFooter() {
-        return CopyrightComponent.get();
+        return CopyrightComponent.get()
+    }
+
+    renderTrainingPerWeeklyInterfaceComponent(cbFuction) {
+        const targetTag = this.dom.getTrainingPerWeeklyInterface()
+        const component = new TrainingPerWeeklyInterfaceComponent(targetTag)
+
+        component.componentService.setCallbackForm(cbFuction)
+        component.autoRender()
+    }
+
+    renderTrainingPerWeeklyGoalComponent(cbFuction) {
+        const targetTag = this.dom.getTrainingPerWeeklyGoal()
+        const component = new TrainingPerWeeklyGoalComponent(targetTag)
+
+        component.setCallbackProgress(cbFuction)
+        component.autoRender()
+    }
+
+    renderTrainingPerWeeklyChart() {
+        const ctx = this.dom.getTrainingPerWeeklyChart()
+
+        const existingChart = Chart.getChart(ctx)
+        if (existingChart) {
+            existingChart.destroy()
+        }
+
+        new TrainingPerWeeklyChartComponent(ctx).autoRender()
+    }
+
+    renderWeightPerWeeklyInterfaceComponent(cbFuction) {
+        const targetTag = this.dom.getWeightPerWeeklyInterface()
+        const component = new WeightPerWeeklyInterfaceComponent(targetTag)
+
+        component.componentService.setCallbackForm(cbFuction)
+        component.autoRender()
+    }
+
+    renderWeightPerWeeklyGoalComponent() {
+        const targetTag = this.dom.getWeightPerWeeklyGoal()
+        new WeightPerWeeklyGoalComponent(targetTag).autoRender()
+    }
+
+    renderWeightDailyStatisticChart() {
+        const ctx = this.dom.getWeightDailyWeeklyChartTag()
+
+        const existingChart = Chart.getChart(ctx)
+        if (existingChart) {
+            existingChart.destroy()
+        }
+
+        new WeightDailyStatisticChartComponent(ctx).autoRender()
     }
 }
