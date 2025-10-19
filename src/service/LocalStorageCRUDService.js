@@ -4,6 +4,11 @@ export class LocalStorageCRUDService {
         this.init()
     }
 
+    setKey(newKey) {
+        this.key = newKey
+        this.init()
+    }
+
     init() {
         if (!localStorage.getItem(this.key)) {
             localStorage.setItem(this.key, JSON.stringify([]))
@@ -21,7 +26,7 @@ export class LocalStorageCRUDService {
 
     getById(id) {
         const items = this.getAll()
-        return items.find(item => item.id === id)
+        return items.find((item) => item.id === id)
     }
 
     find(predicate) {
@@ -49,12 +54,12 @@ export class LocalStorageCRUDService {
 
     createIfNotExists(predicate, data) {
         const existingItem = this.findOne(predicate)
-        
+
         if (existingItem) {
             return {
                 created: false,
                 item: existingItem,
-                message: 'Item já existe'
+                message: 'Item já existe',
             }
         }
 
@@ -62,20 +67,20 @@ export class LocalStorageCRUDService {
         return {
             created: true,
             item: newItem,
-            message: 'Item criado com sucesso'
+            message: 'Item criado com sucesso',
         }
     }
 
     createOrUpdate(predicate, data) {
         const existingItem = this.findOne(predicate)
-        
+
         if (existingItem) {
             const updatedItem = this.update(existingItem.id, data)
             return {
                 created: false,
                 updated: true,
                 item: updatedItem,
-                message: 'Item atualizado'
+                message: 'Item atualizado',
             }
         }
 
@@ -84,13 +89,13 @@ export class LocalStorageCRUDService {
             created: true,
             updated: false,
             item: newItem,
-            message: 'Item criado'
+            message: 'Item criado',
         }
     }
 
     update(id, data) {
         const items = this.getAll()
-        const index = items.findIndex(item => item.id === id)
+        const index = items.findIndex((item) => item.id === id)
 
         if (index === -1) {
             throw new Error(`Item com ID ${id} não encontrado`)
@@ -110,7 +115,7 @@ export class LocalStorageCRUDService {
 
     delete(id) {
         const items = this.getAll()
-        const filtered = items.filter(item => item.id !== id)
+        const filtered = items.filter((item) => item.id !== id)
 
         if (items.length === filtered.length) {
             throw new Error(`Item com ID ${id} não encontrado`)
@@ -124,6 +129,21 @@ export class LocalStorageCRUDService {
         localStorage.setItem(this.key, JSON.stringify([]))
         return true
     }
+
+    keepLast(limit = 10) {
+    const items = this.getAll()
+    
+    if (items.length <= limit) {
+        return items.length
+    }
+    
+    const sorted = items.sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+    )
+    
+    const toKeep = sorted.slice(0, limit)
+    localStorage.setItem(this.key, JSON.stringify(toKeep))
+}
 
     count() {
         return this.getAll().length

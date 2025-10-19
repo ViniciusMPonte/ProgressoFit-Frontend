@@ -41,6 +41,7 @@ export class DashboardController extends BaseController {
         userNameTag.innerHTML = this.view.renderWelcomeText(response.data)
         avatarContainerTag.innerHTML = this.view.renderAvatarImg(response.data)
 
+        this.localStorageService.setKey('user')
         this.localStorageService.createOrUpdate((item) => item.name === response.data.name, { name: response.data.name })
     }
 
@@ -83,7 +84,13 @@ export class DashboardController extends BaseController {
         return () => {
             this.aiService.processAllPendingWithRetry().then((results) => {
                 if (results.length > 0) {
-                    this.view.alert(results[0].data.aiResponse, 'success', null, 60000)
+                    this.localStorageService.setKey('ai_requests')
+                    const responseAI = this.localStorageService.findOne((obj) => obj.prompt === results[0].data.prompt)
+
+                    if(!responseAI.isRead){
+                        this.view.alert(results[0].data.aiResponse, 'success', null, 60000)
+                        this.localStorageService.update(responseAI.id, { isRead: true })
+                    }
                 }
             })
         }
