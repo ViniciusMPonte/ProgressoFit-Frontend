@@ -1,5 +1,4 @@
-import {LoaderPage} from "./LoaderPage.js";
+import { LoaderPage } from './LoaderPage.js'
 
 const loaderPage = new LoaderPage()
 loaderPage.load()
-

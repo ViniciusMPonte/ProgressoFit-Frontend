@@ -1,11 +1,15 @@
 import BaseController from './BaseController.js'
 import { DashboardView } from '../view/DashboardView.js'
+import { AIService } from '../service/AIService.js'
+import { LocalStorageCRUDService } from '../service/LocalStorageCRUDService.js'
 
 export class DashboardController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
         this.dom = new DOMElementManager()
         this.view = new DashboardView(this.dom)
+        this.aiService = new AIService()
+        this.localStorageService = new LocalStorageCRUDService('user')
     }
 
     loadPage() {
@@ -36,6 +40,9 @@ export class DashboardController extends BaseController {
         let response = await this.apiService.get('/api/user')
         userNameTag.innerHTML = this.view.renderWelcomeText(response.data)
         avatarContainerTag.innerHTML = this.view.renderAvatarImg(response.data)
+
+        this.localStorageService.setKey('user')
+        this.localStorageService.createOrUpdate((item) => item.name === response.data.name, { name: response.data.name })
     }
 
     //Training
@@ -48,7 +55,7 @@ export class DashboardController extends BaseController {
     }
 
     handleTrainingWeeklyGoal() {
-        this.view.renderTrainingPerWeeklyGoalComponent()
+        this.view.renderTrainingPerWeeklyGoalComponent(this.getCallbackGenerateTextAI())
     }
 
     handleTrainingWeeklyChart() {
@@ -64,12 +71,29 @@ export class DashboardController extends BaseController {
         })
     }
 
-    handleWeightWeeklyGoal(){
-        this.view.renderWeightPerWeeklyGoalComponent()
+    handleWeightWeeklyGoal() {
+        this.view.renderWeightPerWeeklyGoalComponent(this.getCallbackGenerateTextAI())
     }
 
     handleWeightDailyChart() {
         this.view.renderWeightDailyStatisticChart()
+    }
+
+    //AI
+    getCallbackGenerateTextAI() {
+        return () => {
+            this.aiService.processAllPendingWithRetry().then((results) => {
+                if (results.length > 0) {
+                    this.localStorageService.setKey('ai_requests')
+                    const responseAI = this.localStorageService.findOne((obj) => obj.prompt === results[0].data.prompt)
+
+                    if(!responseAI.isRead){
+                        this.view.alert(results[0].data.aiResponse, 'success', null, 60000)
+                        this.localStorageService.update(responseAI.id, { isRead: true })
+                    }
+                }
+            })
+        }
     }
 }
 

@@ -36,9 +36,12 @@ export class DashboardView extends BaseView {
         component.autoRender()
     }
 
-    renderTrainingPerWeeklyGoalComponent() {
+    renderTrainingPerWeeklyGoalComponent(cbFuction) {
         const targetTag = this.dom.getTrainingPerWeeklyGoal()
-        new TrainingPerWeeklyGoalComponent(targetTag).autoRender()
+        const component = new TrainingPerWeeklyGoalComponent(targetTag)
+
+        component.setCallbackProgress(cbFuction)
+        component.autoRender()
     }
 
     renderTrainingPerWeeklyChart() {
@@ -60,9 +63,12 @@ export class DashboardView extends BaseView {
         component.autoRender()
     }
 
-    renderWeightPerWeeklyGoalComponent() {
+    renderWeightPerWeeklyGoalComponent(cbFuction) {
         const targetTag = this.dom.getWeightPerWeeklyGoal()
-        new WeightPerWeeklyGoalComponent(targetTag).autoRender()
+        const component = new WeightPerWeeklyGoalComponent(targetTag)
+
+        component.setCallbackProgress(cbFuction)
+        component.autoRender()
     }
 
     renderWeightDailyStatisticChart() {
