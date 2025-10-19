@@ -88,7 +88,7 @@ export class PromptService {
                 greeting ? greeting.slice(0, -2) : 'o usuário'
             } por ter conseguido ${percentage}% da meta de treinos semanal${data.additionalInfo ? ' ' + data.additionalInfo : ''}. ${
                 greeting ? `Use o nome ${this.getUserName()} na mensagem de forma natural. ` : ''
-            }Não faça perguntas, apenas crie a mensagem.`,
+            }Não faça perguntas nem comentários para mim, apenas crie a mensagem.`,
         })
     }
 
@@ -172,7 +172,7 @@ export class PromptService {
                 greeting ? greeting.slice(0, -2) : 'o usuário'
             } por ter alcançado ${percentage}% da meta de ${directionText} de peso. Peso atual: ${currentWeight}kg, meta: ${targetWeight}kg. ${
                 greeting ? `Use o nome ${this.getUserName()} de forma natural e calorosa. ` : ''
-            }Não faça perguntas, apenas parabenize de forma sincera e motivadora.`,
+            }Não faça perguntas nem comentários para mim, apenas parabenize de forma sincera e motivadora.`,
         })
     }
 
@@ -273,7 +273,7 @@ export class PromptService {
      * Adiciona instruções para não fazer perguntas
      */
     withNoQuestions(prompt) {
-        return `${prompt}\n\nImportante: Não faça perguntas, apenas forneça a resposta.`
+        return `${prompt}\n\nImportante: Não faça perguntas nem comentários para mim, apenas forneça a resposta.`
     }
 
     /**

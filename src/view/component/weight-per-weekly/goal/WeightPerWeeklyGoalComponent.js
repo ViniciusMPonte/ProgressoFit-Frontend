@@ -2,6 +2,8 @@ import { WeightPerWeeklyGoalService } from './service/WeightPerWeeklyGoalService
 import { MathHelper } from '../../training-per-weekly/goal/helper/MathHelper.js'
 import { GoalStatusService } from './service/GoalStatusService.js'
 import { ProgressStorageService } from '../../../../service/ProgressStorageService.js'
+import { AIService } from '../../../../service/AIService.js'
+import { PromptService } from '../../../../service/PromptService.js'
 
 export class WeightPerWeeklyGoalComponent {
     constructor(targetTag) {
@@ -11,6 +13,8 @@ export class WeightPerWeeklyGoalComponent {
         this.componentService = new WeightPerWeeklyGoalService()
         this.goalStatusService = new GoalStatusService()
         this.progressStorageService = new ProgressStorageService('weight-progress')
+        this.aiService = new AIService()
+        this.promptService = new PromptService()
     }
 
     setCallbackProgress(cbFuction) {
@@ -22,6 +26,7 @@ export class WeightPerWeeklyGoalComponent {
 
         this._initializeData(data)
         this._calculateMetrics(data)
+        this._createAIRequest()
 
         this.targetTag.innerHTML = this.get()
         this.callbackProgress()
@@ -31,23 +36,33 @@ export class WeightPerWeeklyGoalComponent {
         this.weightGoal = data.weightGoal
         this.weightStartDate = data.weightStartDate
         this.weightEndDate = data.weightEndDate
+        this.currentWeight = data.weightEndDate.weightKg
+        this.targetWeight = data.weightGoal.targetValue
     }
 
     _calculateMetrics(data) {
         const diff = data.weightGoal.targetValue - data.weightStartDate.weightKg
-        const direction = Math.sign(diff)
+        this.direction = Math.sign(diff)
 
         const targetGoal = Math.abs(data.weightGoal.targetValue - data.weightStartDate.weightKg)
-        const currentResult = (data.weightEndDate.weightKg - data.weightStartDate.weightKg) * direction
+        const currentResult = (data.weightEndDate.weightKg - data.weightStartDate.weightKg) * this.direction
 
         this.percentageGoal = MathHelper.calculatePercentage(currentResult, targetGoal)
         this.goalFailed = this.goalStatusService.checkIfGoalFailed(
             data.weightGoal.targetValue,
             this.weightEndDate.weightKg,
-            direction,
+            this.direction,
             data.weightGoal.endDate
         )
-        this.progressStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
+        this.needAIMessage = this.progressStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
+    }
+
+    _createAIRequest() {
+        if (this.needAIMessage) {
+            this.aiService.createRequest(
+                this.promptService.createWeightCongratulationPrompt(this.percentageGoal, this.currentWeight, this.targetWeight, this.direction)
+            )
+        }
     }
 
     renderGoalStatus(goalFailed) {

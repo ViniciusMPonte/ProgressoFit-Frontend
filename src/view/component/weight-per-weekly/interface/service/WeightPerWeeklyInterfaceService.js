@@ -15,7 +15,7 @@ export class WeightPerWeeklyInterfaceService {
             const response = await this.apiService.get(`/api/weight/date/${date}`)
             if (!response.success) return ''
 
-            return parseInt(response.data.weightKg)
+            return parseFloat(response.data.weightKg)
         } catch (error) {
             return ''
         }
