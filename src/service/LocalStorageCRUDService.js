@@ -29,6 +29,11 @@ export class LocalStorageCRUDService {
         return items.filter(predicate)
     }
 
+    findOne(predicate) {
+        const items = this.getAll()
+        return items.find(predicate)
+    }
+
     create(data) {
         const items = this.getAll()
         const newItem = {
@@ -40,6 +45,47 @@ export class LocalStorageCRUDService {
         items.push(newItem)
         localStorage.setItem(this.key, JSON.stringify(items))
         return newItem
+    }
+
+    createIfNotExists(predicate, data) {
+        const existingItem = this.findOne(predicate)
+        
+        if (existingItem) {
+            return {
+                created: false,
+                item: existingItem,
+                message: 'Item já existe'
+            }
+        }
+
+        const newItem = this.create(data)
+        return {
+            created: true,
+            item: newItem,
+            message: 'Item criado com sucesso'
+        }
+    }
+
+    createOrUpdate(predicate, data) {
+        const existingItem = this.findOne(predicate)
+        
+        if (existingItem) {
+            const updatedItem = this.update(existingItem.id, data)
+            return {
+                created: false,
+                updated: true,
+                item: updatedItem,
+                message: 'Item atualizado'
+            }
+        }
+
+        const newItem = this.create(data)
+        return {
+            created: true,
+            updated: false,
+            item: newItem,
+            message: 'Item criado'
+        }
     }
 
     update(id, data) {
@@ -81,6 +127,10 @@ export class LocalStorageCRUDService {
 
     count() {
         return this.getAll().length
+    }
+
+    exists(predicate) {
+        return this.findOne(predicate) !== undefined
     }
 
     generateId() {

@@ -1,15 +1,12 @@
 import { LocalStorageCRUDService } from './LocalStorageCRUDService.js'
-import { AIService } from './AIService.js'
 
 export class ProgressStorageService extends LocalStorageCRUDService {
     constructor(label) {
         super(label)
-        this.aiService = new AIService()
-
     }
 
     storeProgressIfBetter(percentageGoal, goalFailed) {
-        if (goalFailed) return
+        if (goalFailed) return false
         
         const items = this.getAll()
         if (items.length === 0) {
@@ -17,7 +14,7 @@ export class ProgressStorageService extends LocalStorageCRUDService {
                 percentage: percentageGoal,
                 goalFailed: false,
             })
-            return
+            return false
         }
 
         const currentProgress = items[0]
@@ -27,8 +24,10 @@ export class ProgressStorageService extends LocalStorageCRUDService {
                 percentage: percentageGoal,
                 goalFailed: false,
             })
-            this.aiService.createRequest(`Crie uma mensagem de parabenização por eu ter conseguido ${percentageGoal}% da minha meta de treinos semanal. Não me pergunte nada, apenas crie a mensagem.`)
+            return true
         }
+
+        return false
     }
 
     resetProgress() {

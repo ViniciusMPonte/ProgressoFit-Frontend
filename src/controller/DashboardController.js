@@ -1,6 +1,7 @@
 import BaseController from './BaseController.js'
 import { DashboardView } from '../view/DashboardView.js'
 import { AIService } from '../service/AIService.js'
+import { LocalStorageCRUDService } from '../service/LocalStorageCRUDService.js'
 
 export class DashboardController extends BaseController {
     constructor(redirectManager, apiService) {
@@ -8,6 +9,7 @@ export class DashboardController extends BaseController {
         this.dom = new DOMElementManager()
         this.view = new DashboardView(this.dom)
         this.aiService = new AIService()
+        this.localStorageService = new LocalStorageCRUDService('user')
     }
 
     loadPage() {
@@ -38,6 +40,8 @@ export class DashboardController extends BaseController {
         let response = await this.apiService.get('/api/user')
         userNameTag.innerHTML = this.view.renderWelcomeText(response.data)
         avatarContainerTag.innerHTML = this.view.renderAvatarImg(response.data)
+
+        this.localStorageService.createOrUpdate((item) => item.name === response.data.name, { name: response.data.name })
     }
 
     //Training
@@ -77,7 +81,7 @@ export class DashboardController extends BaseController {
     //AI
     getCallbackGenerateTextAI() {
         return () => {
-            this.aiService.processAllPendingWithRetry().then(results => {
+            this.aiService.processAllPendingWithRetry().then((results) => {
                 if (results.length > 0) {
                     this.view.alert(results[0].data.aiResponse, 'success', null, 60000)
                 }

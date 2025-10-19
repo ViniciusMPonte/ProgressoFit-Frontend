@@ -4,6 +4,8 @@ import { PeriodDataService } from './service/PeriodDataService.js'
 import { GoalStatusService } from './service/GoalStatusService.js'
 import { MathHelper } from './helper/MathHelper.js'
 import { ProgressStorageService } from '../../../../service/ProgressStorageService.js'
+import { AIService } from '../../../../service/AIService.js'
+import { PromptService } from '../../../../service/PromptService.js'
 
 export class TrainingPerWeeklyGoalComponent {
     constructor(targetTag) {
@@ -15,6 +17,8 @@ export class TrainingPerWeeklyGoalComponent {
         this.goalStatusService = new GoalStatusService()
         this.periodDataService = new PeriodDataService()
         this.progressStorageService = new ProgressStorageService('training-progress')
+        this.aiService = new AIService()
+        this.promptService = new PromptService()
     }
 
     setCallbackProgress(cbFuction) {
@@ -26,6 +30,7 @@ export class TrainingPerWeeklyGoalComponent {
 
         this._initializeData(data)
         this._calculateMetrics(data)
+        this._createAIRequest()
 
         this.targetTag.innerHTML = this.get()
         this.callbackProgress()
@@ -45,12 +50,28 @@ export class TrainingPerWeeklyGoalComponent {
         this.percentageGoal = MathHelper.calculatePercentage(this.consecutiveWeeksWithGoal, this.totalWeeks)
         this.goalFailed = this.goalStatusService.checkIfGoalFailed(trainingStatus.nextPeriodStartDate, this.trainingGoal.endDate)
         this.periodDaysArray = this.periodDataService.transformWeeklyData(this.currentPeriod)
-        this.progressStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
+        this.needAIMessage = this.progressStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
+    }
+
+    _createAIRequest() {
+        if (this.needAIMessage) {
+            this.aiService.createRequest(this.promptService.createCongratulationPrompt(this.percentageGoal, this.consecutiveWeeksWithGoal))
+        }
     }
 
     renderGoalStatus(goalFailed) {
         const iconClass = goalFailed ? 'fa-square-xmark' : 'fa-square-check'
         return `<i class="fa-solid ${iconClass} fa-xl"></i>`
+    }
+
+    renderMessageStatus(goalFailed) {
+        if (goalFailed) {
+            return `Objetivo não foi atingido... Não desista, crie uma nova meta para continuar.`
+        } else {
+            return `Você já treinou ${this.consecutiveWeeksWithGoal} semanas seguidas sem falhar — faltam ${
+                this.totalWeeks - this.consecutiveWeeksWithGoal
+            } semanas pra concluir!`
+        }
     }
 
     renderPeriodDays(periodDaysArray) {
@@ -66,6 +87,7 @@ export class TrainingPerWeeklyGoalComponent {
         return /*html*/ `
             <div id="training-per-weekly-goal-view" class="card">
                 <p>Status: ${this.renderGoalStatus(this.goalFailed)}</p>
+                <p>${this.renderMessageStatus(this.goalFailed)}</p>
                 <div class="period">
                     ${this.renderPeriodDays(this.periodDaysArray)}
                 </div>
