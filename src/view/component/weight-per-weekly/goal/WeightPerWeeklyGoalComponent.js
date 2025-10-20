@@ -70,10 +70,28 @@ export class WeightPerWeeklyGoalComponent {
         return `<i class="fa-solid ${iconClass} fa-xl"></i>`
     }
 
+    renderMessageStatus(goalFailed) {
+        if (goalFailed) {
+            return `Objetivo não foi atingido... Não desista, crie uma nova meta para continuar.`
+        } else {
+            const totalGoal = Math.abs(this.targetWeight - this.weightStartDate.weightKg)
+            const achieved = Math.abs(this.currentWeight - this.weightStartDate.weightKg)
+            const remaining = Math.abs(this.targetWeight - this.currentWeight)
+            const directionText = this.direction > 0 ? 'ganhar' : 'perder'
+
+            if (achieved === 0) {
+                return `Faltam ${totalGoal.toFixed(1)} kg para ${directionText}!`
+            }
+
+            return `Você já conseguiu ${directionText} ${achieved.toFixed(1)} kg — faltam ${remaining.toFixed(1)} kg para atingir a meta!`
+        }
+    }
+
     get() {
         return /*html*/ `
             <div id="weight-per-weekly-goal-view" class="card">
                 <p>Status: ${this.renderGoalStatus(this.goalFailed)}</p>
+                <p>${this.renderMessageStatus(this.goalFailed)}</p>
                 <div class="progress mb-3">
                     <div 
                         class="progress-bar bg-success" 
