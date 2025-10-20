@@ -1,7 +1,9 @@
 export class LocalStorageCRUDService {
     constructor(key) {
         this.key = key
-        this.init()
+        if (this.key) {
+            this.init()
+        }
     }
 
     setKey(newKey) {
@@ -131,19 +133,17 @@ export class LocalStorageCRUDService {
     }
 
     keepLast(limit = 10) {
-    const items = this.getAll()
-    
-    if (items.length <= limit) {
-        return items.length
+        const items = this.getAll()
+
+        if (items.length <= limit) {
+            return items.length
+        }
+
+        const sorted = items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
+        const toKeep = sorted.slice(0, limit)
+        localStorage.setItem(this.key, JSON.stringify(toKeep))
     }
-    
-    const sorted = items.sort((a, b) => 
-        new Date(b.createdAt) - new Date(a.createdAt)
-    )
-    
-    const toKeep = sorted.slice(0, limit)
-    localStorage.setItem(this.key, JSON.stringify(toKeep))
-}
 
     count() {
         return this.getAll().length

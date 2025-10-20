@@ -38,7 +38,6 @@ export class ProgressStorageService extends LocalStorageCRUDService {
                 percentage: 0,
                 goalFailed: false,
             })
-            console.log('🔄 Progresso iniciado em 0%')
             return newProgress
         }
 
@@ -47,7 +46,6 @@ export class ProgressStorageService extends LocalStorageCRUDService {
             percentage: 0,
             goalFailed: false,
         })
-        console.log('🔄 Progresso resetado para 0%')
         return reset
     }
 
