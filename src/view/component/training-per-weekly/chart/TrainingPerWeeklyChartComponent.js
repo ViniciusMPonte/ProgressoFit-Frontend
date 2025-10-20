@@ -7,7 +7,7 @@ export class TrainingPerWeeklyChartComponent {
         this.componentService = new TrainingPerWeeklyChartService()
     }
 
-    async autoRender(){
+    async autoRender() {
         await this.updateTrainingData()
         this.render()
     }
@@ -33,7 +33,7 @@ export class TrainingPerWeeklyChartComponent {
                     tension: 0.4,
                 },
             ],
-            'line',
+            'bar',
             {
                 scales: {
                     y: {
@@ -41,6 +41,14 @@ export class TrainingPerWeeklyChartComponent {
                         max: 7,
                         ticks: {
                             stepSize: 1,
+                        },
+                        grid: {
+                            display: true,
+                        },
+                    },
+                    x: {
+                        grid: {
+                            display: false,
                         },
                     },
                 },

@@ -29,6 +29,7 @@ export class WeightPerWeeklyGoalComponent {
         this._createAIRequest()
 
         this.targetTag.innerHTML = this.get()
+        this.renderCurrentWeightDashboardCard()
         this.callbackProgress()
     }
 
@@ -106,6 +107,13 @@ export class WeightPerWeeklyGoalComponent {
                 </div>
             </div>
         `
+    }
+
+    //refatorar
+    renderCurrentWeightDashboardCard(){
+        const tag = document.querySelector('#currentWeight')
+        if(!tag) return
+        tag.innerHTML = `${this.currentWeight} Kg`
     }
 }
 
