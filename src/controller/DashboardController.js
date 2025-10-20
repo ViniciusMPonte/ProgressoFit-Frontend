@@ -9,7 +9,7 @@ export class DashboardController extends BaseController {
         this.dom = new DOMElementManager()
         this.view = new DashboardView(this.dom)
         this.aiService = new AIService()
-        this.localStorageService = new LocalStorageCRUDService('user')
+        this.localStorageService = new LocalStorageCRUDService()
     }
 
     loadPage() {
@@ -19,6 +19,7 @@ export class DashboardController extends BaseController {
 
     setupDynamicContent() {
         this.setUserNameProfile()
+        this.handleLastUpdate()
 
         this.handleTrainingWeeklyInterface()
         this.handleTrainingWeeklyGoal()
@@ -45,12 +46,38 @@ export class DashboardController extends BaseController {
         this.localStorageService.createOrUpdate((item) => item.name === response.data.name, { name: response.data.name })
     }
 
+    registerCurrentDate() {
+        const currentDate = new Date().toISOString()
+        this.localStorageService.setKey('last-update')
+        this.localStorageService.createOrUpdate(() => true, { date: currentDate })
+        this.handleLastUpdate()
+    }
+
+    handleLastUpdate() {
+        this.localStorageService.setKey('last-update')
+        
+        const items = this.localStorageService.getAll()
+        if (items.length === 0 || !items[0].date) {
+            this.view.renderDaysSinceLastUpdate(null)
+            return
+        }
+
+        const lastDate = new Date(items[0].date)
+        const currentDate = new Date()
+
+        const diffInMs = currentDate - lastDate
+        const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+        
+        this.view.renderDaysSinceLastUpdate(diffInDays)
+    }
+
     //Training
     handleTrainingWeeklyInterface() {
         this.view.renderTrainingPerWeeklyInterfaceComponent(() => {
             this.view.alert('Dados enviados com sucesso!', 'success')
             this.handleTrainingWeeklyChart()
             this.handleTrainingWeeklyGoal()
+            this.registerCurrentDate()
         })
     }
 
@@ -68,6 +95,7 @@ export class DashboardController extends BaseController {
             this.view.alert('Peso registrado com sucesso!', 'success')
             this.handleWeightDailyChart()
             this.handleWeightWeeklyGoal()
+            this.registerCurrentDate()
         })
     }
 
@@ -87,7 +115,7 @@ export class DashboardController extends BaseController {
                     this.localStorageService.setKey('ai_requests')
                     const responseAI = this.localStorageService.findOne((obj) => obj.prompt === results[0].data.prompt)
 
-                    if(!responseAI.isRead){
+                    if (!responseAI.isRead) {
                         this.view.alert(results[0].data.aiResponse, 'success', null, 60000)
                         this.localStorageService.update(responseAI.id, { isRead: true })
                     }

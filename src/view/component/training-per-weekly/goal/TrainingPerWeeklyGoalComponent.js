@@ -33,6 +33,7 @@ export class TrainingPerWeeklyGoalComponent {
         this._createAIRequest()
 
         this.targetTag.innerHTML = this.get()
+        this.renderCurrentStreakDashboardCard()
         this.callbackProgress()
     }
 
@@ -68,7 +69,7 @@ export class TrainingPerWeeklyGoalComponent {
         if (goalFailed) {
             return `Objetivo não foi atingido... Não desista, crie uma nova meta para continuar.`
         } else {
-            return `Você já treinou ${this.consecutiveWeeksWithGoal} semanas seguidas sem falhar — faltam ${
+            return `Meta:${this.trainingGoal.targetValue} vez(es) por semana.<br><br>Você já treinou ${this.consecutiveWeeksWithGoal} semanas seguidas sem falhar — faltam ${
                 this.totalWeeks - this.consecutiveWeeksWithGoal
             } semanas pra concluir!`
         }
@@ -105,6 +106,13 @@ export class TrainingPerWeeklyGoalComponent {
                 </div>
             </div>
         `
+    }
+
+        //refatorar
+    renderCurrentStreakDashboardCard(){
+        const tag = document.querySelector('#currentStreak')
+        if(!tag) return
+        tag.innerHTML = `${this.consecutiveWeeksWithGoal * 7} dias`
     }
 }
 

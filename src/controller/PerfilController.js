@@ -1,11 +1,13 @@
 import BaseController from './BaseController.js'
 import { PerfilView } from '../view/PerfilView.js'
+import { ProgressStorageService } from '../service/ProgressStorageService.js'
 
 export class PerfilController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
         this.dom = new DOMElementManager()
         this.view = new PerfilView(this.dom)
+        this.progressStorageService = new ProgressStorageService()
     }
 
     loadPage() {
@@ -37,12 +39,16 @@ export class PerfilController extends BaseController {
 
     handleTrainingComponent() {
         this.view.renderTrainingSection((message, type) => {
+            this.progressStorageService.setKey('training-progress')
+            this.progressStorageService.resetProgress()
             this.view.alert(message, type)
         })
     }
 
     handleWeightComponent() {
         this.view.renderWeightSection((message, type) => {
+            this.progressStorageService.setKey('weight-progress')
+            this.progressStorageService.resetProgress()
             this.view.alert(message, type)
         })
     }
