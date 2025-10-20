@@ -12,8 +12,6 @@ export class DashboardView extends BaseView {
     constructor(dom) {
         super()
         this.dom = dom
-
-        this.weightPerWeeklyInterfaceComponent = new WeightPerWeeklyInterfaceComponent()
     }
 
     renderWelcomeText(data) {
@@ -22,6 +20,20 @@ export class DashboardView extends BaseView {
 
     renderAvatarImg(data) {
         return new HeroComponent(data).getAvatarImg()
+    }
+
+    renderDaysSinceLastUpdate(diffInDays) {
+        const tag = document.querySelector('#lastUpdate')
+
+        if (diffInDays == null) {
+            tag.innerHTML = 'Nenhuma data registrada'
+        } else if (diffInDays === 0) {
+            tag.innerHTML = 'Atualizado hoje'
+        } else if (diffInDays === 1) {
+            tag.innerHTML = 'Atualizado há 1 dia'
+        } else {
+            tag.innerHTML = `Atualizado há ${diffInDays} dias`
+        }
     }
 
     renderFooter() {
