@@ -73,10 +73,15 @@ header {
 }
 
 .period span {
-    height: 20px;
-    width: 20px;
+    height: 25px;
+    width: 25px;
     border-radius: 100%;
-    background-color: #dc3545;
+    background-color: rgba(211, 212, 213, 0.432);
+    white-space: nowrap;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .checked {
