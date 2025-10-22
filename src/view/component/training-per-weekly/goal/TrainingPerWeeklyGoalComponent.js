@@ -69,7 +69,7 @@ export class TrainingPerWeeklyGoalComponent {
         if (goalFailed) {
             return `Objetivo não foi atingido...`
         } else {
-            return `${this.trainingGoal.targetValue} vez(es) por semana`
+            return `Treinar ${this.trainingGoal.targetValue} vez(es) por semana`
         }
     }
 
