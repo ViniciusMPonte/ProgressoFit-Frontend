@@ -77,7 +77,7 @@ export class EditProfileComponent {
     }
 
     setupAvatarPreviewObserver() {
-        const selectedAvatar = document.getElementById('selected-avatar')
+        const selectedAvatar = this.dom.getSelectedAvatar()
         if (!selectedAvatar) return
 
         this.updateAvatarPreview(selectedAvatar)
@@ -85,7 +85,7 @@ export class EditProfileComponent {
     }
 
     updateAvatarPreview(selectedAvatar) {
-        const selected = document.querySelector('.image-option.selected img')
+        const selected = this.dom.getSelectedAvatarOption()
         if (selected) {
             selectedAvatar.src = selected.src
         }
@@ -96,7 +96,7 @@ export class EditProfileComponent {
             this.updateAvatarPreview(selectedAvatar)
         })
 
-        document.querySelectorAll('.image-option').forEach(option => {
+        this.dom.getAllImageOptions().forEach(option => {
             observer.observe(option, {
                 attributes: true,
                 attributeFilter: ['class'],
@@ -209,7 +209,7 @@ export class EditProfileComponent {
     }
 
     selectAvatarOptByImgName(profileImgName) {
-        const selectedImg = document.querySelector(`.image-option[data-image="${profileImgName}"]`)
+        const selectedImg = this.dom.getImageOptionByName(profileImgName)
         if (!selectedImg) return
 
         const avatarOptionsContainer = this.dom.getAvatarOptions()
@@ -339,6 +339,25 @@ class DOMElementManager {
             this.elements.avatarOptions = document.querySelector('#avatar-options')
         }
         return this.elements.avatarOptions
+    }
+
+    getSelectedAvatar() {
+        if (!this.elements.selectedAvatar) {
+            this.elements.selectedAvatar = document.querySelector('#selected-avatar')
+        }
+        return this.elements.selectedAvatar
+    }
+
+    getSelectedAvatarOption() {
+        return document.querySelector('.image-option.selected img')
+    }
+
+    getAllImageOptions() {
+        return document.querySelectorAll('.image-option')
+    }
+
+    getImageOptionByName(profileImgName) {
+        return document.querySelector(`.image-option[data-image="${profileImgName}"]`)
     }
 
     getProfileImgNameInput() {
