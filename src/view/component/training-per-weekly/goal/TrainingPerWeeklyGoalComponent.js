@@ -102,29 +102,29 @@ export class TrainingPerWeeklyGoalComponent {
 
     get() {
         return /*html*/ `
-<div id="training-per-weekly-goal-view" class="card">
-    <div class="card-header d-flex column-gap-2">
-        <div class="d-flex align-items-center">${this.renderGoalStatus(this.goalFailed)}</div>
-        <div>
-            <label class="g-bold">${this.renderMessageTitle(this.goalFailed)}</label>
-            <div>${this.renderMessageSubtitle(this.goalFailed)}</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div>${this.renderMessageStatus(this.goalFailed)}</div>
-    </div>
-    <div class="card-footer text-muted">
-        <div class="period mb-3">
-            ${this.renderPeriodDays(this.periodDaysArray)}
-        </div>
-        <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" style="width: ${this.percentageGoal}%"
-                aria-valuenow="${this.percentageGoal}" aria-valuemin="0" aria-valuemax="100">
-                ${this.percentageGoal}%
+            <div id="training-per-weekly-goal-view" class="card h-100">
+                <div class="card-header d-flex column-gap-2">
+                    <div class="d-flex align-items-center">${this.renderGoalStatus(this.goalFailed)}</div>
+                    <div>
+                        <label class="g-bold">${this.renderMessageTitle(this.goalFailed)}</label>
+                        <div>${this.renderMessageSubtitle(this.goalFailed)}</div>
+                    </div>
+                </div>
+                <div class="form-group h-100">
+                    <div>${this.renderMessageStatus(this.goalFailed)}</div>
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="period mb-3">
+                        ${this.renderPeriodDays(this.periodDaysArray)}
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: ${this.percentageGoal}%"
+                            aria-valuenow="${this.percentageGoal}" aria-valuemin="0" aria-valuemax="100">
+                            ${this.percentageGoal}%
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
         `
     }
 
