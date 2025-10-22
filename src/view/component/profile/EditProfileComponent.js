@@ -76,16 +76,46 @@ export class EditProfileComponent {
         })
     }
 
+    setupAvatarPreviewObserver() {
+        const selectedAvatar = document.getElementById('selected-avatar')
+        if (!selectedAvatar) return
+
+        this.updateAvatarPreview(selectedAvatar)
+        this.observeAvatarChanges(selectedAvatar)
+    }
+
+    updateAvatarPreview(selectedAvatar) {
+        const selected = document.querySelector('.image-option.selected img')
+        if (selected) {
+            selectedAvatar.src = selected.src
+        }
+    }
+
+    observeAvatarChanges(selectedAvatar) {
+        const observer = new MutationObserver(() => {
+            this.updateAvatarPreview(selectedAvatar)
+        })
+
+        document.querySelectorAll('.image-option').forEach(option => {
+            observer.observe(option, {
+                attributes: true,
+                attributeFilter: ['class'],
+            })
+        })
+    }
+
     showAvatarOptions() {
         const avatarOptions = this.dom.getAvatarOptions()
         if (!avatarOptions) return
 
         avatarOptions.innerHTML = new AvatarComponent().getAllAvatarImgOptions()
-        
+
         const profileImgName = this.dom.getProfileImgNameInput()?.value
         if (profileImgName) {
             this.selectAvatarOptByImgName(profileImgName)
         }
+
+        this.setupAvatarPreviewObserver()
     }
 
     storeOriginalData() {
@@ -93,7 +123,7 @@ export class EditProfileComponent {
             name: this.dom.getNameInput()?.value || '',
             email: this.dom.getEmailInput()?.value || '',
             password: this.dom.getPasswordInput()?.value || '',
-            profileImgName: this.dom.getProfileImgNameInput()?.value || ''
+            profileImgName: this.dom.getProfileImgNameInput()?.value || '',
         }
     }
 
@@ -107,7 +137,7 @@ export class EditProfileComponent {
         if (emailInput) emailInput.value = this.originalData.email
         if (passwordInput) passwordInput.value = this.originalData.password
         if (profileImgNameInput) profileImgNameInput.value = this.originalData.profileImgName
-        
+
         this.selectAvatarOptByImgName(this.originalData.profileImgName)
     }
 
@@ -127,11 +157,7 @@ export class EditProfileComponent {
             avatarOptContainer.classList.add('editing')
         }
 
-        const inputs = [
-            this.dom.getNameInput(),
-            this.dom.getEmailInput(),
-            this.dom.getPasswordInput()
-        ]
+        const inputs = [this.dom.getNameInput(), this.dom.getEmailInput(), this.dom.getPasswordInput()]
 
         inputs.forEach(input => {
             if (!input) return
@@ -147,11 +173,7 @@ export class EditProfileComponent {
             avatarOptContainer.classList.remove('editing')
         }
 
-        const inputs = [
-            this.dom.getNameInput(),
-            this.dom.getEmailInput(),
-            this.dom.getPasswordInput()
-        ]
+        const inputs = [this.dom.getNameInput(), this.dom.getEmailInput(), this.dom.getPasswordInput()]
 
         inputs.forEach(input => {
             if (!input) return
@@ -200,7 +222,7 @@ export class EditProfileComponent {
     showLoading(show) {
         const saveButton = this.dom.getSaveButton()
         const loadingDiv = this.dom.getLoadingDiv()
-        
+
         if (saveButton) {
             saveButton.disabled = show
         }
@@ -216,15 +238,15 @@ export class EditProfileComponent {
 
     async saveProfile() {
         this.showLoading(true)
-        
+
         const result = await this.componentService.updateProfile()
-        
+
         this.showLoading(false)
 
         if (result.success) {
             this.disableEdit()
             this.storeOriginalData()
-            
+
             if (this.componentService.callbackForm) {
                 this.componentService.callbackForm('Perfil atualizado com sucesso!', 'success')
             }
@@ -241,47 +263,47 @@ export class EditProfileComponent {
             <div class="card-header" style="margin: 0; align-items: center; padding: 20px; font-size: x-large">
                 <span class="g-bold"><i class="fa-solid fa-user fa-lg"></i>&nbsp;&nbsp;Meu Perfil</span>
             </div>
-                
+
             <form id="profileForm" class="p-5">
                 <div id="avatar-preview">
                     <img id="selected-avatar" src="" alt="Avatar selecionado">
                 </div>
-                
+
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#meuModal">
                     Abrir Modal
                 </button>
-                
+
                 <div class="form-floating mb-1">
                     <input type="text" class="form-control-plaintext" id="floatingName" readonly />
                     <label class="g-bold" for="floatingName">Nome</label>
                 </div>
-                
+
                 <div class="form-floating mb-1">
                     <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
                     <label class="g-bold" for="floatingEmail">E-mail</label>
                 </div>
-                
+
                 <div class="form-floating mb-1">
                     <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
                     <label class="g-bold" for="floatingPassword">Senha</label>
                 </div>
-                
+
                 <input type="hidden" id="profileImgName" name="profileImgName" />
-                
+
                 <div class="mt-4">
                     <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
                     <button class="btn btn-success d-none" type="button" id="saveButton">Salvar</button>
                     <button class="btn btn-danger d-none" type="button" id="cancelButton">Cancelar</button>
                 </div>
-                
+
                 <div id="loading" class="d-none mt-3">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Carregando...</span>
                     </div>
                 </div>
             </form>
-                
-                
+
+
             <div class="modal fade" id="meuModal" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
