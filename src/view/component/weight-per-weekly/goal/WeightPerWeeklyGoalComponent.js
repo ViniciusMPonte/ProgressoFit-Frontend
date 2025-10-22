@@ -66,9 +66,25 @@ export class WeightPerWeeklyGoalComponent {
         }
     }
 
+    renderMessageTitle(goalFailed) {
+        if (goalFailed) {
+            return `Objetivo não foi atingido...`
+        } else {
+            return `Chegar a 75 kg`
+        }
+    }
+
+    renderMessageSubtitle(goalFailed) {
+        if (goalFailed) {
+            return `Crie uma nova meta para continuar.`
+        } else {
+            return `Você está entro da meta!`
+        }
+    }
+
     renderGoalStatus(goalFailed) {
-        const iconClass = goalFailed ? 'fa-square-xmark' : 'fa-square-check'
-        return `<i class="fa-solid ${iconClass} fa-xl"></i>`
+        const iconClass = goalFailed ? 'fa-face-sad-cry' : 'fa-face-laugh-beam'
+        return `<i class="fa-solid ${iconClass} fa-2xl"></i>`
     }
 
     renderMessageStatus(goalFailed) {
@@ -90,29 +106,33 @@ export class WeightPerWeeklyGoalComponent {
 
     get() {
         return /*html*/ `
-            <div id="weight-per-weekly-goal-view" class="card">
-                <p>Status: ${this.renderGoalStatus(this.goalFailed)}</p>
-                <p>${this.renderMessageStatus(this.goalFailed)}</p>
-                <div class="progress mb-3">
-                    <div 
-                        class="progress-bar bg-success" 
-                        role="progressbar" 
-                        style="width: ${this.percentageGoal}%" 
-                        aria-valuenow="${this.percentageGoal}" 
-                        aria-valuemin="0" 
-                        aria-valuemax="100"
-                    >
-                        ${this.percentageGoal}%
-                    </div>
-                </div>
+<div id="weight-per-weekly-goal-view" class="card h-100">
+    <div class="card-header d-flex column-gap-2">
+        <div class="d-flex align-items-center">${this.renderGoalStatus(this.goalFailed)}</div>
+        <div>
+            <label class="g-bold">${this.renderMessageTitle(this.goalFailed)}</label>
+            <div>${this.renderMessageSubtitle(this.goalFailed)}</div>
+        </div>
+    </div>
+    <div class="form-group h-100">
+        <div>${this.renderMessageStatus(this.goalFailed)}</div>
+    </div>
+    <div class="card-footer text-muted">
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: ${this.percentageGoal}%"
+                aria-valuenow="${this.percentageGoal}" aria-valuemin="0" aria-valuemax="100">
+                ${this.percentageGoal}%
             </div>
+        </div>
+    </div>
+</div>
         `
     }
 
     //refatorar
-    renderCurrentWeightDashboardCard(){
+    renderCurrentWeightDashboardCard() {
         const tag = document.querySelector('#currentWeight')
-        if(!tag) return
+        if (!tag) return
         tag.innerHTML = `${this.currentWeight} Kg`
     }
 }

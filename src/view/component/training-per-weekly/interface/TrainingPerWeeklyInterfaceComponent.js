@@ -55,7 +55,7 @@ export class TrainingPerWeeklyInterfaceComponent {
             <div class="card">
                 <form id="training-per-weekly-form">
                     <div class="card-header">
-                        <i class="fa-solid fa-calendar-week fa-2xl"></i>
+                        <i class="fa-solid fa-dumbbell fa-2xl"></i>
                         <div>
                             <label class="g-bold pointer-events-none" for="training-data-field">Data</label>
                             <input class="custom-date pointer-events-none" type="date" id="training-data-field" name="data" required />

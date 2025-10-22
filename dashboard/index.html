@@ -1,54 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Dashboard Fitness</title>
 
-        <link href="../src/styles/bootstrap/bootstrap.css" rel="stylesheet" />
-        <link href="../src/styles/main.css" rel="stylesheet" />
-        <link rel="stylesheet" href="style.css" />
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Fitness</title>
 
-    <body>
-        <header class="bg-primary">
-            <div class="section-top row g-0" style="top: 125px">
-                <div class="col-2 d-flex align-items-end justify-content-center" style="position: relative">
-                    <div id="avatar-container"></div>
-                </div>
-                <div class="col-10 d-flex align-items-end">
-                    <h1 id="userName" class="text-white"></h1>
-                </div>
-                <div class="col-2"></div>
-                <div class="col-10" style="margin-top: 25px">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px">
-                                <i class="fa-solid fa-ruler fa-2xl"></i>
-                                <div style="display: flex; flex-direction: column">
-                                    <span class="g-bold">Último Registro</span>
-                                    <span id="lastUpdate">&nbsp;</span>
-                                </div>
+    <link href="../src/styles/bootstrap/bootstrap.css" rel="stylesheet" />
+    <link href="../src/styles/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="bg-primary">
+        <div class="section-top row g-0">
+
+
+            <div class="col-xl-2 pe-4">
+                <div id="avatar-container"></div>
+            </div>
+            <div class="col-xl-10 d-flex flex-column justify-content-between">
+                <h1 id="userName" class="text-white"></h1>
+
+
+                <div id="cards-hero-container" class="row">
+                    <div class="col-md-4">
+                        <div class="card d-flex flex-row align-items-center p-3">
+                            <i class="fa-solid fa-ruler fa-2xl me-3"></i>
+                            <div class="d-flex flex-column">
+                                <span class="g-bold">Último Registro</span>
+                                <span id="lastUpdate">&nbsp;</span>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-4">
-                            <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px">
-                                <i class="fa-solid fa-weight-scale fa-2xl"></i>
-                                <div style="display: flex; flex-direction: column">
-                                    <span class="g-bold">Peso Atual</span>
-                                    <span id="currentWeight">&nbsp;</span>
-                                </div>
+                    <div class="col-md-4">
+                        <div class="card d-flex flex-row align-items-center p-3">
+                            <i class="fa-solid fa-weight-scale fa-2xl me-3"></i>
+                            <div class="d-flex flex-column">
+                                <span class="g-bold">Peso Atual</span>
+                                <span id="currentWeight">&nbsp;</span>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-4">
-                            <div class="card" style="display: flex; flex-direction: row; align-items: center; gap: 10px; padding: 20px">
-                                <i class="fa-solid fa-fire fa-2xl"></i>
-                                <div style="display: flex; flex-direction: column">
-                                    <span class="g-bold">Streak Atual</span>
-                                    <span id="currentStreak">&nbsp;</span>
-                                </div>
+                    <div class="col-md-4">
+                        <div class="card d-flex flex-row align-items-center p-3">
+                            <i class="fa-solid fa-fire fa-2xl me-3"></i>
+                            <div class="d-flex flex-column">
+                                <span class="g-bold">Streak Atual</span>
+                                <span id="currentStreak">&nbsp;</span>
                             </div>
                         </div>
                     </div>
@@ -56,33 +57,33 @@
             </div>
         </header>
         <main>
-            <div class="row">
+            <div class="row row-gap-3">
                 <div class="col-lg-8">
-                    <div class="card">
+                    <div class="card h-100 d-flex flex-column justify-content-center">
                         <div class="chart-container">
                             <h3 class="g-bold">Treinos por Semana</h3>
                             <canvas id="training-per-weekly-chart"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 d-flex flex-column row-gap-3">
                     <div id="training-per-weekly-interface"></div>
-                    <div id="training-per-weekly-goal"></div>
+                    <div id="training-per-weekly-goal" class="h-100"></div>
                 </div>
             </div>
 
-            <div class="row mt-4">
+            <div class="row mt-4 row-gap-3">
                 <div class="col-lg-8">
-                    <div class="card">
+                    <div class="card h-100 d-flex flex-column justify-content-center">
                         <div class="chart-container">
                             <h3 class="g-bold">Peso por Semana</h3>
                             <canvas id="weight-daily-weekly-chart"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 d-flex flex-column row-gap-3">
                     <div id="weight-per-weekly-interface"></div>
-                    <div id="weight-per-weekly-goal"></div>
+                    <div id="weight-per-weekly-goal" class="h-100"></div>
                 </div>
             </div>
         </main>
