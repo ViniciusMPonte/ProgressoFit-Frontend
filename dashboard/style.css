@@ -57,13 +57,15 @@ header {
     border: 1px solid #f5c6cb;
 }
 
-#training-per-weekly-form .card-header {
+#training-per-weekly-form .card-header,
+#weight-per-weekly-form .card-header {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-#training-per-weekly-form .card-header label {
+#training-per-weekly-form .card-header label,
+#weight-per-weekly-form .card-header label {
     display: block;
 }
 
