@@ -268,50 +268,50 @@ export class EditProfileComponent {
                 <span class="g-bold"><i class="fa-solid fa-user fa-lg"></i>&nbsp;&nbsp;Meu Perfil</span>
             </div>
 
-<form id="profileForm" class="p-5">
-    <div class="row">
-        <div class="col-8">
-            <div class="form-floating mb-1">
-                <input type="text" class="form-control-plaintext" id="floatingName" readonly />
-                <label class="g-bold" for="floatingName">Nome</label>
-            </div>
-        
-            <div class="form-floating mb-1">
-                <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
-                <label class="g-bold" for="floatingEmail">E-mail</label>
-            </div>
-        
-            <div class="form-floating mb-1">
-                <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
-                <label class="g-bold" for="floatingPassword">Senha</label>
-            </div>
-        </div>
-        <div class="col-4">
-            <div id="avatar-preview">
-                <div>
-                    <img id="selected-avatar" src="" alt="Avatar selecionado">
-                    <button type="button" class="btn btn-primary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#modal-avatar-edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
+            <form id="profileForm" class="p-5">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group mb-1">
+                            <label class="g-bold" for="floatingName">Nome</label>
+                            <input type="text" class="form-control-plaintext" id="floatingName" readonly />
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label class="g-bold" for="floatingEmail">E-mail</label>
+                            <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label class="g-bold" for="floatingPassword">Senha</label>
+                            <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="avatar-preview" class="mb-4">
+                            <div>
+                                <img id="selected-avatar" src="" alt="Avatar selecionado">
+                                <button type="button" class="btn btn-primary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#modal-avatar-edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <input type="hidden" id="profileImgName" name="profileImgName" />
+                <input type="hidden" id="profileImgName" name="profileImgName" />
 
-    <div class="mt-4">
-        <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
-        <button class="btn btn-success d-none" type="button" id="saveButton">Salvar</button>
-        <button class="btn btn-danger d-none" type="button" id="cancelButton">Cancelar</button>
-    </div>
+                <div class="mt-4">
+                    <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
+                    <button class="btn btn-primary d-none" type="button" id="saveButton">Salvar</button>
+                    <button class="btn btn-light d-none" type="button" id="cancelButton">Cancelar</button>
+                </div>
 
-    <div id="loading" class="d-none mt-3">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Carregando...</span>
-        </div>
-    </div>
-</form>
+                <div id="loading" class="d-none mt-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                </div>
+            </form>
 
             <div class="modal fade" id="modal-avatar-edit" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true">
                 <div class="modal-dialog">

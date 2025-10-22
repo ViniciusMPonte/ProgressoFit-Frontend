@@ -39,10 +39,6 @@ main {
     flex-direction: column;
 }
 
-.form-floating {
-    width: 80%;
-}
-
 #avatar-options {
     display: flex;
     gap: 10px;
@@ -136,5 +132,16 @@ main {
 
     .sidebar{
         padding: 0;
+    }
+}
+
+
+@media (max-width: 767px) {
+    #profileForm > .row {
+        flex-direction: column-reverse;
+    }
+
+    #avatar-preview {
+        align-items: center;
     }
 }
