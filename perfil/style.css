@@ -101,6 +101,12 @@ main {
     animation: fadeIn 0.3s ease-in;
 }
 
+.form-control-plaintext {
+    border: 1px solid rgb(222, 226, 230);
+    padding: 6px 12px;
+    border-radius: 100px;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -126,15 +132,18 @@ main {
         margin-left: 2px;
     }
 
+    .left-highlight-btn {
+        white-space: nowrap;
+    }
+
     .container > .row {
         margin: 0;
     }
 
-    .sidebar{
+    .sidebar {
         padding: 0;
     }
 }
-
 
 @media (max-width: 767px) {
     #profileForm > .row {

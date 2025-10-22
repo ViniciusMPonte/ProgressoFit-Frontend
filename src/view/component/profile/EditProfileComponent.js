@@ -271,19 +271,25 @@ export class EditProfileComponent {
             <form id="profileForm" class="p-5">
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="form-group mb-1">
-                            <label class="g-bold" for="floatingName">Nome</label>
-                            <input type="text" class="form-control-plaintext" id="floatingName" readonly />
-                        </div>
-
-                        <div class="form-group mb-1">
-                            <label class="g-bold" for="floatingEmail">E-mail</label>
-                            <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
-                        </div>
-
-                        <div class="form-group mb-1">
-                            <label class="g-bold" for="floatingPassword">Senha</label>
-                            <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group mb-1">
+                                    <label class="g-bold" for="floatingName">Nome</label>
+                                    <input type="text" class="form-control-plaintext" id="floatingName" readonly />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group mb-1">
+                                    <label class="g-bold" for="floatingEmail">E-mail</label>
+                                    <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group mb-1">
+                                    <label class="g-bold" for="floatingPassword">Senha</label>
+                                    <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
