@@ -237,42 +237,65 @@ export class EditProfileComponent {
 
     get() {
         return /*html*/ `
+
             <div class="card-header" style="margin: 0; align-items: center; padding: 20px; font-size: x-large">
                 <span class="g-bold"><i class="fa-solid fa-user fa-lg"></i>&nbsp;&nbsp;Meu Perfil</span>
             </div>
-
+                
             <form id="profileForm" class="p-5">
-                <div id="avatar-options" class="mb-3"></div>
-
+                <div id="avatar-preview">
+                    <img id="selected-avatar" src="" alt="Avatar selecionado">
+                </div>
+                
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#meuModal">
+                    Abrir Modal
+                </button>
+                
                 <div class="form-floating mb-1">
                     <input type="text" class="form-control-plaintext" id="floatingName" readonly />
-                    <label for="floatingName">Nome</label>
+                    <label class="g-bold" for="floatingName">Nome</label>
                 </div>
-
+                
                 <div class="form-floating mb-1">
                     <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
-                    <label for="floatingEmail">E-mail</label>
+                    <label class="g-bold" for="floatingEmail">E-mail</label>
                 </div>
-
+                
                 <div class="form-floating mb-1">
                     <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
-                    <label for="floatingPassword">Senha</label>
+                    <label class="g-bold" for="floatingPassword">Senha</label>
                 </div>
-
+                
                 <input type="hidden" id="profileImgName" name="profileImgName" />
-
+                
                 <div class="mt-4">
                     <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
                     <button class="btn btn-success d-none" type="button" id="saveButton">Salvar</button>
                     <button class="btn btn-danger d-none" type="button" id="cancelButton">Cancelar</button>
                 </div>
-
+                
                 <div id="loading" class="d-none mt-3">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Carregando...</span>
                     </div>
                 </div>
             </form>
+                
+                
+            <div class="modal fade" id="meuModal" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="meuModalLabel">Selecione seu avatar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="avatar-options" class="mb-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+
         `
     }
 }
