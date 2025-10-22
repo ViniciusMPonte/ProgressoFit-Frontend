@@ -187,20 +187,24 @@ export class EditProfileComponent {
         const editButton = this.dom.getEditButton()
         const saveButton = this.dom.getSaveButton()
         const cancelButton = this.dom.getCancelButton()
+        const modalButton = this.dom.getModalButton()
 
         if (editButton) editButton.classList.add('d-none')
         if (saveButton) saveButton.classList.remove('d-none')
         if (cancelButton) cancelButton.classList.remove('d-none')
+        if (modalButton) modalButton.classList.remove('d-none')
     }
 
     disableEditButtons() {
         const editButton = this.dom.getEditButton()
         const saveButton = this.dom.getSaveButton()
         const cancelButton = this.dom.getCancelButton()
+        const modalButton = this.dom.getModalButton()
 
         if (editButton) editButton.classList.remove('d-none')
         if (saveButton) saveButton.classList.add('d-none')
         if (cancelButton) cancelButton.classList.add('d-none')
+        if (modalButton) modalButton.classList.add('d-none')
     }
 
     swapSelected(allTags, selectedTag) {
@@ -264,47 +268,52 @@ export class EditProfileComponent {
                 <span class="g-bold"><i class="fa-solid fa-user fa-lg"></i>&nbsp;&nbsp;Meu Perfil</span>
             </div>
 
-            <form id="profileForm" class="p-5">
-                <div id="avatar-preview">
+<form id="profileForm" class="p-5">
+    <div class="row">
+        <div class="col-8">
+            <div class="form-floating mb-1">
+                <input type="text" class="form-control-plaintext" id="floatingName" readonly />
+                <label class="g-bold" for="floatingName">Nome</label>
+            </div>
+        
+            <div class="form-floating mb-1">
+                <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
+                <label class="g-bold" for="floatingEmail">E-mail</label>
+            </div>
+        
+            <div class="form-floating mb-1">
+                <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
+                <label class="g-bold" for="floatingPassword">Senha</label>
+            </div>
+        </div>
+        <div class="col-4">
+            <div id="avatar-preview">
+                <div>
                     <img id="selected-avatar" src="" alt="Avatar selecionado">
+                    <button type="button" class="btn btn-primary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#modal-avatar-edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#meuModal">
-                    Abrir Modal
-                </button>
+    <input type="hidden" id="profileImgName" name="profileImgName" />
 
-                <div class="form-floating mb-1">
-                    <input type="text" class="form-control-plaintext" id="floatingName" readonly />
-                    <label class="g-bold" for="floatingName">Nome</label>
-                </div>
+    <div class="mt-4">
+        <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
+        <button class="btn btn-success d-none" type="button" id="saveButton">Salvar</button>
+        <button class="btn btn-danger d-none" type="button" id="cancelButton">Cancelar</button>
+    </div>
 
-                <div class="form-floating mb-1">
-                    <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
-                    <label class="g-bold" for="floatingEmail">E-mail</label>
-                </div>
+    <div id="loading" class="d-none mt-3">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+    </div>
+</form>
 
-                <div class="form-floating mb-1">
-                    <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
-                    <label class="g-bold" for="floatingPassword">Senha</label>
-                </div>
-
-                <input type="hidden" id="profileImgName" name="profileImgName" />
-
-                <div class="mt-4">
-                    <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
-                    <button class="btn btn-success d-none" type="button" id="saveButton">Salvar</button>
-                    <button class="btn btn-danger d-none" type="button" id="cancelButton">Cancelar</button>
-                </div>
-
-                <div id="loading" class="d-none mt-3">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Carregando...</span>
-                    </div>
-                </div>
-            </form>
-
-
-            <div class="modal fade" id="meuModal" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true">
+            <div class="modal fade" id="modal-avatar-edit" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -407,6 +416,13 @@ class DOMElementManager {
             this.elements.cancelButton = document.querySelector('#cancelButton')
         }
         return this.elements.cancelButton
+    }
+
+    getModalButton() {
+        if (!this.elements.modalButton) {
+            this.elements.modalButton = document.querySelector('[data-bs-target="#modal-avatar-edit"]')
+        }
+        return this.elements.modalButton
     }
 
     getLoadingDiv() {

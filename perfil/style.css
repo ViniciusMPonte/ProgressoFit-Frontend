@@ -49,10 +49,36 @@ main {
     flex-wrap: wrap;
     justify-content: center;
 }
+
 #avatar-options img {
     height: 120px;
     border-radius: 10px;
 }
+
+#avatar-preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: end;
+}
+
+#avatar-preview > div {
+    position: relative;
+}
+
+#avatar-preview button {
+    position: absolute;
+    bottom: -5px;
+    left: -5px;
+}
+
+#selected-avatar {
+    height: 120px;
+    width: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
 .image-option.selected img {
     border: 3px solid #36c209;
 }
