@@ -90,7 +90,7 @@ export class WeightPerWeeklyGoalComponent {
 
     get() {
         return /*html*/ `
-            <div id="weight-per-weekly-goal-view" class="card">
+            <div id="weight-per-weekly-goal-view" class="card form-group">
                 <p>Status: ${this.renderGoalStatus(this.goalFailed)}</p>
                 <p>${this.renderMessageStatus(this.goalFailed)}</p>
                 <div class="progress mb-3">
