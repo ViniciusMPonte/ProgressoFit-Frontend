@@ -55,11 +55,4 @@ export class PerfilView extends BaseView {
 
         component.autoRender()
     }
-
-    renderFooter() {
-        const footerTag = document.querySelector('#footer')
-        if (footerTag) {
-            footerTag.innerHTML = CopyrightComponent.get()
-        }
-    }
 }

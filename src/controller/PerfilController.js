@@ -24,7 +24,6 @@ export class PerfilController extends BaseController {
         this.handleEditProfileComponent()
         this.handleTrainingComponent()
         this.handleWeightComponent()
-        this.handleFooter()
     }
 
     handleSidebarNavigation() {
@@ -51,10 +50,6 @@ export class PerfilController extends BaseController {
             this.progressStorageService.resetProgress()
             this.view.alert(message, type)
         })
-    }
-
-    handleFooter() {
-        this.view.renderFooter()
     }
 }
 

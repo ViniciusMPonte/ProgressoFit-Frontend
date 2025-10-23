@@ -438,13 +438,6 @@ class DOMElementManager {
         return this.elements.loadingDiv
     }
 
-    getFooterTag() {
-        if (!this.elements.footerTag) {
-            this.elements.footerTag = document.querySelector('#footer')
-        }
-        return this.elements.footerTag
-    }
-
     destroy() {
         this.elements = {}
     }

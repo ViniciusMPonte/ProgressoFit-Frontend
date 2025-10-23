@@ -43,7 +43,7 @@ export class DashboardController extends BaseController {
         avatarContainerTag.innerHTML = this.view.renderAvatarImg(response.data)
 
         this.localStorageService.setKey('user')
-        this.localStorageService.createOrUpdate((item) => item.name === response.data.name, { name: response.data.name })
+        this.localStorageService.createOrUpdate(item => item.name === response.data.name, { name: response.data.name })
     }
 
     registerCurrentDate() {
@@ -55,7 +55,7 @@ export class DashboardController extends BaseController {
 
     handleLastUpdate() {
         this.localStorageService.setKey('last-update')
-        
+
         const items = this.localStorageService.getAll()
         if (items.length === 0 || !items[0].date) {
             this.view.renderDaysSinceLastUpdate(null)
@@ -67,7 +67,7 @@ export class DashboardController extends BaseController {
 
         const diffInMs = currentDate - lastDate
         const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
-        
+
         this.view.renderDaysSinceLastUpdate(diffInDays)
     }
 
@@ -110,10 +110,10 @@ export class DashboardController extends BaseController {
     //AI
     getCallbackGenerateTextAI() {
         return () => {
-            this.aiService.processAllPendingWithRetry().then((results) => {
+            this.aiService.processAllPendingWithRetry().then(results => {
                 if (results.length > 0) {
                     this.localStorageService.setKey('ai_requests')
-                    const responseAI = this.localStorageService.findOne((obj) => obj.prompt === results[0].data.prompt)
+                    const responseAI = this.localStorageService.findOne(obj => obj.prompt === results[0].data.prompt)
 
                     if (!responseAI.isRead) {
                         this.view.alert(results[0].data.aiResponse, 'success', null, 60000)
