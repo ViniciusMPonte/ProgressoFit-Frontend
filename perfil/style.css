@@ -37,11 +37,6 @@ main {
 #profileForm {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.form-floating {
-    width: 80%;
 }
 
 #avatar-options {
@@ -50,10 +45,36 @@ main {
     flex-wrap: wrap;
     justify-content: center;
 }
+
 #avatar-options img {
     height: 120px;
     border-radius: 10px;
 }
+
+#avatar-preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: end;
+}
+
+#avatar-preview > div {
+    position: relative;
+}
+
+#avatar-preview button {
+    position: absolute;
+    bottom: -5px;
+    left: -5px;
+}
+
+#selected-avatar {
+    height: 120px;
+    width: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
 .image-option.selected img {
     border: 3px solid #36c209;
 }
@@ -76,14 +97,14 @@ main {
     text-align: center;
 }
 
-.sidebar {
-    position: sticky;
-    top: 20px;
-    height: fit-content;
-}
-
 .content-area {
     animation: fadeIn 0.3s ease-in;
+}
+
+.form-control-plaintext {
+    border: 1px solid rgb(222, 226, 230);
+    padding: 6px 12px;
+    border-radius: 100px;
 }
 
 @keyframes fadeIn {
@@ -99,4 +120,37 @@ main {
 
 .content-area.d-none {
     display: none !important;
+}
+
+@media (max-width: 991px) {
+    .sidebar {
+        display: flex;
+    }
+
+    .left-highlight-btn {
+        border-left: 3px solid #36c209;
+        margin-left: 2px;
+    }
+
+    .left-highlight-btn {
+        white-space: nowrap;
+    }
+
+    .container > .row {
+        margin: 0;
+    }
+
+    .sidebar {
+        padding: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    #profileForm > .row {
+        flex-direction: column-reverse;
+    }
+
+    #avatar-preview {
+        align-items: center;
+    }
 }

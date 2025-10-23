@@ -36,10 +36,6 @@ export class DashboardView extends BaseView {
         }
     }
 
-    renderFooter() {
-        return CopyrightComponent.get()
-    }
-
     renderTrainingPerWeeklyInterfaceComponent(cbFuction) {
         const targetTag = this.dom.getTrainingPerWeeklyInterface()
         const component = new TrainingPerWeeklyInterfaceComponent(targetTag)
