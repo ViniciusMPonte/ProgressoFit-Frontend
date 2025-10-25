@@ -1,18 +1,16 @@
-import { DateHelper } from "../helper/DateHelper.js"
+import { DateHelper } from '../helper/DateHelper.js'
 
 export class TrainingGoalCalculatorService {
-    calculateConsecutiveWeeks(weeklyData, minTrainings = 3) {
+    calculateConsecutiveWeeks(weeklyData, minTrainings) {
         const today = DateHelper.getTodayAtMidnight()
         const completedWeeks = this._getCompletedWeeks(weeklyData, today)
 
-        if (completedWeeks.length === 0) {
-            return {
-                consecutiveWeeks: 0,
-                nextPeriodStartDate: null,
-            }
+        let { consecutiveCount, lastWeekEndDate } = this._countConsecutiveWeeks(completedWeeks, minTrainings)
+
+        if (!lastWeekEndDate) {
+            lastWeekEndDate = this._getPreviousDay(weeklyData[0].weekStartDate)
         }
 
-        const { consecutiveCount, lastWeekEndDate } = this._countConsecutiveWeeks(completedWeeks, minTrainings)
         const nextPeriodStartDate = this._calculateNextPeriodStartDate(lastWeekEndDate)
 
         return {
@@ -22,7 +20,7 @@ export class TrainingGoalCalculatorService {
     }
 
     _getCompletedWeeks(weeklyData, today) {
-        return weeklyData.filter((week) => {
+        return weeklyData.filter(week => {
             const weekEndDate = new Date(week.weekEndDate)
             return weekEndDate < today
         })
@@ -42,6 +40,18 @@ export class TrainingGoalCalculatorService {
         }
 
         return { consecutiveCount, lastWeekEndDate }
+    }
+
+    _getPreviousDay(dateString) {
+        const [year, month, day] = dateString.split('-')
+        const date = new Date(year, month - 1, day)
+        date.setDate(date.getDate() - 1)
+
+        const newYear = date.getFullYear()
+        const newMonth = String(date.getMonth() + 1).padStart(2, '0')
+        const newDay = String(date.getDate()).padStart(2, '0')
+
+        return `${newYear}-${newMonth}-${newDay}`
     }
 
     _calculateNextPeriodStartDate(lastWeekEndDate) {

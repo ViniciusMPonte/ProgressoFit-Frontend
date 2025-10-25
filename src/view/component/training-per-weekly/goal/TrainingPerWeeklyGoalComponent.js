@@ -84,6 +84,8 @@ export class TrainingPerWeeklyGoalComponent {
     renderMessageStatus(goalFailed) {
         if (goalFailed) {
             return `Foi registrada uma semana com menos de ${this.trainingGoal.targetValue} treino(s)`
+        } else if (this.consecutiveWeeksWithGoal == 0) {
+            return `Faltam ${this.totalWeeks - this.consecutiveWeeksWithGoal} semana(s) pra concluir!`
         } else {
             return `Você já treinou ${this.consecutiveWeeksWithGoal} semana(s) sem falhar — faltam ${
                 this.totalWeeks - this.consecutiveWeeksWithGoal
