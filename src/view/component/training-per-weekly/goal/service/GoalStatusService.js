@@ -1,7 +1,8 @@
 import { DateHelper } from "../helper/DateHelper.js"
 
 export class GoalStatusService {
-    checkIfGoalFailed(nextPeriodStartDate, lastDay) {
+    checkIfGoalFailed(nextPeriodStartDate, lastDay, percent) {
+        if (percent >= 100) return false
         if (!nextPeriodStartDate) return true
 
         const nextPeriod = DateHelper.parseDate(nextPeriodStartDate)

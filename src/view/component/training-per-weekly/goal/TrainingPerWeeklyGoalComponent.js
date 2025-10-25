@@ -49,7 +49,7 @@ export class TrainingPerWeeklyGoalComponent {
 
         this.consecutiveWeeksWithGoal = trainingStatus.consecutiveWeeks
         this.percentageGoal = MathHelper.calculatePercentage(this.consecutiveWeeksWithGoal, this.totalWeeks)
-        this.goalFailed = this.goalStatusService.checkIfGoalFailed(trainingStatus.nextPeriodStartDate, this.trainingGoal.endDate)
+        this.goalFailed = this.goalStatusService.checkIfGoalFailed(trainingStatus.nextPeriodStartDate, this.trainingGoal.endDate, this.percentageGoal)
         this.periodDaysArray = this.periodDataService.transformWeeklyData(this.currentPeriod)
         this.needAIMessage = this.progressStorageService.storeProgressIfBetter(this.percentageGoal, this.goalFailed)
     }
@@ -73,23 +73,27 @@ export class TrainingPerWeeklyGoalComponent {
         }
     }
 
-    renderMessageSubtitle(goalFailed) {
+    renderMessageSubtitle(goalFailed, percentageGoal) {
         if (goalFailed) {
             return `Crie uma nova meta para continuar.`
-        } else {
+        } else if(percentageGoal < 100){
             return `Você está entro da meta!`
+        } else{
+            return `Parabéns! Você concluiu a meta!`
         }
     }
 
-    renderMessageStatus(goalFailed) {
+    renderMessageStatus(goalFailed, percentageGoal) {
         if (goalFailed) {
             return `Foi registrada uma semana com menos de ${this.trainingGoal.targetValue} treino(s)`
         } else if (this.consecutiveWeeksWithGoal == 0) {
             return `Faltam ${this.totalWeeks - this.consecutiveWeeksWithGoal} semana(s) pra concluir!`
-        } else {
+        } else if(percentageGoal < 100){
             return `Você já treinou ${this.consecutiveWeeksWithGoal} semana(s) sem falhar — faltam ${
                 this.totalWeeks - this.consecutiveWeeksWithGoal
             } semana(s) pra concluir!`
+        } else {
+            return `Você já treinou ${this.consecutiveWeeksWithGoal} semana(s) sem falhar. Crie uma nova meta para recomeçar!`
         }
     }
 
@@ -109,11 +113,11 @@ export class TrainingPerWeeklyGoalComponent {
                     <div class="d-flex align-items-center">${this.renderGoalStatus(this.goalFailed)}</div>
                     <div>
                         <label class="g-bold">${this.renderMessageTitle(this.goalFailed)}</label>
-                        <div>${this.renderMessageSubtitle(this.goalFailed)}</div>
+                        <div>${this.renderMessageSubtitle(this.goalFailed, this.percentageGoal)}</div>
                     </div>
                 </div>
                 <div class="form-group h-100">
-                    <div>${this.renderMessageStatus(this.goalFailed)}</div>
+                    <div>${this.renderMessageStatus(this.goalFailed, this.percentageGoal)}</div>
                 </div>
                 <div class="card-footer text-muted">
                     <div class="period mb-3">
