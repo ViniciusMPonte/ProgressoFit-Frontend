@@ -3,7 +3,7 @@ export class FooterComponent {
 
     static get() {
         return /*html*/`
-            <footer class="mt-5 mb-3 text-muted" id="footer">
+            <footer class="mt-3 mb-3 text-muted" id="footer">
                 ${FooterComponent.config.content || ''}
             </footer>
         `

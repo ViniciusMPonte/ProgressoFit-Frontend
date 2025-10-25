@@ -153,4 +153,8 @@ main {
     #avatar-preview {
         align-items: center;
     }
+
+    .container {
+        margin-top: 0px !important;
+    }
 }
