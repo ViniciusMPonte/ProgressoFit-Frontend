@@ -15,7 +15,6 @@ export class LoginController extends BaseController {
     }
 
     setupDynamicContent(){
-        this.handleFooter()
     }
 
     setupEventListeners() {
@@ -26,13 +25,6 @@ export class LoginController extends BaseController {
                 event.preventDefault();
                 await this.handleLogin();
             });
-        }
-    }
-
-    handleFooter(){
-        const footerTag = this.dom.getFooterTag();
-        if (footerTag) {
-            footerTag.innerHTML = LoginView.renderFooter();
         }
     }
 
@@ -94,13 +86,6 @@ export class LoginController extends BaseController {
 class DOMElementManager {
     constructor() {
         this.elements = {};
-    }
-
-    getFooterTag() {
-        if (!this.elements.footerTag) {
-            this.elements.footerTag = document.querySelector('#footer');
-        }
-        return this.elements.footerTag;
     }
 
     getForm() {

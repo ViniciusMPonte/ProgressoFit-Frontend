@@ -1,92 +1,81 @@
-import { RegisterView } from "../view/RegisterView.js";
-import { RegisterDTO } from "../model/dto/RegisterDTO.js";
-import BaseController from "./BaseController.js";
+import { RegisterView } from '../view/RegisterView.js'
+import { RegisterDTO } from '../model/dto/RegisterDTO.js'
+import BaseController from './BaseController.js'
 
 export class RegisterController extends BaseController {
     constructor(redirectManager, apiService) {
         super(redirectManager, apiService)
-        this.dom = new DOMElementManager();
-        this.view = new RegisterView();
+        this.dom = new DOMElementManager()
+        this.view = new RegisterView()
     }
 
     loadPage() {
-        this.setupDynamicContent();
-        this.setupEventListeners();
+        this.setupDynamicContent()
+        this.setupEventListeners()
     }
 
-    setupDynamicContent() {
-        this.handleFooter()
-    }
+    setupDynamicContent() {}
 
     setupEventListeners() {
-        const form = this.dom.getForm();
+        const form = this.dom.getForm()
 
         if (form) {
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                await this.handleRegister();
-            });
-        }
-    }
-
-    handleFooter() {
-        const footerTag = this.dom.getFooterTag();
-        if (footerTag) {
-            footerTag.innerHTML = RegisterView.renderFooter();
+            form.addEventListener('submit', async event => {
+                event.preventDefault()
+                await this.handleRegister()
+            })
         }
     }
 
     async handleRegister() {
-        const name = this.dom.getNameInput()?.value;
-        const email = this.dom.getEmailInput()?.value;
-        const password = this.dom.getPasswordInput()?.value;
+        const name = this.dom.getNameInput()?.value
+        const email = this.dom.getEmailInput()?.value
+        const password = this.dom.getPasswordInput()?.value
 
-        const registerDto = new RegisterDTO(name, email, password);
-        const validation = registerDto.validate();
+        const registerDto = new RegisterDTO(name, email, password)
+        const validation = registerDto.validate()
 
         if (!validation.isValid) {
-            this.view.alert(validation.errors[0], 'warning');
-            return;
+            this.view.alert(validation.errors[0], 'warning')
+            return
         }
 
-        this.showLoading(true);
+        this.showLoading(true)
 
         try {
-            const result = await this.apiService.register(registerDto);
+            const result = await this.apiService.register(registerDto)
 
             if (result.success) {
-
                 if (result.data.token) {
-                    localStorage.setItem('authToken', result.data.token);
+                    localStorage.setItem('authToken', result.data.token)
                 }
 
-                this.redirect.to('dashboard');
-
+                this.redirect.to('dashboard')
             } else {
-                this.view.alert(result.message || 'Erro ao criar conta. Tente novamente.', 'danger');
+                this.view.alert(result.message || 'Erro ao criar conta. Tente novamente.', 'danger')
             }
         } catch (error) {
-            console.error('Erro durante o cadastro:', error);
-            this.view.alert('Erro interno. Tente novamente mais tarde.', 'danger');
+            console.error('Erro durante o cadastro:', error)
+            this.view.alert('Erro interno. Tente novamente mais tarde.', 'danger')
         } finally {
-            this.showLoading(false);
+            this.showLoading(false)
         }
     }
 
     showLoading(show) {
-        const loadingDiv = this.dom.getLoadingDiv();
-        const registerButton = this.dom.getRegisterButton();
+        const loadingDiv = this.dom.getLoadingDiv()
+        const registerButton = this.dom.getRegisterButton()
 
         if (registerButton) {
-            registerButton.disabled = show;
-            registerButton.textContent = show ? 'Criando conta...' : 'Criar conta';
+            registerButton.disabled = show
+            registerButton.textContent = show ? 'Criando conta...' : 'Criar conta'
         }
 
         if (loadingDiv) {
             if (show) {
-                loadingDiv.classList.remove('d-none');
+                loadingDiv.classList.remove('d-none')
             } else {
-                loadingDiv.classList.add('d-none');
+                loadingDiv.classList.add('d-none')
             }
         }
     }
@@ -94,59 +83,52 @@ export class RegisterController extends BaseController {
 
 class DOMElementManager {
     constructor() {
-        this.elements = {};
-    }
-
-    getFooterTag() {
-        if (!this.elements.footerTag) {
-            this.elements.footerTag = document.querySelector('#footer');
-        }
-        return this.elements.footerTag;
+        this.elements = {}
     }
 
     getForm() {
         if (!this.elements.form) {
-            this.elements.form = document.querySelector('#loginForm');
+            this.elements.form = document.querySelector('#loginForm')
         }
-        return this.elements.form;
+        return this.elements.form
     }
 
     getNameInput() {
         if (!this.elements.nameInput) {
-            this.elements.nameInput = document.querySelector('#floatingName');
+            this.elements.nameInput = document.querySelector('#floatingName')
         }
-        return this.elements.nameInput;
+        return this.elements.nameInput
     }
 
     getEmailInput() {
         if (!this.elements.emailInput) {
-            this.elements.emailInput = document.querySelector('#floatingEmail');
+            this.elements.emailInput = document.querySelector('#floatingEmail')
         }
-        return this.elements.emailInput;
+        return this.elements.emailInput
     }
 
     getPasswordInput() {
         if (!this.elements.passwordInput) {
-            this.elements.passwordInput = document.querySelector('#floatingPassword');
+            this.elements.passwordInput = document.querySelector('#floatingPassword')
         }
-        return this.elements.passwordInput;
+        return this.elements.passwordInput
     }
 
     getLoadingDiv() {
         if (!this.elements.loadingDiv) {
-            this.elements.loadingDiv = document.querySelector('#loading');
+            this.elements.loadingDiv = document.querySelector('#loading')
         }
-        return this.elements.loadingDiv;
+        return this.elements.loadingDiv
     }
 
     getRegisterButton() {
         if (!this.elements.registerButton) {
-            this.elements.registerButton = document.querySelector('#registerButton');
+            this.elements.registerButton = document.querySelector('#registerButton')
         }
-        return this.elements.registerButton;
+        return this.elements.registerButton
     }
 
     destroy() {
-        this.elements = {};
+        this.elements = {}
     }
 }

@@ -46,13 +46,13 @@ export class WeightDailyStatisticChartComponent {
             [
                 {
                     data: this.weightData.data,
-                    backgroundColor: ['rgba(92, 250, 30, 0.4)'],
+                    backgroundColor: ['rgba(92, 250, 30, 0.1)'],
                     fill: true,
                     borderColor: 'rgba(97, 243, 57, 1)',
                     tension: 0.4,
                 },
             ],
-            'bar',
+            'line',
             {
                 scales: {
                     y: {
@@ -67,7 +67,7 @@ export class WeightDailyStatisticChartComponent {
                     },
                     x: {
                         grid: {
-                            display: false,
+                            display: true,
                         },
                     },
                 },

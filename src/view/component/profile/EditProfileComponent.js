@@ -76,16 +76,48 @@ export class EditProfileComponent {
         })
     }
 
+    setupAvatarPreviewObserver() {
+        const selectedAvatar = this.dom.getSelectedAvatar()
+        if (!selectedAvatar) return
+
+        this.updateAvatarPreview(selectedAvatar)
+        this.observeAvatarChanges(selectedAvatar)
+    }
+
+    updateAvatarPreview(selectedAvatar) {
+        const selected = this.dom.getSelectedAvatarOption()
+        if (selected) {
+            selectedAvatar.src = selected.src
+        } else {
+            selectedAvatar.src = '../src/assets/images/avatars/avatar-1.png'
+        }
+    }
+
+    observeAvatarChanges(selectedAvatar) {
+        const observer = new MutationObserver(() => {
+            this.updateAvatarPreview(selectedAvatar)
+        })
+
+        this.dom.getAllImageOptions().forEach(option => {
+            observer.observe(option, {
+                attributes: true,
+                attributeFilter: ['class'],
+            })
+        })
+    }
+
     showAvatarOptions() {
         const avatarOptions = this.dom.getAvatarOptions()
         if (!avatarOptions) return
 
         avatarOptions.innerHTML = new AvatarComponent().getAllAvatarImgOptions()
-        
+
         const profileImgName = this.dom.getProfileImgNameInput()?.value
         if (profileImgName) {
             this.selectAvatarOptByImgName(profileImgName)
         }
+
+        this.setupAvatarPreviewObserver()
     }
 
     storeOriginalData() {
@@ -93,7 +125,7 @@ export class EditProfileComponent {
             name: this.dom.getNameInput()?.value || '',
             email: this.dom.getEmailInput()?.value || '',
             password: this.dom.getPasswordInput()?.value || '',
-            profileImgName: this.dom.getProfileImgNameInput()?.value || ''
+            profileImgName: this.dom.getProfileImgNameInput()?.value || '',
         }
     }
 
@@ -107,7 +139,7 @@ export class EditProfileComponent {
         if (emailInput) emailInput.value = this.originalData.email
         if (passwordInput) passwordInput.value = this.originalData.password
         if (profileImgNameInput) profileImgNameInput.value = this.originalData.profileImgName
-        
+
         this.selectAvatarOptByImgName(this.originalData.profileImgName)
     }
 
@@ -127,11 +159,7 @@ export class EditProfileComponent {
             avatarOptContainer.classList.add('editing')
         }
 
-        const inputs = [
-            this.dom.getNameInput(),
-            this.dom.getEmailInput(),
-            this.dom.getPasswordInput()
-        ]
+        const inputs = [this.dom.getNameInput(), this.dom.getEmailInput(), this.dom.getPasswordInput()]
 
         inputs.forEach(input => {
             if (!input) return
@@ -147,11 +175,7 @@ export class EditProfileComponent {
             avatarOptContainer.classList.remove('editing')
         }
 
-        const inputs = [
-            this.dom.getNameInput(),
-            this.dom.getEmailInput(),
-            this.dom.getPasswordInput()
-        ]
+        const inputs = [this.dom.getNameInput(), this.dom.getEmailInput(), this.dom.getPasswordInput()]
 
         inputs.forEach(input => {
             if (!input) return
@@ -165,20 +189,24 @@ export class EditProfileComponent {
         const editButton = this.dom.getEditButton()
         const saveButton = this.dom.getSaveButton()
         const cancelButton = this.dom.getCancelButton()
+        const modalButton = this.dom.getModalButton()
 
         if (editButton) editButton.classList.add('d-none')
         if (saveButton) saveButton.classList.remove('d-none')
         if (cancelButton) cancelButton.classList.remove('d-none')
+        if (modalButton) modalButton.classList.remove('d-none')
     }
 
     disableEditButtons() {
         const editButton = this.dom.getEditButton()
         const saveButton = this.dom.getSaveButton()
         const cancelButton = this.dom.getCancelButton()
+        const modalButton = this.dom.getModalButton()
 
         if (editButton) editButton.classList.remove('d-none')
         if (saveButton) saveButton.classList.add('d-none')
         if (cancelButton) cancelButton.classList.add('d-none')
+        if (modalButton) modalButton.classList.add('d-none')
     }
 
     swapSelected(allTags, selectedTag) {
@@ -187,7 +215,7 @@ export class EditProfileComponent {
     }
 
     selectAvatarOptByImgName(profileImgName) {
-        const selectedImg = document.querySelector(`.image-option[data-image="${profileImgName}"]`)
+        const selectedImg = this.dom.getImageOptionByName(profileImgName)
         if (!selectedImg) return
 
         const avatarOptionsContainer = this.dom.getAvatarOptions()
@@ -200,7 +228,7 @@ export class EditProfileComponent {
     showLoading(show) {
         const saveButton = this.dom.getSaveButton()
         const loadingDiv = this.dom.getLoadingDiv()
-        
+
         if (saveButton) {
             saveButton.disabled = show
         }
@@ -216,15 +244,15 @@ export class EditProfileComponent {
 
     async saveProfile() {
         this.showLoading(true)
-        
+
         const result = await this.componentService.updateProfile()
-        
+
         this.showLoading(false)
 
         if (result.success) {
             this.disableEdit()
             this.storeOriginalData()
-            
+
             if (this.componentService.callbackForm) {
                 this.componentService.callbackForm('Perfil atualizado com sucesso!', 'success')
             }
@@ -237,34 +265,53 @@ export class EditProfileComponent {
 
     get() {
         return /*html*/ `
+
             <div class="card-header" style="margin: 0; align-items: center; padding: 20px; font-size: x-large">
                 <span class="g-bold"><i class="fa-solid fa-user fa-lg"></i>&nbsp;&nbsp;Meu Perfil</span>
             </div>
 
-            <form id="profileForm" class="p-5">
-                <div id="avatar-options" class="mb-3"></div>
-
-                <div class="form-floating mb-1">
-                    <input type="text" class="form-control-plaintext" id="floatingName" readonly />
-                    <label for="floatingName">Nome</label>
-                </div>
-
-                <div class="form-floating mb-1">
-                    <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
-                    <label for="floatingEmail">E-mail</label>
-                </div>
-
-                <div class="form-floating mb-1">
-                    <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
-                    <label for="floatingPassword">Senha</label>
+            <form id="profileForm" class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group mb-1">
+                                    <label class="g-bold" for="floatingName">Nome</label>
+                                    <input type="text" class="form-control-plaintext" id="floatingName" readonly />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group mb-1">
+                                    <label class="g-bold" for="floatingEmail">E-mail</label>
+                                    <input type="email" class="form-control-plaintext" id="floatingEmail" readonly />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group mb-1">
+                                    <label class="g-bold" for="floatingPassword">Senha</label>
+                                    <input type="password" class="form-control-plaintext" id="floatingPassword" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="avatar-preview" class="mb-4">
+                            <div>
+                                <img id="selected-avatar" src="" alt="Avatar selecionado">
+                                <button type="button" class="btn btn-primary btn-sm d-none" data-bs-toggle="modal" data-bs-target="#modal-avatar-edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <input type="hidden" id="profileImgName" name="profileImgName" />
 
                 <div class="mt-4">
                     <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
-                    <button class="btn btn-success d-none" type="button" id="saveButton">Salvar</button>
-                    <button class="btn btn-danger d-none" type="button" id="cancelButton">Cancelar</button>
+                    <button class="btn btn-primary d-none" type="button" id="saveButton">Salvar</button>
+                    <button class="btn btn-light d-none" type="button" id="cancelButton">Cancelar</button>
                 </div>
 
                 <div id="loading" class="d-none mt-3">
@@ -273,6 +320,21 @@ export class EditProfileComponent {
                     </div>
                 </div>
             </form>
+
+            <div class="modal fade" id="modal-avatar-edit" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="meuModalLabel">Selecione seu avatar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="avatar-options" class="mb-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+
         `
     }
 }
@@ -294,6 +356,25 @@ class DOMElementManager {
             this.elements.avatarOptions = document.querySelector('#avatar-options')
         }
         return this.elements.avatarOptions
+    }
+
+    getSelectedAvatar() {
+        if (!this.elements.selectedAvatar) {
+            this.elements.selectedAvatar = document.querySelector('#selected-avatar')
+        }
+        return this.elements.selectedAvatar
+    }
+
+    getSelectedAvatarOption() {
+        return document.querySelector('.image-option.selected img')
+    }
+
+    getAllImageOptions() {
+        return document.querySelectorAll('.image-option')
+    }
+
+    getImageOptionByName(profileImgName) {
+        return document.querySelector(`.image-option[data-image="${profileImgName}"]`)
     }
 
     getProfileImgNameInput() {
@@ -345,18 +426,18 @@ class DOMElementManager {
         return this.elements.cancelButton
     }
 
+    getModalButton() {
+        if (!this.elements.modalButton) {
+            this.elements.modalButton = document.querySelector('[data-bs-target="#modal-avatar-edit"]')
+        }
+        return this.elements.modalButton
+    }
+
     getLoadingDiv() {
         if (!this.elements.loadingDiv) {
             this.elements.loadingDiv = document.querySelector('#loading')
         }
         return this.elements.loadingDiv
-    }
-
-    getFooterTag() {
-        if (!this.elements.footerTag) {
-            this.elements.footerTag = document.querySelector('#footer')
-        }
-        return this.elements.footerTag
     }
 
     destroy() {

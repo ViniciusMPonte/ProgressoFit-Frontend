@@ -4,6 +4,7 @@ import { AITextRequestDTO } from '../model/dto/AITextRequestDTO.js'
 export class AIService {
     constructor() {
         this.storage = new LocalStorageCRUDService('ai_requests')
+        this.storage.keepLast(10)
         this.ONE_HOUR_MS = 60 * 60 * 1000
     }
 
