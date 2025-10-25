@@ -88,6 +88,8 @@ export class EditProfileComponent {
         const selected = this.dom.getSelectedAvatarOption()
         if (selected) {
             selectedAvatar.src = selected.src
+        } else {
+            selectedAvatar.src = '../src/assets/images/avatars/avatar-1.png'
         }
     }
 
@@ -268,7 +270,7 @@ export class EditProfileComponent {
                 <span class="g-bold"><i class="fa-solid fa-user fa-lg"></i>&nbsp;&nbsp;Meu Perfil</span>
             </div>
 
-            <form id="profileForm" class="p-5">
+            <form id="profileForm" class="card-body">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="row">
