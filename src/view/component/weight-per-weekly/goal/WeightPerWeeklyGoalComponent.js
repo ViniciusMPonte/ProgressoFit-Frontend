@@ -70,15 +70,17 @@ export class WeightPerWeeklyGoalComponent {
         if (goalFailed) {
             return `Objetivo não foi atingido...`
         } else {
-            return `Chegar a 75 kg`
+            return `Chegar a ${this.targetWeight} kg`
         }
     }
 
-    renderMessageSubtitle(goalFailed) {
+    renderMessageSubtitle(goalFailed, percentageGoal) {
         if (goalFailed) {
             return `Crie uma nova meta para continuar.`
-        } else {
+        } else if (percentageGoal < 100) {
             return `Você está entro da meta!`
+        } else {
+            return `Parabéns! Você concluiu a meta!`
         }
     }
 
@@ -87,7 +89,7 @@ export class WeightPerWeeklyGoalComponent {
         return `<i class="fa-solid ${iconClass} fa-2xl"></i>`
     }
 
-    renderMessageStatus(goalFailed) {
+    renderMessageStatus(goalFailed, percentageGoal) {
         if (goalFailed) {
             return `Objetivo não foi atingido... Não desista, crie uma nova meta para continuar.`
         } else {
@@ -98,9 +100,11 @@ export class WeightPerWeeklyGoalComponent {
 
             if (achieved === 0) {
                 return `Faltam ${totalGoal.toFixed(1)} kg para ${directionText}!`
+            } else if (percentageGoal < 100) {
+                return `Você já conseguiu ${directionText} ${achieved.toFixed(1)} kg — faltam ${remaining.toFixed(1)} kg para atingir a meta!`
+            } else {
+                return `Você já conseguiu ${directionText} ${achieved.toFixed(1)} kg. Crie uma nova meta para recomeçar!`
             }
-
-            return `Você já conseguiu ${directionText} ${achieved.toFixed(1)} kg — faltam ${remaining.toFixed(1)} kg para atingir a meta!`
         }
     }
 
@@ -111,11 +115,11 @@ export class WeightPerWeeklyGoalComponent {
         <div class="d-flex align-items-center">${this.renderGoalStatus(this.goalFailed)}</div>
         <div>
             <label class="g-bold">${this.renderMessageTitle(this.goalFailed)}</label>
-            <div>${this.renderMessageSubtitle(this.goalFailed)}</div>
+            <div>${this.renderMessageSubtitle(this.goalFailed, this.percentageGoal)}</div>
         </div>
     </div>
     <div class="form-group h-100">
-        <div>${this.renderMessageStatus(this.goalFailed)}</div>
+        <div>${this.renderMessageStatus(this.goalFailed, this.percentageGoal)}</div>
     </div>
     <div class="card-footer text-muted">
         <div class="progress">

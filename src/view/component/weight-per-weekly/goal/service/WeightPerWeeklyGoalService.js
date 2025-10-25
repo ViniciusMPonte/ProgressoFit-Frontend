@@ -15,7 +15,7 @@ export class WeightPerWeeklyGoalService {
             response = await this.apiService.get(`/api/weight/date/${weightGoal.startDate}`)
             const weightStartDate = response.data
 
-            response = await this.apiService.get(`/api/weight/latest`)
+            response = await this.apiService.get(`/api/weight/latest/${weightGoal.endDate}`)
             const weightEndDate = response.data
 
             return {
