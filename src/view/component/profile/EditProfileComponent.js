@@ -227,17 +227,13 @@ export class EditProfileComponent {
 
     showLoading(show) {
         const saveButton = this.dom.getSaveButton()
-        const loadingDiv = this.dom.getLoadingDiv()
 
         if (saveButton) {
             saveButton.disabled = show
-        }
-
-        if (loadingDiv) {
             if (show) {
-                loadingDiv.classList.remove('d-none')
+                this.dom.getSaveButton().innerHTML = 'Carregando...'
             } else {
-                loadingDiv.classList.add('d-none')
+                this.dom.getSaveButton().innerHTML = 'Salvar'
             }
         }
     }
@@ -312,12 +308,6 @@ export class EditProfileComponent {
                     <button class="btn btn-primary" type="button" id="editButton">Editar Perfil</button>
                     <button class="btn btn-primary d-none" type="button" id="saveButton">Salvar</button>
                     <button class="btn btn-light d-none" type="button" id="cancelButton">Cancelar</button>
-                </div>
-
-                <div id="loading" class="d-none mt-3">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Carregando...</span>
-                    </div>
                 </div>
             </form>
 
@@ -431,13 +421,6 @@ class DOMElementManager {
             this.elements.modalButton = document.querySelector('[data-bs-target="#modal-avatar-edit"]')
         }
         return this.elements.modalButton
-    }
-
-    getLoadingDiv() {
-        if (!this.elements.loadingDiv) {
-            this.elements.loadingDiv = document.querySelector('#loading')
-        }
-        return this.elements.loadingDiv
     }
 
     destroy() {
