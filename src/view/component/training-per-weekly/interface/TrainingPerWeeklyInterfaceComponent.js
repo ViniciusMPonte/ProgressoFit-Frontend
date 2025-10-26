@@ -62,7 +62,7 @@ export class TrainingPerWeeklyInterfaceComponent {
                         </div>
                     </div>
                     <div class="form-group">
-                        <p>Você definiu uma meta para essa dia, você realizou seu treino?</p>
+                        <p>Você realizou seu treino nesta data?</p>
                         <button type="button" class="btn btn-danger" id="training-form-submit-btn">
                             <i class="fa-solid fa-square-xmark fa-xl"></i>&nbsp Não
                         </button>
