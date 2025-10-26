@@ -50,6 +50,7 @@ export class WeightPerWeeklyInterfaceComponent {
                         </div>
                     </div>
                     <div class="form-group">
+                        <p>Seu peso nesta data?</p>
                         <div class="form-floating">
                             <input type="number" step="0.1" id="weight-input" class="form-control" name="weight" placeholder="Peso (kg)" required />
                             <label for="weight-input">Peso (kg)</label>
