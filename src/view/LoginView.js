@@ -6,8 +6,4 @@ export class LoginView extends BaseView {
     constructor(){
         super()
     }
-
-    static renderFooter (){
-        return CopyrightComponent.get();
-    }
 }

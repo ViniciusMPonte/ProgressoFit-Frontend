@@ -1,12 +1,17 @@
 import { AlertComponent } from './component/AlertComponent.js'
 import { NavbarComponent } from './component/NavbarComponent.js'
 import { Routes } from '../router/Routes.js'
+import { FooterComponent } from './component/FooterComponent.js'
+import { CopyrightComponent } from './component/CopyrightComponent.js'
 
 export default class BaseView {
     constructor() {
         this.ensureFontAwesome()
         NavbarComponent.init({
             links: new Routes().routes,
+        })
+        FooterComponent.init({
+            content: CopyrightComponent.get(),
         })
     }
 
