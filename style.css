@@ -1,5 +1,5 @@
 body {
-    background-image: url('../src/assets/images/bg-cadastro.svg');
+    background-image: url('./src/assets/images/bg-cadastro.svg');
     background-repeat: no-repeat;
 }
 
