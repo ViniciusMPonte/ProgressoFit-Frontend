@@ -6,6 +6,7 @@ export class AvatarComponent {
         'avatar-4',
         'avatar-5',
         'avatar-6',
+        'avatar-7',
     ];
 
     getAvatarNames() {
